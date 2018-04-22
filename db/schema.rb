@@ -10,20 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180422195337) do
+ActiveRecord::Schema.define(version: 20180422200053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
+  create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "imageable_type"
+    t.bigint "imageable_id"
+    t.string "name", null: false
+    t.text "description"
+    t.text "storage_location_uri", null: false
+    t.datetime "featured"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["featured"], name: "index_images_on_featured"
+    t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "email"
+    t.string "email", null: false
     t.string "display_name"
     t.text "bio"
     t.integer "role"
     t.datetime "verified"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
