@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :pin_assortments
+  resources :assortments
   resources :collectable_collections
   resources :collections
   resources :pins

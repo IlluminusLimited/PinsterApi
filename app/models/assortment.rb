@@ -1,0 +1,2 @@
+class Assortment < ApplicationRecord
+end
