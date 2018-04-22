@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The first thing you need to configure is which modules you need in your app.
 # The default is nothing which will include only core features (password encryption, login/logout).
 # Available submodules are: :user_activation, :http_basic_auth, :remember_me,
@@ -127,11 +129,11 @@ Rails.application.config.sorcery.configure do |config|
   # config.wechat.secret = ""
   # config.wechat.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=wechat"
 
-  config.google.key = ENV["oa_google_client"]
-  config.google.secret = ENV["oa_google_secret"]
-  config.google.callback_url = ENV["oa_google_callback"]
-  config.google.user_info_mapping = { email: "email", display_name: "name" }
-  config.google.scope = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+  config.google.key = ENV['oa_google_client']
+  config.google.secret = ENV['oa_google_secret']
+  config.google.callback_url = ENV['oa_google_callback']
+  config.google.user_info_mapping = { email: 'email', display_name: 'name' }
+  config.google.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
 
   # For Microsoft Graph, the key will be your App ID, and the secret will be your app password/public key.
   # The callback URL "can't contain a query string or invalid special characters", see: https://docs.microsoft.com/en-us/azure/active-directory/active-directory-v2-limitations#restrictions-on-redirect-uris

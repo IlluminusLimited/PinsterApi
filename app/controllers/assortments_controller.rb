@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AssortmentsController < ApplicationController
-  before_action :set_assortment, only: [:show, :update, :destroy]
+  before_action :set_assortment, only: %i[show update destroy]
 
   # GET /assortments
   def index
@@ -39,6 +41,7 @@ class AssortmentsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_assortment
       @assortment = Assortment.find(params[:id])

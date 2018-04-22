@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCollectableCollections < ActiveRecord::Migration[5.1]
   def change
     create_table :collectable_collections, id: :uuid do |t|

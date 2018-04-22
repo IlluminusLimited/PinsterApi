@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PinsController < ApplicationController
-  before_action :set_pin, only: [:show, :update, :destroy]
+  before_action :set_pin, only: %i[show update destroy]
 
   # GET /pins
   def index
@@ -39,6 +41,7 @@ class PinsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_pin
       @pin = Pin.find(params[:id])

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ImagesController < ApplicationController
-  before_action :set_image, only: [:show, :update, :destroy]
+  before_action :set_image, only: %i[show update destroy]
 
   # GET /images
   def index
@@ -39,6 +41,7 @@ class ImagesController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_image
       @image = Image.find(params[:id])

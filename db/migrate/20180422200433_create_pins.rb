@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePins < ActiveRecord::Migration[5.1]
   def change
     create_table :pins, id: :uuid do |t|

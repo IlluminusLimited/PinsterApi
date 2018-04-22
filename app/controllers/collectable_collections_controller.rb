@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CollectableCollectionsController < ApplicationController
-  before_action :set_collectable_collection, only: [:show, :update, :destroy]
+  before_action :set_collectable_collection, only: %i[show update destroy]
 
   # GET /collectable_collections
   def index
@@ -39,6 +41,7 @@ class CollectableCollectionsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_collectable_collection
       @collectable_collection = CollectableCollection.find(params[:id])
