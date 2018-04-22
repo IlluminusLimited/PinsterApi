@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180422225107) do
+ActiveRecord::Schema.define(version: 20180422230439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,15 +29,22 @@ ActiveRecord::Schema.define(version: 20180422225107) do
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
-  create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.string "name", null: false
-    t.text "description"
+  create_table "collectable_collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "collectable_type"
     t.uuid "collectable_id"
+    t.uuid "collection_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["collectable_type", "collectable_id"], name: "index_collections_on_collectable_type_and_collectable_id"
+    t.index ["collectable_type", "collectable_id", "collection_id"], name: "index_collectable_collections_on_type_id_and_col_id", unique: true
+    t.index ["collection_id"], name: "index_collectable_collections_on_collection_id"
+  end
+
+  create_table "collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
