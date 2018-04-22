@@ -139,8 +139,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  oauth2 (~> 1.4.0)
   pg (>= 0.18, < 2.0)
-  puma (~> 3.7)
+  puma (~> 3.11)
   rails (~> 5.1.6)
   sorcery (~> 0.11)
   spring
