@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :collections
   resources :pins
   resources :images
   resources :users
