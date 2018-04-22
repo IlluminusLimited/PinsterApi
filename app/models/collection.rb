@@ -17,8 +17,7 @@
 #
 
 class Collection < ApplicationRecord
-  has_many :pin_collections
-  has_many :pins, through: :pin_collections
+  has_many :collectable_collections
   has_many :images, as: :imageable, dependent: :destroy
 
   belongs_to :user

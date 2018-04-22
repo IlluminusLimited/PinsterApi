@@ -5,6 +5,7 @@
 # Table name: images
 #
 #  id                   :uuid             not null, primary key
+#  base_file_name       :text             not null
 #  description          :text
 #  featured             :datetime
 #  imageable_type       :string

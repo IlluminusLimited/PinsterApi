@@ -20,12 +20,8 @@ one:
   user_id: 
   name: MyString
   description: MyText
-  collectable_type: MyString
-  collectable_id: 
 
 two:
   user_id: 
   name: MyString
   description: MyText
-  collectable_type: MyString
-  collectable_id: 

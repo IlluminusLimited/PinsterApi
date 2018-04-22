@@ -5,6 +5,7 @@
 # Table name: images
 #
 #  id                   :uuid             not null, primary key
+#  base_file_name       :text             not null
 #  description          :text
 #  featured             :datetime
 #  imageable_type       :string
@@ -22,4 +23,7 @@
 
 class Image < ApplicationRecord
   belongs_to :imageable, polymorphic: true
+
+  validates :storage_location_uri, uniqueness: true
+  validates :base_file_name, inclusion: { in: :storage_location_uri }
 end

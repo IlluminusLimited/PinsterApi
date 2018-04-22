@@ -3,6 +3,7 @@
 # Table name: images
 #
 #  id                   :uuid             not null, primary key
+#  base_file_name       :text             not null
 #  description          :text
 #  featured             :datetime
 #  imageable_type       :string
@@ -25,7 +26,8 @@ one:
   imageable_type: Imageable
   name: MyString
   description: MyText
-  storage_location_uri: MyText
+  base_file_name: MyText
+  storage_location_uri: https://MyText
   featured: 2018-04-22 16:00:53
 
 two:
@@ -33,5 +35,6 @@ two:
   imageable_type: Imageable
   name: MyString
   description: MyText
-  storage_location_uri: MyText
+  base_file_name: MyText
+  storage_location_uri: https://MyText
   featured: 2018-04-22 16:00:53

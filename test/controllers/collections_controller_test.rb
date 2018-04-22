@@ -14,7 +14,9 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create collection' do
     assert_difference('Collection.count') do
-      post collections_url, params: { collection: { collectable_id: @collection.collectable_id, collectable_type: @collection.collectable_type, description: @collection.description, name: @collection.name, user_id: @collection.user_id } }, as: :json
+      post collections_url, params: {
+        collection: { description: @collection.description, name: @collection.name, user_id: @collection.user_id }
+      }, as: :json
     end
 
     assert_response 201
@@ -26,7 +28,9 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should update collection' do
-    patch collection_url(@collection), params: { collection: { collectable_id: @collection.collectable_id, collectable_type: @collection.collectable_type, description: @collection.description, name: @collection.name, user_id: @collection.user_id } }, as: :json
+    patch collection_url(@collection), params: {
+      collection: { description: @collection.description, name: @collection.name, user_id: @collection.user_id }
+    }, as: :json
     assert_response 200
   end
 

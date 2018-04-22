@@ -12,4 +12,5 @@
 #
 
 class Assortment < ApplicationRecord
+  has_many :pin_assortments
 end

@@ -8,6 +8,7 @@ class CreateImages < ActiveRecord::Migration[5.1]
       t.string :name, null: false
       t.text :description
       t.text :storage_location_uri, null: false
+      t.text :base_file_name, null: false
       t.datetime :featured
 
       t.timestamps

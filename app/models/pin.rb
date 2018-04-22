@@ -13,8 +13,8 @@
 #
 
 class Pin < ApplicationRecord
-  has_many :images, as: :imageable, dependent: :destroy
+  has_many :images, as: :imageable, dependent: :destroy, inverse_of: :pin
 
-  has_many :collections
-  has_many :assortments
+  has_many :collectable_collections
+  has_one :pin_assortment
 end

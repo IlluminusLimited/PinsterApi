@@ -19,10 +19,10 @@
 
 one:
   collectable_type: MyString
-  collectable_id: 
-  collection_id: 
+  collectable_id: fd
+  collection: one
 
 two:
   collectable_type: MyString
-  collectable_id: 
-  collection_id: 
+  collectable_id: d
+  collection: two
