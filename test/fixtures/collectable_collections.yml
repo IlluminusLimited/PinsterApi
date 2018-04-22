@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  collectable_type: MyString
+  collectable_id: 
+  collection_id: 
+
+two:
+  collectable_type: MyString
+  collectable_id: 
+  collection_id: 

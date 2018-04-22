@@ -4,12 +4,9 @@ class CreateCollections < ActiveRecord::Migration[5.1]
       t.uuid :user_id
       t.string :name, null: false
       t.text :description
-      t.string :collectable_type
-      t.uuid :collectable_id
 
       t.timestamps
     end
     add_index :collections, :user_id
-    add_index :collections, %i[collectable_type collectable_id]
   end
 end

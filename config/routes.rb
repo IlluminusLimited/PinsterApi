@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :collectable_collections
   resources :collections
   resources :pins
   resources :images
