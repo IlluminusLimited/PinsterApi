@@ -2,19 +2,16 @@
 #
 # Table name: assortments
 #
-#  id          :uuid             not null, primary key
-#  name        :string
-#  description :text
+#  id          :string(36)       not null, primary key
+#  year        :integer
+#  name        :text(65535)
+#  description :text(65535)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  description: MyText
-
-two:
-  name: MyString
-  description: MyText
+wisconsin_2009:
+  name: Wisconsin Mystical Creatures
+  description: This is the mystical creatures set. It features mystical creatures which are a mainstay for made up sets.

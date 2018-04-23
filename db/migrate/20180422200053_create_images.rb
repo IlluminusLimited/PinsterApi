@@ -5,7 +5,7 @@ class CreateImages < ActiveRecord::Migration[5.1]
     create_table :images, id: :uuid do |t|
       t.string :imageable_type
       t.uuid :imageable_id
-      t.string :name, null: false
+      t.string :name
       t.text :description
       t.text :storage_location_uri, null: false
       t.text :base_file_name, null: false

@@ -28,11 +28,11 @@ class Authentication < ApplicationRecord
   validates :token, uniqueness: true
 
   def token_valid?
-    token_expires_at > DateTime.current
+    token_expires_at > Time.now.utc
   end
 
   def refresh_token
-    self.token_expires_at = DateTime.current + 3.hours
+    self.token_expires_at = Time.now.utc + 3.hours
     regenerate_token
   end
 end

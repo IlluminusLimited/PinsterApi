@@ -2,10 +2,11 @@
 #
 # Table name: users
 #
-#  id           :uuid             not null, primary key
-#  bio          :text
-#  display_name :string
-#  email        :string           not null
+#  id           :string(36)       not null, primary key
+#  email        :string(255)      not null
+#  display_name :string(255)
+#  bio          :text(65535)
+#  role         :integer
 #  verified     :datetime
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -17,14 +18,20 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  email: MyString@email
-  display_name: MyString
-  bio: MyText
-  verified: 2018-04-22 15:57:42
+sally:
+  email: sally.pins@mailinator.com
+  display_name: SallyPins
+  bio: I like pins.
+  verified: null
 
-two:
-  email: MyStringsdafsd
-  display_name: MyString
-  bio: MyText
-  verified: 2018-04-22 15:57:42
+tom:
+  email: tom.likes.pins@mailinator.com
+  display_name: tom
+  bio: Colorful clockwork dragons are the best.
+  verified: null
+
+bob:
+  email: bob@bob.com
+  display_name: BoBinator
+  bio: Bobbing for apples, oh and I'm da moderator.
+  verified: null

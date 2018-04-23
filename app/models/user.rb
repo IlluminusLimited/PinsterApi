@@ -19,11 +19,12 @@
 
 class User < ApplicationRecord
   authenticates_with_sorcery!
+
   has_many :images, as: :imageable, dependent: :destroy
 
-  has_many :collections
-  has_many :pins, through: :collections
+  has_many :collections, dependent: :destroy
   has_many :authentications, dependent: :destroy
+
   accepts_nested_attributes_for :authentications
 
   validates :id, presence: true

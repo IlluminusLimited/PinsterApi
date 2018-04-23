@@ -17,8 +17,9 @@
 #
 
 class Collection < ApplicationRecord
-  has_many :collectable_collections
   has_many :images, as: :imageable, dependent: :destroy
+
+  has_many :collectable_collections, dependent: :destroy
 
   belongs_to :user
 

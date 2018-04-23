@@ -12,5 +12,7 @@
 #
 
 class Assortment < ApplicationRecord
-  has_many :pin_assortments
+  has_many :images, as: :imageable, dependent: :destroy
+
+  has_many :pin_assortments, dependent: :destroy
 end
