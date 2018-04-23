@@ -18,4 +18,5 @@ class PinTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  # test pins can be created and whatnot
 end

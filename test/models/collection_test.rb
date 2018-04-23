@@ -22,4 +22,32 @@ class CollectionTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  #
+  setup do
+    @sallys_favorite_collection = collections(:sallys_favorite_collection)
+    @toms_keepers_collection = collections(:toms_keepers_collection)
+  end
+
+  test 'fixtures are valid' do
+    assert @sallys_favorite_collection.valid?
+    assert @toms_keepers_collection.valid?
+  end
+
+  test 'a collection can contain both pins and assortments of pins' do
+    collection = Collection.create!(name: 'Amazing collection',
+                                    user: users(:sally),
+                                    collectable_collections_attributes: [
+                                      { collectable: Pin.create!(name: 'thing', year: 1998) },
+                                      { collectable:
+                                           Assortment.create!(name: 'amazing pin set',
+                                                              pin_assortments_attributes: [
+                                                                {
+                                                                  pin: pins(:texas_dragon)
+                                                                }
+                                                              ]) }
+                                    ])
+    assert collection.valid?
+  end
+
+  # test collection members respond to images method and return an array of images
 end

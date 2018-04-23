@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20180422231140) do
     t.string "display_name"
     t.text "bio"
     t.datetime "verified"
+    t.integer "role", default: 3, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

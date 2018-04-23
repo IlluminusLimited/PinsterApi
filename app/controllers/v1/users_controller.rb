@@ -7,6 +7,8 @@ module V1
     before_action :set_user, only: %i[show update destroy]
 
     # GET /users
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :GET, '/v1/users', 'List users'
     def index
       @users = User.all
 
@@ -14,6 +16,9 @@ module V1
     end
 
     # GET /users/1
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :GET, '/v1/users/:id', 'Show an user'
+    error code: 401
     def show
       render json: @user
     end

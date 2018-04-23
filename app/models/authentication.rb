@@ -26,6 +26,7 @@ class Authentication < ApplicationRecord
   belongs_to :user
 
   validates :token, uniqueness: true
+  validates :user, presence: true
 
   def token_valid?
     token_expires_at > Time.now.utc

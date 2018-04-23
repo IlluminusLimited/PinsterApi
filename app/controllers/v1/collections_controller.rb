@@ -5,6 +5,9 @@ module V1
     before_action :set_collection, only: %i[show update destroy]
 
     # GET /collections
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :GET, '/v1/collections', 'List collections'
+    param :null, Object, allow_nil: true
     def index
       @collections = Collection.all
 
@@ -12,11 +15,16 @@ module V1
     end
 
     # GET /collections/1
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :GET, '/v1/collections/:id', 'Show a collection'
+    param :null, Object, allow_nil: true
     def show
       render json: @collection
     end
 
     # POST /collections
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :POST, '/v1/collections', 'Create a collection'
     def create
       @collection = Collection.new(collection_params)
 
@@ -28,6 +36,9 @@ module V1
     end
 
     # PATCH/PUT /collections/1
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :PATCH, '/v1/collections/:id', 'Update a collection'
+    api :PUT, '/v1/collections/:id', 'Update a collection'
     def update
       if @collection.update(collection_params)
         render show: @collection, status: :ok, location: v1_collection_url(@collection)

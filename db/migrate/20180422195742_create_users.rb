@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :display_name
       t.text :bio
       t.datetime :verified
+      t.integer :role, null: false, default: 3
 
       t.timestamps
     end

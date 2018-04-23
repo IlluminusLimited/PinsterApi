@@ -8,6 +8,7 @@
 #  bio          :text
 #  display_name :string
 #  email        :string           not null
+#  role         :integer          default("user"), not null
 #  verified     :datetime
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -28,4 +29,10 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :authentications
 
   validates :email, uniqueness: true
+
+  enum role: {
+    admin: 1,
+    moderator: 2,
+    user: 3
+  }
 end

@@ -17,4 +17,5 @@ class AssortmentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  # test assortment members respond to images method and return an array of images
 end

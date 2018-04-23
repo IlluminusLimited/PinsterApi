@@ -21,9 +21,8 @@ Apipie.configure do |config|
     The IDs represented in the examples are samples. In practice, the IDs used are UUIDs.
   END_OF_INFO
 
-  # Swagger settings for latest version of apipie (unreleased)
-  # config.swagger_content_type_input = :json
-  # config.swagger_json_input_uses_refs = true
-  # config.swagger_include_warning_tags = true
-  # config.swagger_suppress_warnings = false
+  config.swagger_content_type_input = :json
+  config.swagger_json_input_uses_refs = true
+  config.swagger_include_warning_tags = true
+  config.swagger_suppress_warnings = false
 end

@@ -27,4 +27,5 @@ class ImageTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  # test base_file_name and storage_location_uri stuff work together correctly
 end

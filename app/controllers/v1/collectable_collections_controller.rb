@@ -5,6 +5,9 @@ module V1
     before_action :set_collectable_collection, only: %i[show update destroy]
 
     # GET /collectable_collections
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :GET, '/v1/collectable_collections', 'List collectable collections'
+    param :null, Object, allow_nil: true
     def index
       @collectable_collections = CollectableCollection.all
 
@@ -12,11 +15,16 @@ module V1
     end
 
     # GET /collectable_collections/1
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :GET, '/v1/collectable_collections/:id', 'Show a collectable collection'
+    param :null, Object, allow_nil: true
     def show
       render json: @collectable_collection
     end
 
     # POST /collectable_collections
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :POST, '/v1/collectable_collections', 'Create a collectable collection'
     def create
       @collectable_collection = CollectableCollection.new(collectable_collection_params)
 
@@ -29,6 +37,9 @@ module V1
     end
 
     # PATCH/PUT /collectable_collections/1
+    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
+    api :PATCH, '/v1/collectable_collections/:id', 'Update a collectable collection'
+    api :PUT, '/v1/collectable_collections/:id', 'Update a collectable collection'
     def update
       if @collectable_collection.update(collectable_collection_params)
         render show: @collectable_collection, status: :ok,

@@ -4,19 +4,20 @@ module V1
   class AssortmentsController < ApplicationController
     before_action :set_assortment, only: %i[show update destroy]
 
-    # GET /assortments
+    api :GET, '/v1/assortments', 'List assortments'
     def index
       @assortments = Assortment.all
 
       render json: @assortments
     end
 
-    # GET /assortments/1
+    api :GET, '/v1/assortments/:id', 'Show an assortment'
+    param :id, String, requred: true
     def show
       render json: @assortment
     end
 
-    # POST /assortments
+    api :POST, '/v1/assortments', 'Create an assortment'
     def create
       @assortment = Assortment.new(assortment_params)
 
@@ -27,7 +28,8 @@ module V1
       end
     end
 
-    # PATCH/PUT /assortments/1
+    api :PATCH, '/v1/assortments/:id', 'Update an assortment'
+    api :PUT, '/v1/assortments/:id', 'Update an assortment'
     def update
       if @assortment.update(assortment_params)
         render show: @assortment, status: :ok, location: v1_assortment_url(@assortment)
