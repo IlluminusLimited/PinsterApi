@@ -21,7 +21,7 @@ module V1
       @assortment = Assortment.new(assortment_params)
 
       if @assortment.save
-        render json: @assortment, status: :created, location: @assortment
+        render show: @assortment, status: :created, location: v1_assortment_url(@assortment)
       else
         render json: @assortment.errors, status: :unprocessable_entity
       end
@@ -30,7 +30,7 @@ module V1
     # PATCH/PUT /assortments/1
     def update
       if @assortment.update(assortment_params)
-        render json: @assortment
+        render show: @assortment, status: :ok, location: v1_assortment_url(@assortment)
       else
         render json: @assortment.errors, status: :unprocessable_entity
       end

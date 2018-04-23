@@ -9,7 +9,7 @@
 #  description          :text
 #  featured             :datetime
 #  imageable_type       :string
-#  name                 :string           not null
+#  name                 :string
 #  storage_location_uri :text             not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null

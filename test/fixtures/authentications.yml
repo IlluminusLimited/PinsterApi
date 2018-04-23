@@ -1,22 +1,21 @@
-
 # == Schema Information
 #
 # Table name: authentications
 #
-#  id               :string(36)       not null, primary key
-#  user_id          :string(36)       not null
-#  uid              :string(255)      not null
-#  provider         :string(255)      not null
-#  token            :string(255)      default("")
+#  id               :uuid             not null, primary key
+#  provider         :string           not null
+#  token            :string           default("")
 #  token_expires_at :datetime
+#  uid              :string           not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  user_id          :uuid             not null
 #
 # Indexes
 #
 #  index_authentications_on_provider_and_uid  (provider,uid)
-#  index_authentications_on_token             (token)
-#  unique_token                               (token) UNIQUE
+#  index_authentications_on_token             (token) UNIQUE
+#  index_authentications_on_user_id           (user_id)
 #
 
 sally_token:

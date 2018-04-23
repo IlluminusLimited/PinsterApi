@@ -13,8 +13,7 @@
 #
 # Indexes
 #
-#  index_collectable_collections_on_collection_id       (collection_id)
-#  index_collectable_collections_on_type_id_and_col_id  (collectable_type,collectable_id,collection_id) UNIQUE
+#  index_collectable_collections_on_collection_id  (collection_id)
 #
 
 class CollectableCollection < ApplicationRecord

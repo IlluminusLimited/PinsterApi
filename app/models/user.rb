@@ -27,6 +27,5 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :authentications
 
-  validates :id, presence: true
   validates :email, uniqueness: true
 end

@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20180422231140) do
     t.uuid "collection_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["collectable_type", "collectable_id", "collection_id"], name: "index_collectable_collections_on_type_id_and_col_id", unique: true
     t.index ["collection_id"], name: "index_collectable_collections_on_collection_id"
   end
 
@@ -58,7 +57,7 @@ ActiveRecord::Schema.define(version: 20180422231140) do
   create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "imageable_type"
     t.uuid "imageable_id"
-    t.string "name", null: false
+    t.string "name"
     t.text "description"
     t.text "storage_location_uri", null: false
     t.text "base_file_name", null: false
@@ -75,7 +74,6 @@ ActiveRecord::Schema.define(version: 20180422231140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assortment_id"], name: "index_pin_assortments_on_assortment_id"
-    t.index ["pin_id"], name: "index_pin_assortments_on_pin_id", unique: true
   end
 
   create_table "pins", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

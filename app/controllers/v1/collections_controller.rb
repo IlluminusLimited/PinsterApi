@@ -21,7 +21,7 @@ module V1
       @collection = Collection.new(collection_params)
 
       if @collection.save
-        render json: @collection, status: :created, location: @collection
+        render show: @collection, status: :created, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -30,7 +30,7 @@ module V1
     # PATCH/PUT /collections/1
     def update
       if @collection.update(collection_params)
-        render json: @collection
+        render show: @collection, status: :ok, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -50,7 +50,11 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def collection_params
-        params.require(:data).permit(:user_id, :name, :description, :collectable_type, :collectable_id)
+        params.require(:data).permit(:user_id,
+                                     :name,
+                                     :description,
+                                     collectable_collections_attributes: CollectableCollection.attribute_names
+                                                                             .map(&:to_sym))
       end
   end
 end

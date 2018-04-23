@@ -11,18 +11,15 @@
 #
 # Indexes
 #
-#  index_collectable_collections_on_collection_id       (collection_id)
-#  index_collectable_collections_on_type_id_and_col_id  (collectable_type,collectable_id,collection_id) UNIQUE
+#  index_collectable_collections_on_collection_id  (collection_id)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  collectable_type: MyString
-  collectable_id: fd
-  collection: one
+  collectable: texas_dragon (Pin)
+  collection: sallys_favorite_collection
 
 two:
-  collectable_type: MyString
-  collectable_id: d
-  collection: two
+  collectable: wisconsin_2009 (Assortment)
+  collection: toms_keepers_collection

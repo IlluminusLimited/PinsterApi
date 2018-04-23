@@ -2,15 +2,15 @@
 #
 # Table name: pin_assortments
 #
-#  id            :string(36)       not null, primary key
-#  assortment_id :string(36)       not null
-#  pin_id        :string(36)       not null
+#  id            :uuid             not null, primary key
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  assortment_id :uuid
+#  pin_id        :uuid
 #
 # Indexes
 #
-#  index_pin_assortments_on_assortment_id_and_pin_id  (assortment_id,pin_id)
+#  index_pin_assortments_on_assortment_id  (assortment_id)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

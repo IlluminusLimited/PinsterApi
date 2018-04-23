@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     get  "oauth/callback",  to: "oauths#callback"
 
     concern :api_base do
-      resources :images
       resources :collections
       resources :collectable_collections
       resources :pins

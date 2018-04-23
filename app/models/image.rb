@@ -9,7 +9,7 @@
 #  description          :text
 #  featured             :datetime
 #  imageable_type       :string
-#  name                 :string           not null
+#  name                 :string
 #  storage_location_uri :text             not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -24,6 +24,6 @@
 class Image < ApplicationRecord
   belongs_to :imageable, polymorphic: true
 
-  validates :storage_location_uri, uniqueness: true
+  validates :storage_location_uri, presence: true
   validates :base_file_name, inclusion: { in: :storage_location_uri }
 end

@@ -8,7 +8,6 @@ class CreatePinAssortments < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :pin_assortments, :pin_id, unique: true
     add_index :pin_assortments, :assortment_id
   end
 end

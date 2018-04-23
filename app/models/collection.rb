@@ -23,7 +23,7 @@ class Collection < ApplicationRecord
 
   belongs_to :user
 
-  validates :id, presence: true
+  accepts_nested_attributes_for :collectable_collections
+
   validates :name, presence: true
-  validates :user, presence: true
 end

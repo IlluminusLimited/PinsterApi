@@ -21,7 +21,8 @@ module V1
       @collectable_collection = CollectableCollection.new(collectable_collection_params)
 
       if @collectable_collection.save
-        render json: @collectable_collection, status: :created, location: @collectable_collection
+        render show: @collectable_collection, status: :created,
+               location: v1_collectable_collection_url(@collectable_collection)
       else
         render json: @collectable_collection.errors, status: :unprocessable_entity
       end
@@ -30,7 +31,8 @@ module V1
     # PATCH/PUT /collectable_collections/1
     def update
       if @collectable_collection.update(collectable_collection_params)
-        render json: @collectable_collection
+        render show: @collectable_collection, status: :ok,
+               location: v1_collectable_collection_url(@collectable_collection)
       else
         render json: @collectable_collection.errors, status: :unprocessable_entity
       end
