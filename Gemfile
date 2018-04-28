@@ -8,14 +8,15 @@ git_source(:github) do |repo_name|
 end
 
 gem 'apipie-rails', '~> 0.5.7'
-gem 'health_check', '~> 3.0.0'ASDFSD-=-=
+gem 'health_check', '~> 3.0.0'
 gem 'maruku', '~> 0.7.3'
 gem 'oauth2', '~> 1.4.0'
+gem 'oj', '~> 3.5.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.1.6'
 gem 'sorcery', '~> 0.11'
-gem 'oj', '~> 3.5.1'
+
 group :development, :test do
   gem 'guard'
   gem 'guard-brakeman'
