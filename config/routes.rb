@@ -10,15 +10,14 @@ Rails.application.routes.draw do
     get  "oauth/callback",  to: "oauths#callback"
 
     concern :api_base do
+      resources :pins
       resources :collections
       resources :collectable_collections
-      resources :pins
-      resources :users
       resources :assortments
       resources :pin_assortments
+      resources :users
       match 'me' => 'me#show', via: :get
-      match 'me' => 'me#update', via: :patch
-      match 'me' => 'me#update', via: :put
+      match 'me' => 'me#update', via: [:patch, :put]
     end
 
     namespace :v1 do
