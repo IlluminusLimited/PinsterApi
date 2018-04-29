@@ -15,8 +15,11 @@ Rails.application.routes.draw do
       resources :collectable_collections
       resources :assortments
       resources :pin_assortments
-      resources :users
       resources :me, only: %i[show update]
+
+      resources :users do
+        resources :collections
+      end
     end
 
     namespace :v1 do
