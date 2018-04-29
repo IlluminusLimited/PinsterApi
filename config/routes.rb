@@ -16,16 +16,16 @@ Rails.application.routes.draw do
       resources :users
       resources :assortments
       resources :pin_assortments
-      match 'me' => 'me#show', :via => :get
-      match 'me' => 'me#update', :via => :patch
-      match 'me' => 'me#update', :via => :put
+      match 'me' => 'me#show', via: :get
+      match 'me' => 'me#update', via: :patch
+      match 'me' => 'me#update', via: :put
     end
 
     namespace :v1 do
       concerns :api_base
     end
 
-    root to: 'pins#index'
+    root to: 'v1/pins#index'
   end
 
   apipie
