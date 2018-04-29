@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       resources :pin_assortments
       resources :users
       match 'me' => 'me#show', via: :get
-      match 'me' => 'me#update', via: [:patch, :put]
+      match 'me' => 'me#update', via: %i[patch put]
     end
 
     namespace :v1 do
