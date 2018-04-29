@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PinPolicy
+class PinPolicy < ApplicationPolicy
   attr_reader :user, :pin
 
   def initialize(user, pin)
@@ -8,12 +8,16 @@ class PinPolicy
     @pin = pin
   end
 
-  def create?
-    user&.user?
+  def index?
+    true
   end
 
-  def new?
-    user&.user?
+  def show?
+    true
+  end
+
+  def create?
+    user&.moderator?
   end
 
   def update?

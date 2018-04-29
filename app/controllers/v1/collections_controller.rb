@@ -4,29 +4,30 @@ module V1
   class CollectionsController < ApplicationController
     before_action :set_collection, only: %i[show update destroy]
 
-    # GET /collections
     # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
-    api :GET, '/v1/collections', 'List collections'
-    param :null, Object, allow_nil: true
+    api :GET, '/v1/users/:user_id/collections', 'Create a collection'
+    param :user_id, String, allow_nil: false
     def index
-      @collections = Collection.all
+      @collections = policy_scope(Collection)
 
       render json: @collections
     end
 
-    # GET /collections/1
     # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :GET, '/v1/collections/:id', 'Show a collection'
-    param :null, Object, allow_nil: true
+    param :id, String, allow_nil: false
     def show
+      authorize @collection, :show?
       render json: @collection
     end
 
     # POST /collections
     # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
-    api :POST, '/v1/collections', 'Create a collection'
+    api :POST, '/v1/users/:user_id/collections', 'Create a collection'
+    param :user_id, String, allow_nil: false
     def create
       @collection = Collection.new(collection_params)
+      authorize @collection
 
       if @collection.save
         render show: @collection, status: :created, location: v1_collection_url(@collection)
@@ -39,7 +40,10 @@ module V1
     # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :PATCH, '/v1/collections/:id', 'Update a collection'
     api :PUT, '/v1/collections/:id', 'Update a collection'
+    param :id, String, allow_nil: false
     def update
+      authorize @collection
+
       if @collection.update(collection_params)
         render show: @collection, status: :ok, location: v1_collection_url(@collection)
       else
@@ -49,6 +53,7 @@ module V1
 
     # DELETE /collections/1
     def destroy
+      authorize @collection
       @collection.destroy
     end
 

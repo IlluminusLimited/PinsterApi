@@ -7,7 +7,7 @@ class AssortmentPolicyTest < PolicyAssertions::Test
 
   test 'nil user cannot create assortments' do
     user = nil
-    assert_not_permitted(user, Assortment, ANY_CREATE_ACTION)
+    assert_not_permitted(user, Assortment, :create?)
   end
 
   test 'nil user can view assortments' do
@@ -23,7 +23,7 @@ class AssortmentPolicyTest < PolicyAssertions::Test
 
   test 'users cannot create or modify assortments' do
     user = users(:sally)
-    assert_not_permitted(user, Assortment, ANY_CREATE_ACTION)
+    assert_not_permitted(user, Assortment, :create?)
     assert_not_permitted(user, assortments(:wisconsin_2009), ANY_INSTANCE_MODIFY_ACTION)
   end
 

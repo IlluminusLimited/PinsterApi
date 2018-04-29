@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CollectionPolicy
+class CollectionPolicy < ApplicationPolicy
   attr_reader :user, :collection
 
   def initialize(user, collection)
@@ -20,10 +20,6 @@ class CollectionPolicy
     user&.user?
   end
 
-  def new?
-    user&.user?
-  end
-
   def update?
     user&.admin? or user&.owns?(collection)
   end
@@ -32,7 +28,7 @@ class CollectionPolicy
     user&.admin? or user&.owns?(collection)
   end
 
-  class Scope
+  class Scope < Scope
     attr_reader :user, :scope
 
     def initialize(user, scope)
@@ -41,8 +37,8 @@ class CollectionPolicy
     end
 
     def resolve
-      return scope.all if user.admin?
-      scope.where(user_id: user.id)
+      return scope.all if user&.admin?
+      scope.where(user_id: user&.id)
     end
   end
 end

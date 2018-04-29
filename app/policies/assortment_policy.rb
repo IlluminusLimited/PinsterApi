@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AssortmentPolicy
+class AssortmentPolicy < ApplicationPolicy
   attr_reader :user, :assortment
 
   def initialize(user, assortment)
@@ -17,10 +17,6 @@ class AssortmentPolicy
   end
 
   def create?
-    user&.moderator?
-  end
-
-  def new?
     user&.moderator?
   end
 
