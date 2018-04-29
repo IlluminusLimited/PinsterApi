@@ -13,7 +13,7 @@ class CollectionPolicy
   end
 
   def show?
-    true
+    user&.admin? or collection.public? or user&.owns?(collection)
   end
 
   def create?

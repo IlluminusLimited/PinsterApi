@@ -23,3 +23,7 @@ one:
 two:
   collectable: wisconsin_2009 (Assortment)
   collection: toms_keepers_collection
+
+three:
+  collectable: wisconsin_unicorn (Pin)
+  collection: toms_secret_collection

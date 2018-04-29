@@ -7,6 +7,7 @@
 #  id          :uuid             not null, primary key
 #  description :text
 #  name        :string           not null
+#  public      :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :uuid

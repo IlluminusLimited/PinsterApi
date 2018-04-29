@@ -10,9 +10,14 @@ class CollectionPolicyTest < PolicyAssertions::Test
     assert_not_permitted(user, Collection, ANY_CREATE_ACTION)
   end
 
-  test 'nil user cannot view collections' do
-    user = nil
-    assert_not_permitted(user, Collection, ANY_VIEW_ACTION)
+  test 'users cannot view private collections' do
+    user = users(:sally)
+    assert_not_permitted(user, collections(:toms_secret_collection), :show?)
+  end
+
+  test 'users can view their private collections' do
+    user = users(:tom)
+    assert_permit(user, collections(:toms_secret_collection), :show?)
   end
 
   test 'users can create collections' do
@@ -27,11 +32,12 @@ class CollectionPolicyTest < PolicyAssertions::Test
 
   test 'users cannot alter other users collections' do
     user = users(:sally)
-    assert_not_permitted(user, collections(:toms_keepers_collection), ANY_INSTANCE_ALTER_ACTION)
+    assert_not_permitted(user, collections(:toms_keepers_collection), ANY_INSTANCE_MODIFY_ACTION)
   end
 
   test 'admins can perform any action' do
     user = users(:andrew)
     assert_permit(user, Collection, ANY_ACTION)
+    assert_permit(user, collections(:toms_keepers_collection), ANY_ACTION)
   end
 end

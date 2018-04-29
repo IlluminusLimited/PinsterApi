@@ -11,11 +11,14 @@ Rails.application.routes.draw do
 
     concern :api_base do
       resources :pins
-      resources :collections
       resources :collectable_collections
       resources :assortments
       resources :pin_assortments
-      resources :users
+
+      resources :users, shallow: true do
+        resources :collections
+      end
+
       match 'me' => 'me#show', via: :get
       match 'me' => 'me#update', via: %i[patch put]
     end

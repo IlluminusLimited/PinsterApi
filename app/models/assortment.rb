@@ -20,4 +20,8 @@ class Assortment < ApplicationRecord
 
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
+
+  def to_s
+    "Assortment(Set): '#{id}:#{name}'"
+  end
 end

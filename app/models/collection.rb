@@ -7,6 +7,7 @@
 #  id          :uuid             not null, primary key
 #  description :text
 #  name        :string           not null
+#  public      :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :uuid
@@ -26,6 +27,7 @@ class Collection < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
 
   validates :name, presence: true
+  validates :public, presence: true
 
   def to_s
     "Collection: '#{id}:#{name}'"

@@ -6,7 +6,7 @@ class CreateCollections < ActiveRecord::Migration[5.1]
       t.uuid :user_id
       t.string :name, null: false
       t.text :description
-
+      t.boolean :public, null: false, default: true
       t.timestamps
     end
     add_index :collections, :user_id

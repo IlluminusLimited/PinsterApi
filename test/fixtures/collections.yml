@@ -5,6 +5,7 @@
 #  id          :uuid             not null, primary key
 #  description :text
 #  name        :string           not null
+#  public      :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :uuid
@@ -19,9 +20,17 @@
 sallys_favorite_collection:
   user: sally
   name: Sally's Favorite Pins!
+  public: true
   description: A big 'ol group of my favorite pins!!!!!!!!
 
 toms_keepers_collection:
   user: tom
   name: Tom's Keepers
+  public: true
   description: Don't touch my pins.
+
+toms_secret_collection:
+  user: tom
+  name: Tom's Super Secret Pins
+  public: false
+  description: You can't even!

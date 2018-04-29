@@ -5,5 +5,5 @@ module PolicyTestHelper
   ANY_VIEW_ACTION = %i[index? show?].freeze
   ANY_CREATE_ACTION = %i[new? create?].freeze
   ANY_INSTANCE_ACTION = %i[show? update? destroy?].freeze
-  ANY_INSTANCE_ALTER_ACTION = %i[update? destroy?].freeze
+  ANY_INSTANCE_MODIFY_ACTION = %i[update? destroy?].freeze
 end

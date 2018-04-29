@@ -64,6 +64,7 @@ module V1
         params.require(:data).permit(:user_id,
                                      :name,
                                      :description,
+                                     :public,
                                      collectable_collections_attributes: CollectableCollection.attribute_names
                                                                              .map(&:to_sym))
       end
