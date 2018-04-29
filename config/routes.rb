@@ -15,11 +15,7 @@ Rails.application.routes.draw do
       resources :collectable_collections
       resources :assortments
       resources :pin_assortments
-
-      resources :users do
-        resources :collections
-      end
-
+      resources :users
       match 'me' => 'me#show', via: :get
       match 'me' => 'me#update', via: %i[patch put]
     end
