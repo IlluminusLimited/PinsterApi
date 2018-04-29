@@ -3,30 +3,25 @@
 module V1
   class PinsController < ApplicationController
     before_action :set_pin, only: %i[show update destroy]
+    after_action :verify_authorized, except: %i[index show]
 
-    # GET /pins
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :GET, '/v1/pins', 'List pins'
-    param :null, Object, allow_nil: true
     def index
       @pins = Pin.all
 
       render json: @pins
     end
 
-    # GET /pins/1
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :GET, '/v1/pins/:id', 'Show a pin'
-    param :null, Object, allow_nil: true
+    param :id, String, allow_nil: false
     def show
       render json: @pin
     end
 
-    # POST /pins
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :POST, '/v1/pins', 'Create a pin'
     def create
       @pin = Pin.new(pin_params)
+      authorize @pin
 
       if @pin.save
         render :show, status: :created, location: v1_pin_url(@pin)
@@ -40,6 +35,8 @@ module V1
     api :PATCH, '/v1/pins/:id', 'Update a pin'
     api :PUT, '/v1/pins/:id', 'Update a pin'
     def update
+      authorize @pin
+
       if @pin.update(pin_params)
         render :show, status: :ok, location: v1_pin_url(@pin)
       else
@@ -49,6 +46,7 @@ module V1
 
     # DELETE /pins/1
     def destroy
+      authorize @pin
       @pin.destroy
     end
 

@@ -3,6 +3,7 @@
 module V1
   class AssortmentsController < ApplicationController
     before_action :set_assortment, only: %i[show update destroy]
+    after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/assortments', 'List assortments'
     def index
@@ -18,8 +19,10 @@ module V1
     end
 
     api :POST, '/v1/assortments', 'Create an assortment'
+    param :id, String, requred: true
     def create
       @assortment = Assortment.new(assortment_params)
+      authorize @assortment
 
       if @assortment.save
         render show: @assortment, status: :created, location: v1_assortment_url(@assortment)
@@ -30,7 +33,10 @@ module V1
 
     api :PATCH, '/v1/assortments/:id', 'Update an assortment'
     api :PUT, '/v1/assortments/:id', 'Update an assortment'
+    param :id, String, requred: true
     def update
+      authorize @assortment
+
       if @assortment.update(assortment_params)
         render show: @assortment, status: :ok, location: v1_assortment_url(@assortment)
       else
@@ -38,8 +44,9 @@ module V1
       end
     end
 
-    # DELETE /assortments/1
     def destroy
+      authorize @assortment
+
       @assortment.destroy
     end
 

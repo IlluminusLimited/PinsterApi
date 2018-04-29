@@ -17,11 +17,11 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "Tom can create an assortment" do
-    tom_token = authentications(:tom_token)
+  test "Bob can create an assortment" do
+    token = authentications(:bob_token)
 
     assert_difference('Assortment.count') do
-      post v1_assortments_url, headers: { Authorization: tom_token.token },
+      post v1_assortments_url, headers: { Authorization: token.token },
                                params: {
                                  data: {
                                    description: @assortment.description,
@@ -34,10 +34,10 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
-  test "Tom can update an assortment" do
-    tom_token = authentications(:tom_token)
+  test "Bob can update an assortment" do
+    token = authentications(:bob_token)
 
-    patch v1_assortment_url(@assortment), headers: { Authorization: tom_token.token },
+    patch v1_assortment_url(@assortment), headers: { Authorization: token.token },
                                           params: {
                                             data: {
                                               description: @assortment.description,
@@ -48,11 +48,11 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
-  test "Tom can destroy an assortment" do
-    tom_token = authentications(:tom_token)
+  test "Bob can destroy an assortment" do
+    token = authentications(:bob_token)
 
     assert_difference('Assortment.count', -1) do
-      delete v1_assortment_url(@assortment),  headers: { Authorization: tom_token.token }, as: :json
+      delete v1_assortment_url(@assortment),  headers: { Authorization: token.token }, as: :json
     end
 
     assert_response 204

@@ -12,11 +12,11 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "Tom can create a pin" do
-    tom_token = authentications(:tom_token)
+  test "moderator can create a pin" do
+    token = authentications(:bob_token)
 
     assert_difference('Pin.count') do
-      post v1_pins_url, headers: { Authorization: tom_token.token },
+      post v1_pins_url, headers: { Authorization: token.token },
                         params: {
                           data: {
                             name: @pin.name,
@@ -34,10 +34,10 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "Tom can update a pin" do
-    tom_token = authentications(:tom_token)
+  test "moderator can update a pin" do
+    token = authentications(:bob_token)
 
-    patch v1_pin_url(@pin), headers: { Authorization: tom_token.token },
+    patch v1_pin_url(@pin), headers: { Authorization: token.token },
                             params: {
                               data: {
                                 description: @pin.description,
@@ -48,11 +48,11 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
-  test "Tom can destroy a pin" do
-    tom_token = authentications(:tom_token)
+  test "moderator can destroy a pin" do
+    token = authentications(:bob_token)
 
     assert_difference('Pin.count', -1) do
-      delete v1_pin_url(@pin), headers: { Authorization: tom_token.token }, as: :json
+      delete v1_pin_url(@pin), headers: { Authorization: token.token }, as: :json
     end
 
     assert_response 204

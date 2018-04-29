@@ -11,9 +11,7 @@ Rails.application.routes.draw do
 
     concern :api_base do
       resources :pins
-      resources :collectable_collections
       resources :assortments
-      resources :pin_assortments
 
       resources :users, shallow: true do
         resources :collections
