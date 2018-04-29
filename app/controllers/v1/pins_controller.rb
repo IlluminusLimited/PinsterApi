@@ -30,10 +30,11 @@ module V1
       end
     end
 
-    # PATCH/PUT /pins/1
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :PATCH, '/v1/pins/:id', 'Update a pin'
     api :PUT, '/v1/pins/:id', 'Update a pin'
+    param :id, String, allow_nil: false
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def update
       authorize @pin
 
@@ -44,7 +45,8 @@ module V1
       end
     end
 
-    # DELETE /pins/1
+    api :DELETE, 'v1/pins/:id', 'Destroy a pin'
+    param :id, String, allow_nil: false
     def destroy
       authorize @pin
       @pin.destroy

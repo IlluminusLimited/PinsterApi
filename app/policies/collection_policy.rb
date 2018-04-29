@@ -9,7 +9,7 @@ class CollectionPolicy < ApplicationPolicy
   end
 
   def index?
-    user&.admin?
+    true
   end
 
   def show?

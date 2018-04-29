@@ -39,3 +39,10 @@ bob_token:
   provider: sample
   token: bob-auth-token
   token_expires_at: <%= Time.now.utc + 3.hours %>
+
+andrew_token:
+  user: andrew
+  uid: andrew-auth-response
+  provider: sample
+  token: andrew-auth-token
+  token_expires_at: <%= Time.now.utc + 3.hours %>

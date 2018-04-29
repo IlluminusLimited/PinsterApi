@@ -3,8 +3,8 @@
 module V1
   class CollectionsController < ApplicationController
     before_action :set_collection, only: %i[show update destroy]
+    after_action :verify_authorized, except: %i[index]
 
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :GET, '/v1/users/:user_id/collections', 'Create a collection'
     param :user_id, String, allow_nil: false
     def index
@@ -13,7 +13,6 @@ module V1
       render json: @collections
     end
 
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :GET, '/v1/collections/:id', 'Show a collection'
     param :id, String, allow_nil: false
     def show
@@ -41,6 +40,8 @@ module V1
     api :PATCH, '/v1/collections/:id', 'Update a collection'
     api :PUT, '/v1/collections/:id', 'Update a collection'
     param :id, String, allow_nil: false
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def update
       authorize @collection
 
@@ -51,7 +52,9 @@ module V1
       end
     end
 
-    # DELETE /collections/1
+    api :DELETE, 'v1/collections/:id', 'Destroy a collection'
+    param :id, String, allow_nil: false
+    error :forbidden, 'You are not authorized to perform this action'
     def destroy
       authorize @collection
       @collection.destroy

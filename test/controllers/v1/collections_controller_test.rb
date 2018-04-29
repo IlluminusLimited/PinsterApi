@@ -8,7 +8,10 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get user collections index" do
-    get v1_user_collections_url(user_id: @collection.user), as: :json
+    tom_token = authentications(:tom_token)
+    get v1_user_collections_url(user_id: @collection.user),
+        headers: { Authorization: tom_token.token },
+        as: :json
     assert_response :success
   end
 

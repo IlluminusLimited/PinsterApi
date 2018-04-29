@@ -3,6 +3,7 @@
 module V1
   class MeController < ApplicationController
     before_action :set_me
+    after_action :verify_authorized, except: %i[show update]
 
     resource_description do
       description <<-DESCRIPTION
@@ -31,6 +32,8 @@ module V1
 
     private
 
+      # By nature no other users can edit other user's because we don't accept
+      # an external parameter for user_id
       def set_me
         @user = current_user
       end
