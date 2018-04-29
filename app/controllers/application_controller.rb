@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::API
   include Sorcery::Controller
+  include Pundit
+  after_action :verify_authorized
 
   def current_user
     return @current_user if defined?(@current_user)

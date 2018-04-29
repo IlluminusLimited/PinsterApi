@@ -30,9 +30,25 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
 
-  enum role: {
-    admin: 1,
-    moderator: 2,
-    user: 3
-  }
+  # All users default to having a role of 3
+  def user?
+    role < 4
+  end
+
+  def moderator?
+    role < 3
+  end
+
+  def admin?
+    role < 2
+  end
+
+  def owns?(resource)
+    return false unless resource.respond_to?(:user_id)
+    resource.user_id == id
+  end
+
+  def to_s
+    "User: '#{id}:#{email}'"
+  end
 end

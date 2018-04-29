@@ -25,6 +25,7 @@ group :development, :test do
   gem 'guard-rubocop'
   gem 'guard-shell'
   gem 'minitest-reporters'
+  gem 'policy-assertions', '~> 0.1.1'
   gem 'rubocop'
   gem 'simplecov', require: false
 end

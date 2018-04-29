@@ -26,4 +26,8 @@ class Collection < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
 
   validates :name, presence: true
+
+  def to_s
+    "Collection: '#{id}:#{name}'"
+  end
 end
