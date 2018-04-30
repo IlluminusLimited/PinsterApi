@@ -11,7 +11,7 @@ module V1
     def index
       @collections = policy_scope(Collection)
 
-      render json: @collections
+      render @collections
     end
 
     api :GET, '/v1/collections/:id', 'Show a collection'
@@ -19,7 +19,7 @@ module V1
     error :forbidden, 'You are not authorized to perform this action'
     def show
       authorize @collection, :show?
-      render json: @collection
+      render @collection
     end
 
     api :POST, '/v1/users/:user_id/collections', 'Create a collection'
@@ -30,7 +30,7 @@ module V1
       authorize @collection
 
       if @collection.save
-        render show: @collection, status: :created, location: v1_collection_url(@collection)
+        render @collection, status: :created, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -45,8 +45,7 @@ module V1
       authorize @collection
 
       if @collection.update(collection_params)
-
-        render json: @collection
+        render @collection
       else
         render json: @collection.errors, status: :unprocessable_entity
       end

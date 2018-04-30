@@ -25,7 +25,7 @@ module V1
       authorize @assortment
 
       if @assortment.save
-        render show: @assortment, status: :created, location: v1_assortment_url(@assortment)
+        render @assortment, status: :created, location: v1_assortment_url(@assortment)
       else
         render json: @assortment.errors, status: :unprocessable_entity
       end
@@ -38,7 +38,7 @@ module V1
       authorize @assortment
 
       if @assortment.update(assortment_params)
-        render show: @assortment, status: :ok, location: v1_assortment_url(@assortment)
+        render @assortment, status: :ok, location: v1_assortment_url(@assortment)
       else
         render json: @assortment.errors, status: :unprocessable_entity
       end
