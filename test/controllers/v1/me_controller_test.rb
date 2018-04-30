@@ -15,6 +15,26 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     get v1_me_url, headers: { Authorization: token.token }, as: :json
 
     assert_response :success
+    refute response.body.blank?
+    body = JSON.parse(response.body)
+    assert_equal 'tom', body['display_name']
+  end
+
+  test "user cannot update role" do
+    token = authentications(:tom_token)
+    put v1_me_url, params: {
+      data: {
+        display_name: 'new name',
+        bio: 'sample bio thing',
+        email: 'new-email@me.no',
+        role: 1
+      }
+    }, headers: { Authorization: token.token }, as: :json
+
+    assert_response :success
+    refute response.body.blank?
+    body = JSON.parse(response.body)
+    assert_equal 'new name', body['display_name']
   end
 
   test "should update me" do

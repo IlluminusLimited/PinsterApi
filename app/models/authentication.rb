@@ -29,7 +29,7 @@ class Authentication < ApplicationRecord
   validates :user, presence: true
 
   def token_valid?
-    token_expires_at > Time.now.utc
+    token_expires_at && token_expires_at > Time.now.utc
   end
 
   def refresh_token

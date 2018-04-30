@@ -30,7 +30,7 @@ module V1
       authorize @collection
 
       if @collection.save
-        render json: @user, status: :created
+        render show: @collection, status: :created, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -45,6 +45,7 @@ module V1
       authorize @collection
 
       if @collection.update(collection_params)
+
         render json: @collection
       else
         render json: @collection.errors, status: :unprocessable_entity

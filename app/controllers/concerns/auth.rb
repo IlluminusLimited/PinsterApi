@@ -2,10 +2,10 @@
 
 module Auth
   extend ActiveSupport::Concern
+  include Pundit
 
   included do
-    include Pundit
-    rescue_from Pundit::NotAuthorizedError with: :user_not_authorized
+    rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
     after_action :verify_authorized
   end
 

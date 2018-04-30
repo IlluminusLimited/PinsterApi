@@ -8,15 +8,11 @@ module V1
     api :GET, '/v1/pins', 'List pins'
     def index
       @pins = Pin.all
-
-      render json: @pins
     end
 
     api :GET, '/v1/pins/:id', 'Show a pin'
     param :id, String, allow_nil: false
-    def show
-      render json: @pin
-    end
+    def show; end
 
     api :POST, '/v1/pins', 'Create a pin'
     def create

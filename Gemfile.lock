@@ -86,6 +86,9 @@ GEM
       railties (>= 5.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    jbuilder (2.7.0)
+      activesupport (>= 4.2.0)
+      multi_json (>= 1.2)
     json (2.1.0)
     jwt (1.5.6)
     listen (3.1.5)
@@ -223,6 +226,7 @@ DEPENDENCIES
   guard-rubocop
   guard-shell
   health_check (~> 3.0.0)
+  jbuilder (~> 2.7.0)
   maruku (~> 0.7.3)
   minitest-reporters
   oauth2 (~> 1.4.0)
