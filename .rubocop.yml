@@ -71,3 +71,7 @@ Rails:
 
 Rails/InverseOf:
   Enabled: false
+
+Rails/FilePath:
+  Exclude:
+    - config/initializers/apipie.rb

@@ -4,8 +4,8 @@
 Apipie.configure do |config|
   config.app_name = "PinsterBase"
   config.api_base_url = ""
-  config.doc_base_url = "/doc"
-  config.api_controllers_matcher = Rails.root.join("app", "controllers", "**", "*.rb")
+  config.doc_base_url = "/docs"
+  config.api_controllers_matcher = Rails.root.join("app", "controllers", "[!concerns/]**", "*.rb")
   config.markup = Apipie::Markup::Markdown.new
   config.translate = false
 

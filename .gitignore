@@ -16,7 +16,7 @@
 .idea
 
 doc/
-
+docs/
 coverage/
 
 # Elastic Beanstalk Files
