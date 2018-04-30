@@ -17,6 +17,8 @@ module V1
 
     api :POST, '/v1/assortments', 'Create an assortment'
     param :id, String, requred: true
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def create
       @assortment = Assortment.new(assortment_params)
       authorize @assortment
@@ -31,16 +33,22 @@ module V1
     api :PATCH, '/v1/assortments/:id', 'Update an assortment'
     api :PUT, '/v1/assortments/:id', 'Update an assortment'
     param :id, String, requred: true
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def update
       authorize @assortment
 
       if @assortment.update(assortment_params)
-        render @assortment, status: :ok, location: v1_assortment_url(@assortment)
+        render :show, status: :ok, location: v1_assortment_url(@assortment)
       else
         render json: @assortment.errors, status: :unprocessable_entity
       end
     end
 
+    api :DELETE, '/v1/assortments/:id', 'Destroy an assortment'
+    param :id, String, requred: true
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def destroy
       authorize @assortment
 

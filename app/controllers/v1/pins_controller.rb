@@ -8,6 +8,7 @@ module V1
     api :GET, '/v1/pins', 'List pins'
     def index
       @pins = Pin.all
+      render :index
     end
 
     api :GET, '/v1/pins/:id', 'Show a pin'

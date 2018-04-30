@@ -11,18 +11,20 @@ module V1
       @users = User.all
       authorize @users
 
-      render json: @users
+      render :index
     end
 
     api :GET, '/v1/users/:id', 'Show a user'
     param :id, String, allow_nil: false
     def show
       authorize @user
-      render json: @user
+      render :show
     end
 
     api :DELETE, '/v1/users/:id', 'Destroy a user'
     param :id, String, allow_nil: false
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def destroy
       authorize @user
       @user.destroy
