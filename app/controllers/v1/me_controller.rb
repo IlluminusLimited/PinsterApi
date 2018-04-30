@@ -2,8 +2,8 @@
 
 module V1
   class MeController < ApplicationController
+    before_action :require_login
     before_action :set_me
-    after_action :verify_authorized, except: %i[show update]
 
     resource_description do
       description <<-DESCRIPTION
@@ -13,21 +13,29 @@ module V1
 
     api :GET, '/v1/me', 'Show the current user'
     error :unauthorized, 'Request missing Authorization header'
-    def show; end
+    def show
+      render json: @user
+    end
 
     api :PATCH, '/v1/me', 'Update the current user'
     api :PUT, '/v1/me', 'Update the current user'
     param :email, String, desc: "The user's email address"
-    param :display_name, String, desc: "The name to be shown to other users"
-    param :bio, String, desc: "A short description of yourself"
+    param :display_name, String, desc: 'The name to be shown to other users'
+    param :bio, String, desc: 'A short description of yourself'
     error :unauthorized, 'Request missing Authorization header'
     error :unprocessable_entity, 'Unprocessable entity, please check the payload'
     def update
+      authorize @user
+
       if @user.update(me_params)
         render :show, status: :ok, location: v1_me_url(@user)
       else
         render json: @user.errors, status: :unprocessable_entity
       end
+    end
+
+    def self.policy_class
+      UserPolicy
     end
 
     private
@@ -39,7 +47,7 @@ module V1
       end
 
       def me_params
-        params.require(:data).permit(:email, :display_name, :bio)
+        params.require(:data).permit(policy(@user).permitted_attributes)
       end
   end
 end

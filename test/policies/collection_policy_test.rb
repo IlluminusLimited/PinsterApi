@@ -5,13 +5,13 @@ require 'test_helper'
 class CollectionPolicyTest < PolicyAssertions::Test
   include PolicyTestHelper
 
-  test 'nil user cannot create collections' do
-    user = nil
+  test 'anon user cannot create collections' do
+    user = User.anon_user
     assert_not_permitted(user, Collection, :create?)
   end
 
   test 'anybody can index collections' do
-    user = nil
+    user = User.anon_user
     assert_permit(user, Collection, :index?)
   end
 

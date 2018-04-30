@@ -5,8 +5,8 @@ require 'test_helper'
 class PinPolicyTest < PolicyAssertions::Test
   include PolicyTestHelper
 
-  test 'nil user cannot create or modify pins' do
-    user = nil
+  test 'anon user cannot create or modify pins' do
+    user = User.anon_user
     assert_not_permitted(user, Pin, :create?)
     assert_not_permitted(user, pins(:texas_dragon), ANY_INSTANCE_MODIFY_ACTION)
   end

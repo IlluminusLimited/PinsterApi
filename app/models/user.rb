@@ -29,6 +29,15 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :authentications
 
   validates :email, uniqueness: true
+  validates :display_name, presence: true
+
+  def self.anon_user
+    new(id: nil, display_name: 'Anonymous', role: 4)
+  end
+
+  def anonymous?
+    role == 4
+  end
 
   # All users default to having a role of 3
   def user?
@@ -49,6 +58,6 @@ class User < ApplicationRecord
   end
 
   def to_s
-    "User: '#{id}:#{email}'"
+    "User: '#{id}:#{display_name}'"
   end
 end

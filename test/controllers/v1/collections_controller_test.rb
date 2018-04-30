@@ -9,7 +9,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get user collections index" do
     tom_token = authentications(:tom_token)
-    get v1_user_collections_url(user_id: @collection.user),
+    get v1_user_collections_url(user_id: tom_token.user.id),
         headers: { Authorization: tom_token.token },
         as: :json
     assert_response :success
@@ -23,13 +23,13 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
   test "Tom can create a collection" do
     tom_token = authentications(:tom_token)
     assert_difference('Collection.count') do
-      post v1_user_collections_url(user_id: @collection.user_id),
+      post v1_user_collections_url(user_id: tom_token.user.id),
            headers: { Authorization: tom_token.token },
            params: {
              data: {
                description: @collection.description,
                name: @collection.name,
-               user_id: @collection.user_id
+               user_id: tom_token.user.id
              }
            }, as: :json
     end

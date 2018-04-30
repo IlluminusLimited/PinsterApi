@@ -2,7 +2,7 @@
 
 module V1
   class UsersController < ApplicationController
-    before_action :require_login
+    before_action :require_login, except: :show
     before_action :set_user, only: %i[show destroy]
 
     api :GET, '/v1/users', 'List users'
@@ -15,12 +15,14 @@ module V1
     end
 
     api :GET, '/v1/users/:id', 'Show a user'
-    param :user_id, String, allow_nil: false
+    param :id, String, allow_nil: false
     def show
       authorize @user
       render json: @user
     end
 
+    api :DELETE, '/v1/users/:id', 'Destroy a user'
+    param :id, String, allow_nil: false
     def destroy
       authorize @user
       @user.destroy
@@ -35,7 +37,7 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def user_params
-        params.require(:data).permit(:email, :display_name, :bio)
+        params.require(:data).permit(policy(@user).permitted_attributes)
       end
   end
 end

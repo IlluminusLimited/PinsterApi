@@ -47,6 +47,8 @@ module V1
 
     api :DELETE, 'v1/pins/:id', 'Destroy a pin'
     param :id, String, allow_nil: false
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
     def destroy
       authorize @pin
       @pin.destroy

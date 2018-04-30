@@ -13,32 +13,33 @@ class CollectionPolicy < ApplicationPolicy
   end
 
   def show?
-    user&.admin? or collection.public? or user&.owns?(collection)
+    user.admin? or collection.public? or user.owns?(collection)
   end
 
   def create?
-    user&.user?
+    user.user?
   end
 
   def update?
-    user&.admin? or user&.owns?(collection)
+    user.admin? or user.owns?(collection)
   end
 
   def destroy?
-    user&.admin? or user&.owns?(collection)
+    user.admin? or user.owns?(collection)
   end
 
   class Scope < Scope
     attr_reader :user, :scope
 
     def initialize(user, scope)
+      raise Pundit::NotAuthorizedError, 'Request missing Authorization header' unless user
       @user = user
       @scope = scope
     end
 
     def resolve
-      return scope.all if user&.admin?
-      scope.where(user_id: user&.id)
+      return scope.all if user.admin?
+      scope.where(user_id: user.id)
     end
   end
 end

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class UserPolicy < ApplicationPolicy
-  attr_reader :user, :collection
+  attr_reader :user, :user_to_be_modified
 
-  def initialize(user, collection)
+  def initialize(user, user_to_be_modified)
     @user = user
-    @collection = collection
+    @user_to_be_modified = user_to_be_modified
   end
 
   def index?
-    user&.admin?
+    user.admin?
   end
 
   def show?
@@ -17,10 +17,18 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user&.admin? or user&.owns?(collection)
+    user.admin? or (user.user? and user.id == user_to_be_modified.id)
   end
 
   def destroy?
-    user&.admin?
+    user.admin?
+  end
+
+  def permitted_attributes
+    if user.admin?
+      %i[bio display_name email role verified]
+    else
+      %i[bio display_name email]
+    end
   end
 end

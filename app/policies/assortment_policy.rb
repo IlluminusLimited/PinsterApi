@@ -17,14 +17,14 @@ class AssortmentPolicy < ApplicationPolicy
   end
 
   def create?
-    user&.moderator?
+    user.moderator?
   end
 
   def update?
-    user&.moderator?
+    user.moderator?
   end
 
   def destroy?
-    user&.moderator?
+    user.moderator?
   end
 end

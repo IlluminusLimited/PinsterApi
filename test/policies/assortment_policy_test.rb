@@ -5,13 +5,13 @@ require 'test_helper'
 class AssortmentPolicyTest < PolicyAssertions::Test
   include PolicyTestHelper
 
-  test 'nil user cannot create assortments' do
-    user = nil
+  test 'anon user cannot create assortments' do
+    user = User.anon_user
     assert_not_permitted(user, Assortment, :create?)
   end
 
-  test 'nil user can view assortments' do
-    user = nil
+  test 'anon user can view assortments' do
+    user = User.anon_user
     assert_permit(user, Assortment, ANY_VIEW_ACTION)
   end
 

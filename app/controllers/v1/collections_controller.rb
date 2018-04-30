@@ -2,10 +2,11 @@
 
 module V1
   class CollectionsController < ApplicationController
+    before_action :require_login, except: %i[show]
     before_action :set_collection, only: %i[show update destroy]
     after_action :verify_authorized, except: %i[index]
 
-    api :GET, '/v1/users/:user_id/collections', 'Create a collection'
+    api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
     param :user_id, String, allow_nil: false
     def index
       @collections = policy_scope(Collection)
@@ -15,28 +16,26 @@ module V1
 
     api :GET, '/v1/collections/:id', 'Show a collection'
     param :id, String, allow_nil: false
+    error :forbidden, 'You are not authorized to perform this action'
     def show
       authorize @collection, :show?
       render json: @collection
     end
 
-    # POST /collections
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :POST, '/v1/users/:user_id/collections', 'Create a collection'
     param :user_id, String, allow_nil: false
+    error :unauthorized, 'Request missing Authorization header'
     def create
       @collection = Collection.new(collection_params)
       authorize @collection
 
       if @collection.save
-        render show: @collection, status: :created, location: v1_collection_url(@collection)
+        render json: @user, status: :created
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
     end
 
-    # PATCH/PUT /collections/1
-    # DOC GENERATED AUTOMATICALLY: REMOVE THIS LINE TO PREVENT REGENERATING NEXT TIME
     api :PATCH, '/v1/collections/:id', 'Update a collection'
     api :PUT, '/v1/collections/:id', 'Update a collection'
     param :id, String, allow_nil: false
@@ -46,7 +45,7 @@ module V1
       authorize @collection
 
       if @collection.update(collection_params)
-        render show: @collection, status: :ok, location: v1_collection_url(@collection)
+        render json: @collection
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -54,6 +53,7 @@ module V1
 
     api :DELETE, 'v1/collections/:id', 'Destroy a collection'
     param :id, String, allow_nil: false
+    error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
     def destroy
       authorize @collection
