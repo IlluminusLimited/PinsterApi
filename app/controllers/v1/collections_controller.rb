@@ -74,13 +74,8 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def collection_params
-        params.require(:data).permit(:name,
-                                     :description,
-                                     :public,
-                                     user_id: params[:user_id],
-                                     collectable_collections_attributes: CollectableCollection.attribute_names
-                                                                             .map(&:to_sym))
-              .merge(user_id: current_user.id)
+        collection = @collection || Collection.new
+        params.require(:data).permit(policy(collection).permitted_attributes).merge(user_id: current_user.id)
       end
   end
 end
