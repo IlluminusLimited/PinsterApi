@@ -32,7 +32,6 @@ class CollectionPolicy < ApplicationPolicy
     attr_reader :user, :scope
 
     def initialize(user, scope)
-      raise Pundit::NotAuthorizedError, 'Request missing Authorization header' unless user
       @user = user
       @scope = scope
     end

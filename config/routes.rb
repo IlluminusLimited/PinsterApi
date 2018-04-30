@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :pins
       resources :assortments
 
-      resources :users, shallow: true do
+      resources :users, shallow: true, only: %i[index show destroy] do
         resources :collections
       end
 

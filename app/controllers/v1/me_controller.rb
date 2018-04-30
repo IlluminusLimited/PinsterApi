@@ -15,7 +15,7 @@ module V1
     error :unauthorized, 'Request missing Authorization header'
     def show
       authorize @user
-      render :show, status: :ok, location: v1_me_url(@user)
+      render :show
     end
 
     api :PATCH, '/v1/me', 'Update the current user'

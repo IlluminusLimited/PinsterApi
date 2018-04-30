@@ -8,15 +8,12 @@ module V1
     api :GET, '/v1/assortments', 'List assortments'
     def index
       @assortments = Assortment.all
-
-      render json: @assortments
+      render :index
     end
 
     api :GET, '/v1/assortments/:id', 'Show an assortment'
     param :id, String, requred: true
-    def show
-      render json: @assortment
-    end
+    def show; end
 
     api :POST, '/v1/assortments', 'Create an assortment'
     param :id, String, requred: true
@@ -25,7 +22,7 @@ module V1
       authorize @assortment
 
       if @assortment.save
-        render @assortment, status: :created, location: v1_assortment_url(@assortment)
+        render :show, status: :created, location: v1_assortment_url(@assortment)
       else
         render json: @assortment.errors, status: :unprocessable_entity
       end

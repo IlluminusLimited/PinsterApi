@@ -8,29 +8,32 @@ module V1
 
     api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
     param :user_id, String, allow_nil: false
+
     def index
       @collections = policy_scope(Collection)
 
-      render @collections
+      render :index
     end
 
     api :GET, '/v1/collections/:id', 'Show a collection'
     param :id, String, allow_nil: false
     error :forbidden, 'You are not authorized to perform this action'
+
     def show
-      authorize @collection, :show?
-      render @collection
+      authorize @collection
+      render :show
     end
 
     api :POST, '/v1/users/:user_id/collections', 'Create a collection'
     param :user_id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
+
     def create
       @collection = Collection.new(collection_params)
       authorize @collection
 
       if @collection.save
-        render @collection, status: :created, location: v1_collection_url(@collection)
+        render :show, status: :created, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -41,11 +44,12 @@ module V1
     param :id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def update
       authorize @collection
 
       if @collection.update(collection_params)
-        render @collection
+        render :show, status: :ok, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
       end
@@ -55,6 +59,7 @@ module V1
     param :id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def destroy
       authorize @collection
       @collection.destroy
@@ -69,12 +74,13 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def collection_params
-        params.require(:data).permit(:user_id,
-                                     :name,
+        params.require(:data).permit(:name,
                                      :description,
                                      :public,
+                                     user_id: params[:user_id],
                                      collectable_collections_attributes: CollectableCollection.attribute_names
                                                                              .map(&:to_sym))
+              .merge(user_id: current_user.id)
       end
   end
 end
