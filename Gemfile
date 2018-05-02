@@ -28,6 +28,7 @@ group :development, :test do
   gem 'policy-assertions', '~> 0.1.1'
   gem 'rubocop'
   gem 'simplecov', require: false
+  gem 'minitest-ci'
 end
 
 group :development do
