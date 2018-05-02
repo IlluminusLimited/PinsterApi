@@ -62,7 +62,7 @@ test:
   <<: *default
   username: <%= ENV['DATABASE_USERNAME'] || 'pinsterapi' %>
   password: <%= ENV['DATABASE_PASSWORD'] || 'password' %>
-  host: localhost
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
   database: PinsterApi_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
