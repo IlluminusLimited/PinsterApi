@@ -10,10 +10,7 @@ require 'minitest/ci'
 
 Minitest::Ci.report_dir = Rails.root.join('tmp', 'test-results')
 
-if ENV['CIRCLE_ARTIFACTS']
-  dir = File.join(ENV['CIRCLE_ARTIFACTS'], "coverage")
-  SimpleCov.coverage_dir(dir)
-end
+SimpleCov.coverage_dir(Rails.root.join('tmp', 'coverage'))
 
 SimpleCov.start
 
