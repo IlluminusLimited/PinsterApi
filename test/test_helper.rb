@@ -10,7 +10,7 @@ require 'minitest/ci'
 
 Minitest::Ci.report_dir = Rails.root.join('tmp', 'test-results')
 
-SimpleCov.coverage_dir(Rails.root.join('tmp', 'coverage'))
+SimpleCov.coverage_dir(Rails.root.join('tmp', 'coverage', 'backend'))
 
 SimpleCov.start
 
