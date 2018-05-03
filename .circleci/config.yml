@@ -98,10 +98,6 @@ workflows:
       - backend-tests:
           requires:
             - build
-      - frontend-tests:
-          requires:
-             - build
       - upload-coverage:
           requires:
              - backend-tests
-             - frontend-tests
