@@ -8,11 +8,7 @@ require 'test_helpers/policy_test_helper'
 require 'simplecov'
 require 'minitest/ci'
 
-Minitest::Ci.report_dir = if ENV['CIRCLECI']
-                            Rails.root.join(ENV['CIRCLE_TEST_REPORTS'], 'reports')
-                          else
-                            Rails.root.join('tmp', 'reports')
-                          end
+Minitest::Ci.report_dir = Rails.root.join('tmp', 'test-results')
 
 if ENV['CIRCLE_ARTIFACTS']
   dir = File.join(ENV['CIRCLE_ARTIFACTS'], "coverage")
