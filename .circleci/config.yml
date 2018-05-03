@@ -39,20 +39,20 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - gem-cache-{{ arch }}-{{ .Branch }}
+            - gem-cache
 
       - run:
           name: Setup dependencies
           command: |
-            bundle install --without production --jobs=4 --retry=3 --path=${BUNDLE_PATH:-vendor/bundle}
+            bundle install --without production --jobs 4 --retry 3 --path vendor/bundle
             bundle exec rake db:create db:migrate
 
       - save_cache:
           paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - vendor/bundle
+          key: gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
 
       - attach_workspace:
           at: ~/repo/tmp
