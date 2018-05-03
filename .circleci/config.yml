@@ -3,32 +3,39 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/ruby:2.4.4-jessie-node
+      environment:
+             RAILS_ENV: test
+             DATABASE_HOST: 127.0.0.1
+             DATABASE_USERNAME: pinsterapi
+             DATABASE_PASSWORD:
+
+    - image: circleci/postgres:10.3-alpine-ram
+      environment:
+             POSTGRES_USER: pinsterapi
+             POSTGRES_DB: PinsterApi_test
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-       - image: circleci/ruby:2.4.3-node-browsers
-         environment:
-                   RAILS_ENV: test
-                   DATABASE_HOST: 127.0.0.1
-                   DATABASE_USERNAME: pinsterapi
-                   DATABASE_PASSWORD:
-
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: circleci/postgres:10.3
-         environment:
-                  POSTGRES_USER: pinsterapi
-                  POSTGRES_DB: PinsterApi_test
-
-
-    working_directory: ~/repo
-
+    <<: *defaults
+    steps:
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+  backend-tests:
+    <<: *defaults
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -37,32 +44,64 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Setup dependencies
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+            bundle exec rake db:create db:migrate
 
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - attach_workspace:
+          at: ~/repo/tmp
 
-      # run tests!
       - run:
-          name: run tests
+          name: Run backend tests
           command: |
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)"
 
             bundle exec rake test
-          when: always
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/backend/.resultset.json
 
-      # collect reports
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - codeclimate.backend.json
+
       - store_test_results:
-          path: /tmp/test-results
+          path: ~/repo/tmp/test-results
       - store_artifacts:
-          path: /tmp/test-results
+          path: ~/repo/tmp/test-results
           destination: test-results
+
+  upload-coverage:
+    <<: *defaults
+    environment:
+      - CC_TEST_REPORTER_ID: 394d9a15cb6c6c8a5fb16068eda590afb9aac911df116f2045fa27e969ee3367
+    steps:
+      - attach_workspace:
+          at: ~/repo/tmp
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - backend-tests:
+          requires:
+            - build
+      - frontend-tests:
+          requires:
+             - build
+      - upload-coverage:
+          requires:
+             - backend-tests
+             - frontend-tests
