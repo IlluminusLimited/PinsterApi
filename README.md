@@ -1,12 +1,7 @@
-# Todo
-1. Build out apidocs
-1. Build javascript SDK
-1. Build logic for authorization
-1. Add OJ gem and stuff for fast json performance
-1. Flesh out tag logic and behavior with jsonb column
-1. Evaluate controllers to limit pointless endpoints
-1. Prune routes to match controller methods
-1. Build health_check that doesn't suck
-1. Build cloudformation or use elasticbeanstalk
-1. Build cache logic
-1. Write integration tests with image-service
+[![CircleCI](https://circleci.com/gh/PinsterTeam/PinsterApi.svg?style=shield)](https://circleci.com/gh/PinsterTeam/PinsterApi)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3451509b9dbfecfd7a22/maintainability)](https://codeclimate.com/github/PinsterTeam/PinsterApi/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3451509b9dbfecfd7a22/test_coverage)](https://codeclimate.com/github/PinsterTeam/PinsterApi/test_coverage)
+
+# PinsterApi
+
+The api that brings the bacon home.
