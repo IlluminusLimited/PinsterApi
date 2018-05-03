@@ -6,8 +6,14 @@ require 'rails/test_help'
 require 'policy_assertions'
 require 'test_helpers/policy_test_helper'
 require 'simplecov'
+require 'minitest/ci'
 
-# save to CircleCI's artifacts directory if we're on CircleCI
+Minitest::Ci.report_dir = if ENV['CIRCLECI']
+                            Rails.root.join(ENV['CIRCLE_TEST_REPORTS'], 'reports')
+                          else
+                            Rails.root.join('tmp', 'reports')
+                          end
+
 if ENV['CIRCLE_ARTIFACTS']
   dir = File.join(ENV['CIRCLE_ARTIFACTS'], "coverage")
   SimpleCov.coverage_dir(dir)

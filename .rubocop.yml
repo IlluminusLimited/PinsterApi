@@ -57,7 +57,6 @@ Metrics/LineLength:
     - Rakefile
     - config/**/*
     - lib/tasks/**/*
-    - test/test_helper.rb
 
 Metrics/MethodLength:
   Exclude:

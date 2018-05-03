@@ -24,11 +24,11 @@ group :development, :test do
   gem 'guard-minitest'
   gem 'guard-rubocop'
   gem 'guard-shell'
+  gem 'minitest-ci'
   gem 'minitest-reporters'
   gem 'policy-assertions', '~> 0.1.1'
   gem 'rubocop'
   gem 'simplecov', require: false
-  gem 'minitest-ci'
 end
 
 group :development do
