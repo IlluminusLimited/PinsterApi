@@ -7,7 +7,7 @@ environment-defaults:
   PinsterApi-dev:
     branch: null
     repository: null
-  PinsterApi-dev:
+  PinsterApi-prod:
     branch: null
     repository: null
 global:
