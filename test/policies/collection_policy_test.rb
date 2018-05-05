@@ -58,15 +58,6 @@ class CollectionPolicyTest < PolicyAssertions::Test
                               collectable_collections_attributes: CollectableCollection.public_attribute_names])
   end
 
-  test 'admin can change the user_id' do
-    user = users(:andrew)
-    collection = collections(:sallys_favorite_collection)
-    collection.user_id = users(:tom).id
-    assert_strong_parameters(user, collection, collection.attributes.to_h,
-                             [:name, :description, :public, :user_id,
-                              collectable_collections_attributes: CollectableCollection.public_attribute_names])
-  end
-
   test 'admins can perform any action' do
     user = users(:andrew)
     assert_permit(user, Collection, ANY_ACTION)
