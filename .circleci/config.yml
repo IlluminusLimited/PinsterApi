@@ -93,16 +93,9 @@ jobs:
   deploy:
     working_directory: ~/repo
     docker:
-      - image: cibuilds/aws
+      - image: pinster/awseb
     steps:
       - checkout
-      - run:
-          name: Installing deployment dependencies
-          working_directory: /
-          command: |
-            apt-get -y -qq update
-            apt-get install python-pip python-dev build-essential
-            pip install awsebcli --upgrade
       - run:
           name: Deploy
           command: eb deploy PinsterApi-dev
