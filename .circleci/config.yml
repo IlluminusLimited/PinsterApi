@@ -89,9 +89,19 @@ jobs:
           command: |
             ./tmp/cc-test-reporter sum-coverage tmp/coverage/codeclimate.*.json -p 1 -o tmp/coverage/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/coverage/codeclimate.total.json
+
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: cibuilds/aws
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: eb deploy PinsterApi-dev
+
 workflows:
   version: 2
-
   commit:
     jobs:
       - build
@@ -101,3 +111,11 @@ workflows:
       - upload-coverage:
           requires:
              - backend-tests
+
+      - deploy:
+          requires:
+            - upload-coverage
+          filters:
+            branches:
+              only:
+                - newell/cd
