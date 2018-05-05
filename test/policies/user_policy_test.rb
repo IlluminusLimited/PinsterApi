@@ -15,10 +15,17 @@ class UserPolicyTest < PolicyAssertions::Test
     assert_permit(user, user, :update?)
   end
 
-  test 'user can not change their role' do
+  test 'user cannot change their role' do
     user = users(:sally)
     new_user = user.dup
     new_user.role = 1
     assert_strong_parameters(user, new_user, new_user.attributes.to_h, %i[bio display_name email verified])
+  end
+
+  test 'admin can change roles' do
+    user = users(:andrew)
+    new_user = users(:sally)
+    new_user.role = 1
+    assert_strong_parameters(user, new_user, new_user.attributes.to_h, %i[bio display_name email verified role])
   end
 end

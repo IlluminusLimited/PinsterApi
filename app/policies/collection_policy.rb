@@ -28,6 +28,16 @@ class CollectionPolicy < ApplicationPolicy
     user.admin? or user.owns?(collection)
   end
 
+  def permitted_attributes
+    if user.admin?
+      [:name, :description, :public, :user_id,
+       collectable_collections_attributes: CollectableCollection.public_attribute_names]
+    else
+      [:name, :description, :public,
+       collectable_collections_attributes: CollectableCollection.public_attribute_names]
+    end
+  end
+
   class Scope < Scope
     attr_reader :user, :scope
 
