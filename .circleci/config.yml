@@ -90,7 +90,7 @@ jobs:
             ./tmp/cc-test-reporter sum-coverage tmp/coverage/codeclimate.*.json -p 1 -o tmp/coverage/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/coverage/codeclimate.total.json
 
-  deploy:
+  deploy-dev:
     working_directory: ~/repo
     docker:
       - image: pinster/awseb
@@ -99,6 +99,16 @@ jobs:
       - run:
           name: Deploy
           command: eb deploy PinsterApi-dev
+
+  deploy-prod:
+    working_directory: ~/repo
+    docker:
+      - image: pinster/awseb
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: eb deploy PinsterApi-prod
 
 workflows:
   version: 2
@@ -112,10 +122,18 @@ workflows:
           requires:
              - backend-tests
 
-      - deploy:
+      - deploy-dev:
           requires:
-            - upload-coverage
+            - backend-tests
           filters:
             branches:
               only:
-                - newell/cd
+                - develop
+
+      - deploy-prod:
+          requires:
+            - backend-tests
+          filters:
+            branches:
+              only:
+                - master
