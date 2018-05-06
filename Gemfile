@@ -15,6 +15,7 @@ gem 'oj', '~> 3.5.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'pundit', '~> 1.1.0'
+gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1.6'
 gem 'sorcery', '~> 0.11'
 
