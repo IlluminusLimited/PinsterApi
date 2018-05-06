@@ -16,6 +16,7 @@
 .idea
 
 doc/
+docs/
 
 coverage/
 
@@ -23,3 +24,4 @@ coverage/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+

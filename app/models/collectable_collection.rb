@@ -19,4 +19,8 @@
 class CollectableCollection < ApplicationRecord
   belongs_to :collectable, polymorphic: true
   belongs_to :collection
+
+  def self.public_attribute_names
+    %i[collectable_id collectable_type collection_id]
+  end
 end
