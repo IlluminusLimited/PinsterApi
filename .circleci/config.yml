@@ -97,11 +97,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build Apidocs
-          command: |
-            chmod +x generate_apidocs.sh
-            bash generate_apidocs.sh
-      - run:
           name: Deploy
           command: eb deploy PinsterApi-dev
 
