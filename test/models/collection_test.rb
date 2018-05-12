@@ -40,14 +40,22 @@ class CollectionTest < ActiveSupport::TestCase
                                     collectable_collections_attributes: [
                                       { collectable: Pin.create!(name: 'thing', year: 1998) },
                                       { collectable:
-                                           Assortment.create!(name: 'amazing pin set',
-                                                              pin_assortments_attributes: [
-                                                                {
-                                                                  pin: pins(:texas_dragon)
-                                                                }
-                                                              ]) }
+                                            Assortment.create!(name: 'amazing pin set',
+                                                               pin_assortments_attributes: [
+                                                                 {
+                                                                   pin: pins(:texas_dragon)
+                                                                 }
+                                                               ]) }
                                     ])
     assert collection.valid?
+  end
+
+  test 'a collectable can be added to a collection multiple times' do
+    assert_equal 1, @toms_keepers_collection.collectable_collections.count
+    @toms_keepers_collection.collectable_collections.create!(collectable: assortments(:wisconsin_2009))
+    @toms_keepers_collection.collectable_collections.create!(collectable: assortments(:wisconsin_2009))
+
+    assert_equal 3, @toms_keepers_collection.collectable_collections.count
   end
 
   # test collection members respond to images method and return an array of images
