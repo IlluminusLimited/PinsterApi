@@ -57,4 +57,3 @@ wisconsin_assortment_main_image:
   imageable: wisconsin_2009 (Assortment)
   base_file_name: some_uuid2
   storage_location_uri: s3://bucket_o_chum/folder/some_uuid2
-  featured: 2017-08-30 22:03:27

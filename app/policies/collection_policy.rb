@@ -33,7 +33,7 @@ class CollectionPolicy < ApplicationPolicy
       [:name, :description, :public, :user_id,
        collectable_collections_attributes: CollectableCollection.public_attribute_names]
     else
-      [:name, :description, :public,
+      [:name, :description,
        collectable_collections_attributes: CollectableCollection.public_attribute_names]
     end
   end
