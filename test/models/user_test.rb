@@ -26,10 +26,5 @@ class UserTest < ActiveSupport::TestCase
   # end
   # test email is required
   # test roles resolve correctly
-  # test user with __ role can ___
-  # test user without __ role cannot __
-  # test admin user can edit other user roles
-  # test user without admin cannot edit roles
   # test admin cannot be set outside of database seed (maybe?), maybe create validation or something that prevents it
-  #
 end
