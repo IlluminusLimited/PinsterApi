@@ -29,6 +29,37 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :public, presence: true
 
+  scope :with_counts, -> {
+    select <<~SQL
+      collections.*,
+      (
+        SELECT COUNT(collectable_collections.id) FROM collectable_collections
+        WHERE collection_id = collections.id
+      ) AS collectable_count
+    SQL
+  }
+
+  scope :with_collectable_count, -> {
+    select <<~SQL
+            collections.*,
+            (
+      select json_object_agg(agg.collectable_type, agg.collectable_count)
+      from (
+             select
+               collectable_type,
+               json_object_agg(results.collectable_id, results.collectable_count) as collectable_count
+             from (
+                    select
+                      count(collectable_id) as collectable_count,
+                      collectable_type,
+                      collectable_id
+                    from collectable_collections
+                      inner join collections on collection_id = collections.id
+                    group by collectable_type, collectable_id) results
+             group by results.collectable_type) agg) AS collectable_count
+    SQL
+  }
+
   def to_s
     "Collection: '#{id}:#{name}'"
   end

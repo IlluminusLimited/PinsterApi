@@ -36,17 +36,22 @@ class CollectionTest < ActiveSupport::TestCase
 
   test 'a collection can contain both pins and assortments of pins' do
     collection = Collection.create!(name: 'Amazing collection',
-                                    user: users(:sally),
+                                    user: User.create!(email: 'bob@bob.bob', display_name: 'bob'),
                                     collectable_collections_attributes: [
                                       { collectable: Pin.create!(name: 'thing', year: 1998) },
                                       { collectable:
                                            Assortment.create!(name: 'amazing pin set',
                                                               pin_assortments_attributes: [
                                                                 {
-                                                                  pin: pins(:texas_dragon)
+                                                                  pin: Pin.create!(name: 'thing', year: 1998)
                                                                 }
                                                               ]) }
                                     ])
+    assert collection.valid?
+  end
+
+  test 'items in collections have counts' do
+    @toms_keepers_collection
     assert collection.valid?
   end
 
