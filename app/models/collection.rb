@@ -29,17 +29,17 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :public, presence: true
 
-  scope :with_counts, -> {
+  scope :with_counts, lambda {
     select <<~SQL
       collections.*,
       (
         SELECT COUNT(collectable_collections.id) FROM collectable_collections
         WHERE collection_id = collections.id
-      ) AS collectable_count
+      ) AS counts
     SQL
   }
 
-  scope :with_collectable_count, -> {
+  scope :with_collectable_count, lambda {
     select <<~SQL
             collections.*,
             (
@@ -56,9 +56,17 @@ class Collection < ApplicationRecord
                     from collectable_collections
                       inner join collections on collection_id = collections.id
                     group by collectable_type, collectable_id) results
-             group by results.collectable_type) agg) AS collectable_count
+             group by results.collectable_type) agg) AS counted_collectables
     SQL
   }
+
+  def collectable_count
+    if respond_to?(:counted_collectables)
+      HashWithIndifferentAccess.new(counted_collectables)
+    else
+      HashWithIndifferentAccess.new(Collection.with_collectable_count.find(id).counted_collectables)
+    end
+  end
 
   def to_s
     "Collection: '#{id}:#{name}'"

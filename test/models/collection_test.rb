@@ -51,8 +51,12 @@ class CollectionTest < ActiveSupport::TestCase
   end
 
   test 'items in collections have counts' do
-    @toms_keepers_collection
-    assert collection.valid?
+    items_count = @toms_keepers_collection.collectable_collections.count
+    assert_equal 1, items_count
+    assortmnent_count = @toms_keepers_collection.collectable_count[:Assortment]&.values&.first
+    assert_equal 1, assortmnent_count
+    pins_count = @toms_keepers_collection.collectable_count[:Pins]&.values&.first
+    assert_nil pins_count
   end
 
   # test collection members respond to images method and return an array of images
