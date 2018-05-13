@@ -7,6 +7,7 @@ class UserPolicyTest < PolicyAssertions::Test
 
   test 'anon user cannot create or modify themselves' do
     user = User.anon_user
+    assert user.anonymous?
     assert_not_permitted(user, user, ANY_INSTANCE_MODIFY_ACTION)
   end
 

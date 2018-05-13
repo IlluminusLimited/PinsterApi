@@ -7,7 +7,7 @@ module V1
 
     api :GET, '/v1/pins', 'List pins'
     def index
-      @pins = Pin.all
+      @pins = Pin.includes(:images).all
       render :index
     end
 
@@ -55,7 +55,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_pin
-        @pin = Pin.find(params[:id])
+        @pin = Pin.includes(:images).find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

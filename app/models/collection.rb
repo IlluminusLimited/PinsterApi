@@ -22,12 +22,16 @@ class Collection < ApplicationRecord
 
   has_many :collectable_collections, dependent: :destroy
 
+  has_many :collectables, through: :collectable_collections
+
   belongs_to :user
 
   accepts_nested_attributes_for :collectable_collections
 
   validates :name, presence: true
   validates :public, presence: true
+
+  scope :with_images, -> { includes(:images).preload(collectable_collections: [collectable: :images]) }
 
   scope :with_counts, lambda {
     select <<~SQL

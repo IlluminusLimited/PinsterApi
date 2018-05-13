@@ -20,22 +20,17 @@
 #  index_authentications_on_user_id           (user_id)
 #
 
-class Authentication < ApplicationRecord
-  has_secure_token
+require 'test_helper'
 
-  belongs_to :user
-
-  validates :token, uniqueness: true
-  validates :user, presence: true
-  validates :provider, presence: true
-  validates :uid, presence: true
-
-  def token_valid?
-    token_expires_at && token_expires_at > Time.now.utc
+class AuthenticationTest < ActiveSupport::TestCase
+  setup do
+    @sally_token = authentications(:sally_token)
+    @tom_token = authentications(:tom_token)
   end
 
-  def refresh_token
-    self.token_expires_at = Time.now.utc + 3.hours
-    regenerate_token
+  test 'a token can be refreshed' do
+    refute @sally_token.token_valid?
+    @sally_token.refresh_token
+    assert @sally_token.token_valid?
   end
 end

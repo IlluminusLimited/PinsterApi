@@ -5,9 +5,10 @@
 # Table name: pins
 #
 #  id          :uuid             not null, primary key
-#  name        :string           not null
-#  year        :integer
 #  description :text
+#  name        :string           not null
+#  tags        :jsonb            not null
+#  year        :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
