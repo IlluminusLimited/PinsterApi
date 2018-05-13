@@ -21,12 +21,11 @@ class OauthsController < ApplicationController
 
     @token = user.authentications.find_by(provider: provider)
     @token.refresh_token
-    @token
   end
 
   private
 
-    def auth_and_login provider
+    def auth_and_login(provider)
       user = create_from(provider, &:set_auth_uuid)
       reset_session # protect from session fixation attack
       auto_login(user)
