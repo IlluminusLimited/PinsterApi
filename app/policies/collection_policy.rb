@@ -47,8 +47,8 @@ class CollectionPolicy < ApplicationPolicy
     end
 
     def resolve
-      return scope.all if user.admin?
-      scope.where(user_id: user.id)
+      return scope.with_images.all if user.admin?
+      scope.with_images.where(user_id: user.id)
     end
   end
 end

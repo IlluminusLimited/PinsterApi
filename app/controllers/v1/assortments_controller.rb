@@ -7,7 +7,7 @@ module V1
 
     api :GET, '/v1/assortments', 'List assortments'
     def index
-      @assortments = Assortment.includes(pins: [:images]).includes(:images).all
+      @assortments = Assortment.with_images.all
       render :index
     end
 
@@ -60,7 +60,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_assortment
-        @assortment = Assortment.includes(pins: [:images]).includes(:images).find(params[:id])
+        @assortment = Assortment.with_images.find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

@@ -31,11 +31,13 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :public, presence: true
 
+  scope :with_images, -> { includes(:images).preload(collectable_collections: [collectable: :images]) }
+
   scope :with_counts, lambda {
     select <<~SQL
       collections.*,
       (
-        SELECT COUNT(collectables.id) FROM collectables
+        SELECT COUNT(collectable_collections.id) FROM collectable_collections
         WHERE collection_id = collections.id
       ) AS counts
     SQL
@@ -55,7 +57,7 @@ class Collection < ApplicationRecord
                       COUNT(collectable_id) AS collectable_count,
                       collectable_type,
                       collectable_id
-                    FROM collectables
+                    FROM collectable_collections
                       INNER JOIN collections ON collection_id = collections.id
                     GROUP BY collectable_type, collectable_id) results
              GROUP BY results.collectable_type) agg) AS counted_collectables

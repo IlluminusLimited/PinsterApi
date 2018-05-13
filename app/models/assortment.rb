@@ -23,6 +23,8 @@ class Assortment < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
 
+  scope :with_images, -> { includes(:images).includes(pin_assortments: [pin: :images]) }
+
   def to_s
     "Assortment(Set): '#{id}:#{name}'"
   end
