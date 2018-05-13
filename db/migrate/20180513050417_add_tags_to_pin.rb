@@ -2,7 +2,7 @@
 
 class AddTagsToPin < ActiveRecord::Migration[5.1]
   def up
-    add_column :pins, :tags, :jsonb, default: {}, null: false
+    add_column :pins, :tags, :jsonb, default: [], null: false
   end
 
   def down

@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20180513050417) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "tags", default: {}, null: false
+    t.jsonb "tags", default: [], null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
