@@ -20,6 +20,7 @@ gem 'rails', '~> 5.1.6'
 gem 'sorcery', '~> 0.11'
 
 group :development, :test do
+  gem 'bullet'
   gem 'guard'
   gem 'guard-brakeman'
   gem 'guard-minitest'

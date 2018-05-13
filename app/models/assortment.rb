@@ -18,6 +18,8 @@ class Assortment < ApplicationRecord
   has_many :collections, through: :collectable_collections
   has_many :pin_assortments, dependent: :destroy
 
+  has_many :pins, through: :pin_assortments
+
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
 

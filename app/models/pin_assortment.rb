@@ -16,8 +16,6 @@
 #
 
 class PinAssortment < ApplicationRecord
-  has_many :images, as: :imageable, dependent: :destroy
-
   belongs_to :pin
   belongs_to :assortment
 end
