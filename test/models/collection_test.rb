@@ -36,16 +36,16 @@ class CollectionTest < ActiveSupport::TestCase
 
   test 'a collection can contain both pins and assortments of pins' do
     collection = Collection.create!(name: 'Amazing collection',
-                                    user: users(:sally),
+                                    user: User.create!(email: 'bob@bob.bob', display_name: 'bob'),
                                     collectable_collections_attributes: [
                                       { collectable: Pin.create!(name: 'thing', year: 1998) },
                                       { collectable:
-                                            Assortment.create!(name: 'amazing pin set',
-                                                               pin_assortments_attributes: [
-                                                                 {
-                                                                   pin: pins(:texas_dragon)
-                                                                 }
-                                                               ]) }
+                                           Assortment.create!(name: 'amazing pin set',
+                                                              pin_assortments_attributes: [
+                                                                {
+                                                                  pin: Pin.create!(name: 'thing', year: 1998)
+                                                                }
+                                                              ]) }
                                     ])
     assert collection.valid?
   end
@@ -56,6 +56,19 @@ class CollectionTest < ActiveSupport::TestCase
     @toms_keepers_collection.collectable_collections.create!(collectable: assortments(:wisconsin_2009))
 
     assert_equal 3, @toms_keepers_collection.collectable_collections.count
+  end
+
+  test 'collections can be retrieved with counts' do
+    assert_equal 1, Collection.with_counts.find(@toms_keepers_collection.id).counts
+  end
+
+  test 'items in collections have counts' do
+    items_count = @toms_keepers_collection.collectable_collections.count
+    assert_equal 1, items_count
+    assortmnent_count = @toms_keepers_collection.collectable_count[:Assortment]&.values&.first
+    assert_equal 1, assortmnent_count
+    pins_count = @toms_keepers_collection.collectable_count[:Pins]&.values&.first
+    assert_nil pins_count
   end
 
   # test collection members respond to images method and return an array of images
