@@ -34,6 +34,6 @@ Rails.application.routes.draw do
 
     root to: 'v1/pins#index'
   end
-
+  get 'static/legal'
   apipie
 end
