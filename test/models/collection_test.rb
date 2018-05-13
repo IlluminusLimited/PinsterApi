@@ -50,6 +50,10 @@ class CollectionTest < ActiveSupport::TestCase
     assert collection.valid?
   end
 
+  test 'collections can be retrieved with counts' do
+    assert_equal 1, Collection.with_counts.find(@toms_keepers_collection.id).counts
+  end
+
   test 'items in collections have counts' do
     items_count = @toms_keepers_collection.collectable_collections.count
     assert_equal 1, items_count

@@ -30,7 +30,7 @@ class Collection < ApplicationRecord
   validates :public, presence: true
 
   scope :with_counts, lambda {
-    SELECT <<~SQL
+    select <<~SQL
       collections.*,
       (
         SELECT COUNT(collectable_collections.id) FROM collectable_collections
@@ -40,7 +40,7 @@ class Collection < ApplicationRecord
   }
 
   scope :with_collectable_count, lambda {
-    SELECT <<~SQL
+    select <<~SQL
             collections.*,
             (
       SELECT json_object_agg(agg.collectable_type, agg.collectable_count)
