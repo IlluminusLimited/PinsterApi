@@ -30,7 +30,7 @@ class Collection < ApplicationRecord
   validates :public, presence: true
 
   scope :with_counts, lambda {
-    select <<~SQL
+    SELECT <<~SQL
       collections.*,
       (
         SELECT COUNT(collectable_collections.id) FROM collectable_collections
@@ -40,23 +40,23 @@ class Collection < ApplicationRecord
   }
 
   scope :with_collectable_count, lambda {
-    select <<~SQL
+    SELECT <<~SQL
             collections.*,
             (
-      select json_object_agg(agg.collectable_type, agg.collectable_count)
-      from (
-             select
+      SELECT json_object_agg(agg.collectable_type, agg.collectable_count)
+      FROM (
+             SELECT
                collectable_type,
-               json_object_agg(results.collectable_id, results.collectable_count) as collectable_count
-             from (
-                    select
-                      count(collectable_id) as collectable_count,
+               json_object_agg(results.collectable_id, results.collectable_count) AS collectable_count
+             FROM (
+                    SELECT
+                      COUNT(collectable_id) AS collectable_count,
                       collectable_type,
                       collectable_id
-                    from collectable_collections
-                      inner join collections on collection_id = collections.id
-                    group by collectable_type, collectable_id) results
-             group by results.collectable_type) agg) AS counted_collectables
+                    FROM collectable_collections
+                      INNER JOIN collections ON collection_id = collections.id
+                    GROUP BY collectable_type, collectable_id) results
+             GROUP BY results.collectable_type) agg) AS counted_collectables
     SQL
   }
 
@@ -64,7 +64,9 @@ class Collection < ApplicationRecord
     if respond_to?(:counted_collectables)
       HashWithIndifferentAccess.new(counted_collectables)
     else
-      HashWithIndifferentAccess.new(Collection.with_collectable_count.find(id).counted_collectables)
+      @counted_collectables = Collection.with_collectable_count.find(id).counted_collectables
+      define_singleton_method :counted_collectables, -> { @counted_collectables }
+      HashWithIndifferentAccess.new(@counted_collectables)
     end
   end
 
