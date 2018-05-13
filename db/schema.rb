@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20180513050417) do
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
-  create_table "collectable_collections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "collectables", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "collectable_type"
     t.uuid "collectable_id"
     t.uuid "collection_id"

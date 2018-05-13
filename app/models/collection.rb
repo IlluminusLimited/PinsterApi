@@ -22,6 +22,8 @@ class Collection < ApplicationRecord
 
   has_many :collectable_collections, dependent: :destroy
 
+  has_many :collectables, through: :collectable_collections
+
   belongs_to :user
 
   accepts_nested_attributes_for :collectable_collections
@@ -33,7 +35,7 @@ class Collection < ApplicationRecord
     select <<~SQL
       collections.*,
       (
-        SELECT COUNT(collectable_collections.id) FROM collectable_collections
+        SELECT COUNT(collectables.id) FROM collectables
         WHERE collection_id = collections.id
       ) AS counts
     SQL
@@ -53,7 +55,7 @@ class Collection < ApplicationRecord
                       COUNT(collectable_id) AS collectable_count,
                       collectable_type,
                       collectable_id
-                    FROM collectable_collections
+                    FROM collectables
                       INNER JOIN collections ON collection_id = collections.id
                     GROUP BY collectable_type, collectable_id) results
              GROUP BY results.collectable_type) agg) AS counted_collectables

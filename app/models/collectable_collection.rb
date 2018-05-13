@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: collectable_collections
+# Table name: collectables
 #
 #  id               :uuid             not null, primary key
 #  collectable_type :string
