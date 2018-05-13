@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     end
 
     concern :api_base do
-      resources :images, only: %i[show update destroy]
+      resources :images, only: %i[show create update destroy]
 
       resources :pins, concerns: :imageable
 
@@ -34,6 +34,6 @@ Rails.application.routes.draw do
 
     root to: 'v1/pins#index'
   end
-
+  get 'static/legal'
   apipie
 end
