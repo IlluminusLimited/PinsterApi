@@ -5,7 +5,7 @@ module Tokenizer
     payload = {
       iss: issuer,
       sub: sub,
-      exp: 4.hours.from_now.to_i,
+      exp: 1.hour.from_now.to_i,
       iat: Time.now.to_i
     }
     JWT.encode(payload, Rails.application.secrets.secret_key_base, 'HS256')

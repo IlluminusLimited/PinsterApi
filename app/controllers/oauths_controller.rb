@@ -22,6 +22,7 @@ class OauthsController < ApplicationController
     user ||= auth_and_login(provider)
 
     @token = user.authentications.find_by(provider: provider).refresh_token
+    Tokenizer.encode(@token.user_id)
   end
 
   private
