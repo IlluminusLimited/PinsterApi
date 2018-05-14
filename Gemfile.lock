@@ -235,6 +235,7 @@ DEPENDENCIES
   guard-shell
   health_check (~> 3.0.0)
   jbuilder (~> 2.7.0)
+  jwt (~> 1.5.6)
   maruku (~> 0.7.3)
   minitest-ci
   minitest-reporters
