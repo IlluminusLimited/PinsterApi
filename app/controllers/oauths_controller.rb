@@ -27,7 +27,7 @@ class OauthsController < ApplicationController
   private
 
     def auth_and_login(provider)
-      user = build_from(provider)
+      user = create_from(provider)
       reset_session # protect from session fixation attack
       auto_login(user)
       user
