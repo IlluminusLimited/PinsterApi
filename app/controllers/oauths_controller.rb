@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class OauthsController < ApplicationController
+  include Sorcery::Controller
+
   after_action :verify_authorized, except: %i[login oauth callback]
 
   api :GET, '/login', 'Get list of oauth providers'
