@@ -24,8 +24,15 @@
 require 'test_helper'
 
 class ImageTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-  # test base_file_name and storage_location_uri stuff work together correctly
+  test 'base_file_name must be included in storage_location_uri' do
+    image = images(:texas_dragon_image_one)
+    assert image.valid?
+    assert image.storage_location_uri.include?(image.base_file_name)
+    image.base_file_name = 'gibberish'
+    refute image.valid?
+  end
+
+  test 'images are always returned in order by featured' do
+    assert_equal Image.all.order(featured: :desc).to_sql, Image.all.to_sql
+  end
 end

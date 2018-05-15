@@ -27,6 +27,8 @@ class Image < ApplicationRecord
   validates :storage_location_uri, presence: true
   validates :base_file_name, inclusion: { in: :storage_location_uri }
 
+  default_scope { order(featured: :desc) }
+
   def self.public_attribute_names
     %i[imageable_id imageable_type base_file_name description featured name storage_location_uri]
   end
