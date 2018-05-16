@@ -24,7 +24,36 @@ class Pin < ApplicationRecord
 
   validates :name, presence: true
 
-  def all_images
-    images + assortment.images
+  def images
+    Image.find_by_sql <<~SQL
+                select images.id as id,
+        images.description,
+        imageable_type,
+        imageable_id,
+        images.name,
+        base_file_name,
+        storage_location_uri,
+        images.created_at,
+        images.updated_at,
+        featured
+      from images
+        inner join pins on imageable_id = pins.id
+      where imageable_id = '#{id}' and imageable_type = 'Pin'
+      union
+      select  images.id as id,
+        images.description,
+        imageable_type,
+        imageable_id,
+        images.name,
+        base_file_name,
+        storage_location_uri,
+        images.created_at,
+        images.updated_at,
+        featured
+      from images
+        inner join assortments on imageable_id = assortments.id and imageable_type = 'Assortment'
+        inner join pin_assortments on pin_assortments.assortment_id = assortments.id
+      where pin_id ='#{id}';
+    SQL
   end
 end
