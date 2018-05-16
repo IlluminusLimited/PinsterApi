@@ -53,7 +53,12 @@ toms_keepers_collection_main_image:
   storage_location_uri: s3://bucket_o_chum/folder/some_uuid
   featured: 2017-08-29 22:03:27
 
-wisconsin_assortment_main_image:
-  imageable: wisconsin_2009 (Assortment)
+wisconsin_unicorn_image:
+  imageable: wisconsin_unicorn (Pin)
   base_file_name: some_uuid2
   storage_location_uri: s3://bucket_o_chum/folder/some_uuid2
+
+wisconsin_assortment_main_image:
+  imageable: wisconsin_2009 (Assortment)
+  base_file_name: some_uuid3
+  storage_location_uri: s3://bucket_o_chum/folder/some_uuid3
