@@ -227,6 +227,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   apipie-rails (~> 0.5.7)
+  arel
   bullet
   guard
   guard-brakeman
