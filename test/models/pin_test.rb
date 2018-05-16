@@ -18,6 +18,6 @@ require 'test_helper'
 class PinTest < ActiveSupport::TestCase
   test 'a pin inherits images from its assortment' do
     @pin = pins(:wisconsin_unicorn)
-    assert_includes(@pin.images, images(:wisconsin_assortment_main_image))
+    assert_includes(@pin.all_images, images(:wisconsin_assortment_main_image))
   end
 end
