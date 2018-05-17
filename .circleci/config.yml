@@ -13,7 +13,7 @@ defaults: &defaults
              DATABASE_USERNAME: pinsterapi
              DATABASE_PASSWORD:
 
-    - image: circleci/postgres:latest
+    - image: pinster/postgres:latest
       environment:
              POSTGRES_USER: pinsterapi
              POSTGRES_DB: PinsterApi_test
