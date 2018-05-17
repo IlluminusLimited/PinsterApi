@@ -13,6 +13,10 @@
 #  updated_at  :datetime         not null
 #
 class Pin < ApplicationRecord
+  include PgSearch
+
+  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+
   has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
@@ -47,28 +51,28 @@ class Pin < ApplicationRecord
     ]
   )
   scope :search_query, lambda { |query|
-                         return nil if query.blank?
-                         # condition query, parse into individual keywords
-                         terms = query.to_s.downcase.split(/,\s+/)
-                         # replace "*" with "%" for wildcard searches,
-                         # append '%', remove duplicate '%'s
-                         terms = terms.map do |e|
-                           (e.tr('*', '%') + '%').gsub(/%+/, '%')
-                         end
-                         # configure number of OR conditions for provision
-                         # of interpolation arguments. Adjust this if you
-                         # change the number of OR conditions.
-                         num_or_conditions = 1
-                         where(
-                           terms.map do
-                             or_clauses = [
-                               "pins.name ILIKE ?"
-                             ].join(' OR ')
-                             "(#{or_clauses})"
-                           end.join(' AND '),
-                           *terms.map { |e| [e] * num_or_conditions }.flatten
-                         )
-                       }
+    return nil if query.blank?
+    # condition query, parse into individual keywords
+    terms = query.to_s.downcase.split(/,\s+/)
+    # replace "*" with "%" for wildcard searches,
+    # append '%', remove duplicate '%'s
+    terms = terms.map do |e|
+      (e.tr('*', '%') + '%').gsub(/%+/, '%')
+    end
+    # configure number of OR conditions for provision
+    # of interpolation arguments. Adjust this if you
+    # change the number of OR conditions.
+    num_or_conditions = 1
+    where(
+      terms.map do
+        or_clauses = [
+          "pins.name ILIKE ?"
+        ].join(' OR ')
+        "(#{or_clauses})"
+      end.join(' AND '),
+      *terms.map { |e| [e] * num_or_conditions }.flatten
+    )
+  }
 
   scope :sorted_by, lambda { |sort_option|
     direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'

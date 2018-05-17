@@ -12,6 +12,10 @@
 #
 
 class Assortment < ApplicationRecord
+  include PgSearch
+
+  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+
   has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
