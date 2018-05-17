@@ -29,7 +29,7 @@ class ImageTest < ActiveSupport::TestCase
     assert image.valid?
     assert image.storage_location_uri.include?(image.base_file_name)
     image.base_file_name = 'gibberish'
-    refute image.valid?
+    assert_not image.valid?
   end
 
   test 'images are always returned in order by featured' do

@@ -29,7 +29,7 @@ class AuthenticationTest < ActiveSupport::TestCase
   end
 
   test 'a token can be refreshed' do
-    refute @sally_token.token_valid?
+    assert_not @sally_token.token_valid?
     assert @sally_token.refresh_token.token_valid?
   end
 end

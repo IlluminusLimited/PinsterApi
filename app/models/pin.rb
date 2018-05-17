@@ -42,4 +42,12 @@ class Pin < ApplicationRecord
       where pin_id ='#{id}';
     SQL
   end
+
+  def self.build_query(params)
+    if params[:images].to_s == 'true'
+      Pin.with_images
+    else
+      Pin.all
+    end
+  end
 end

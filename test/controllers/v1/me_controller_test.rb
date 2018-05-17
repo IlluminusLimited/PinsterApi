@@ -5,7 +5,7 @@ require 'test_helper'
 class MeControllerTest < ActionDispatch::IntegrationTest
   test "Sally's token returns unauthorized" do
     token = authentications(:sally_token)
-    get v1_me_url, headers: { Authorization: token.token }
+    get v1_me_url, params: { headers: { Authorization: token.token } }
 
     assert_response :unauthorized
   end
@@ -15,7 +15,7 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     get v1_me_url, headers: { Authorization: token.token }, as: :json
 
     assert_response :success
-    refute response.body.blank?
+    assert_not response.body.blank?
     body = JSON.parse(response.body)
     assert_equal 'tom', body['display_name']
   end
@@ -32,7 +32,7 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     }, headers: { Authorization: token.token }, as: :json
 
     assert_response :success
-    refute response.body.blank?
+    assert_not response.body.blank?
     body = JSON.parse(response.body)
     assert_equal 'new name', body['display_name']
   end

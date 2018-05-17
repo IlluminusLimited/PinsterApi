@@ -94,7 +94,7 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
-    jbuilder_pagination_plus (0.0.3)
+    jbuilder_pagination_plus (0.0.4)
       jbuilder (~> 2.2, >= 2.2.0)
     json (2.1.0)
     jwt (1.5.6)
@@ -246,7 +246,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
-  apipie-rails (~> 0.5.7)
+  apipie-rails (~> 0.5.8)
   bullet
   faker
   guard
@@ -256,7 +256,7 @@ DEPENDENCIES
   guard-shell
   health_check (~> 3.0.0)
   jbuilder (~> 2.7.0)
-  jbuilder_pagination_plus (~> 0.0.3)
+  jbuilder_pagination_plus (~> 0.0.4)
   kaminari (~> 1.1.1)
   maruku (~> 0.7.3)
   minitest-ci
