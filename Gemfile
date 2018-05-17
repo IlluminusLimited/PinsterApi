@@ -33,7 +33,7 @@ group :development, :test do
   gem 'minitest-ci'
   gem 'minitest-reporters'
   gem 'policy-assertions', '~> 0.1.1'
-  gem 'rubocop'
+  gem 'rubocop', '0.55.0' # Locked to 0.55.0 until https://github.com/bbatsov/rubocop/issues/5896 is resolved
   gem 'simplecov', require: false
 end
 

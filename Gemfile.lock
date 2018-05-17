@@ -200,7 +200,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    rubocop (0.56.0)
+    rubocop (0.55.0)
       parallel (~> 1.10)
       parser (>= 2.5)
       powerpack (~> 0.1)
@@ -270,7 +270,7 @@ DEPENDENCIES
   pundit (~> 1.1.0)
   rack-cors
   rails (~> 5.1.6)
-  rubocop
+  rubocop (= 0.55.0)
   simplecov
   sorcery (~> 0.12)
   spring
