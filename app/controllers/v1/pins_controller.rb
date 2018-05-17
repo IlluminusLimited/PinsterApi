@@ -6,19 +6,22 @@ module V1
     after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/pins', 'List pins'
+
     def index
-      @pins = Pin.includes(:images).all
+      @pins = Pin.includes(:images)
       render :index
     end
 
     api :GET, '/v1/pins/:id', 'Show a pin'
     param :id, String, allow_nil: false
     param :all_images, String
+
     def show
       @images = @pin.all_images if params[:all_images]
     end
 
     api :POST, '/v1/pins', 'Create a pin'
+
     def create
       @pin = Pin.new(pin_params)
       authorize @pin
@@ -35,6 +38,7 @@ module V1
     param :id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def update
       authorize @pin
 
@@ -49,6 +53,7 @@ module V1
     param :id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def destroy
       authorize @pin
       @pin.destroy

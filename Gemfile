@@ -6,9 +6,11 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
+gem 'api-pagination', '~> 4.7.1'
 gem 'apipie-rails', '~> 0.5.7'
 gem 'health_check', '~> 3.0.0'
 gem 'jbuilder', '~> 2.7.0'
+gem 'kaminari', '~> 1.1.1'
 gem 'maruku', '~> 0.7.3'
 gem 'oauth2', '~> 1.4.0'
 gem 'oj', '~> 3.5.1'

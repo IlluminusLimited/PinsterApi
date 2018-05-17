@@ -42,6 +42,7 @@ GEM
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
     ansi (1.5.0)
+    api-pagination (4.7.1)
     apipie-rails (0.5.8)
       rails (>= 4.1)
     arel (8.0.0)
@@ -96,6 +97,18 @@ GEM
       multi_json (>= 1.2)
     json (2.1.0)
     jwt (1.5.6)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -232,6 +245,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  api-pagination (~> 4.7.1)
   apipie-rails (~> 0.5.7)
   bullet
   faker
@@ -242,6 +256,7 @@ DEPENDENCIES
   guard-shell
   health_check (~> 3.0.0)
   jbuilder (~> 2.7.0)
+  kaminari (~> 1.1.1)
   maruku (~> 0.7.3)
   minitest-ci
   minitest-reporters
