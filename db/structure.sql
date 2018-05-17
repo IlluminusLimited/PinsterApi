@@ -161,32 +161,13 @@ CREATE TABLE public.images (
 --
 
 CREATE TABLE public.pg_search_documents (
-    id bigint NOT NULL,
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     content text,
     searchable_type character varying,
-    searchable_id bigint,
+    searchable_id uuid,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
-
-
---
--- Name: pg_search_documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.pg_search_documents_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pg_search_documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.pg_search_documents_id_seq OWNED BY public.pg_search_documents.id;
 
 
 --
@@ -240,13 +221,6 @@ CREATE TABLE public.users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
-
-
---
--- Name: pg_search_documents id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pg_search_documents ALTER COLUMN id SET DEFAULT nextval('public.pg_search_documents_id_seq'::regclass);
 
 
 --
