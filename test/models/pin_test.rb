@@ -16,8 +16,8 @@
 require 'test_helper'
 
 class PinTest < ActiveSupport::TestCase
-  test 'a pin inherits images from its assortment' do
-    images = pins(:wisconsin_unicorn).images
+  test 'a pin can get images from its assortment' do
+    images = pins(:wisconsin_unicorn).all_images
     assert_includes(images, images(:wisconsin_assortment_main_image))
     assert_includes(images, images(:wisconsin_unicorn_image))
   end

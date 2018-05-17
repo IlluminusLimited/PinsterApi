@@ -42,23 +42,10 @@ class Pin < ApplicationRecord
   filterrific(
     default_filter_params: { sorted_by: 'created_at_desc' },
     available_filters: %i[
-      with_name
-      with_description
-      with_tag
-      with_year
       sorted_by
       search_query
     ]
   )
-
-  scope :with_name, lambda { |names|
-    where(name: [*names])
-  }
-
-  scope :with_description, lambda { |descriptions|
-    where(description: [*descriptions])
-  }
-
   scope :search_query, lambda { |query|
                          return nil if query.blank?
                          # condition query, parse into individual keywords
