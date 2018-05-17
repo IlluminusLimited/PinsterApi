@@ -57,4 +57,13 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response 204
   end
+
+  test "should show pin with all images" do
+    get v1_pin_url(@pin), as: :json
+    assert_response :success
+
+    @pin.all_images.each do |image|
+      assert response.body.include?(image.id)
+    end
+  end
 end

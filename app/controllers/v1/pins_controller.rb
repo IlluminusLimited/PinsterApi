@@ -13,7 +13,10 @@ module V1
 
     api :GET, '/v1/pins/:id', 'Show a pin'
     param :id, String, allow_nil: false
-    def show; end
+    param :all_images, String
+    def show
+      @images = @pin.all_images if params[:all_images]
+    end
 
     api :POST, '/v1/pins', 'Create a pin'
     def create

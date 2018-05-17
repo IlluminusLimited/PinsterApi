@@ -13,6 +13,10 @@
 #  updated_at  :datetime         not null
 #
 class Pin < ApplicationRecord
+  include PgSearch
+
+  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+
   has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
@@ -24,7 +28,7 @@ class Pin < ApplicationRecord
 
   validates :name, presence: true
 
-  def images
+  def all_images
     Image.find_by_sql <<~SQL
       select images.*
       from images
