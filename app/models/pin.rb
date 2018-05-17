@@ -24,7 +24,7 @@ class Pin < ApplicationRecord
 
   validates :name, presence: true
 
-  def images
+  def all_images
     Image.find_by_sql <<~SQL
       select images.*
       from images
@@ -38,4 +38,60 @@ class Pin < ApplicationRecord
       where pin_id ='#{id}';
     SQL
   end
+
+  filterrific(
+    default_filter_params: { sorted_by: 'created_at_desc' },
+    available_filters: %i[
+      with_name
+      with_description
+      with_tag
+      with_year
+      sorted_by
+      search_query
+    ]
+  )
+
+  scope :with_name, lambda { |names|
+    where(name: [*names])
+  }
+
+  scope :with_description, lambda { |descriptions|
+    where(description: [*descriptions])
+  }
+
+  scope :search_query, lambda { |query|
+                         return nil if query.blank?
+                         # condition query, parse into individual keywords
+                         terms = query.to_s.downcase.split(/,\s+/)
+                         # replace "*" with "%" for wildcard searches,
+                         # append '%', remove duplicate '%'s
+                         terms = terms.map do |e|
+                           (e.tr('*', '%') + '%').gsub(/%+/, '%')
+                         end
+                         # configure number of OR conditions for provision
+                         # of interpolation arguments. Adjust this if you
+                         # change the number of OR conditions.
+                         num_or_conditions = 1
+                         where(
+                           terms.map do
+                             or_clauses = [
+                               "pins.name ILIKE ?"
+                             ].join(' OR ')
+                             "(#{or_clauses})"
+                           end.join(' AND '),
+                           *terms.map { |e| [e] * num_or_conditions }.flatten
+                         )
+                       }
+
+  scope :sorted_by, lambda { |sort_option|
+    direction = sort_option.match?(/desc$/) ? 'desc' : 'asc'
+    case sort_option.to_s
+    when /^name/
+      order("LOWER(pins.name) #{direction}")
+    when /^created_at/
+      order("pins.created_at #{direction}")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
 end

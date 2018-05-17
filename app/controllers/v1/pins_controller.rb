@@ -7,7 +7,15 @@ module V1
 
     api :GET, '/v1/pins', 'List pins'
     def index
-      @pins = Pin.includes(:images).all
+      @filterrific = initialize_filterrific(
+        Pin,
+        params,
+        persistence_id: false,
+        available_filters: %i[with_name with_description with_tag with_year search_query sorted_by]
+      ) or return
+
+      @pins = @filterrific.find.with_images
+
       render :index
     end
 

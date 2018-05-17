@@ -7,6 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 gem 'apipie-rails', '~> 0.5.7'
+gem 'filterrific', '~> 5.0.1'
 gem 'health_check', '~> 3.0.0'
 gem 'jbuilder', '~> 2.7.0'
 gem 'maruku', '~> 0.7.3'
