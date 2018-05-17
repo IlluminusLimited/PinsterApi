@@ -7,7 +7,7 @@ module V1
 
     api :GET, '/v1/pins', 'List pins'
     def index
-      @pins = Pin.includes(:images).all
+      @pins = paginate Pin.includes(:images).all
       render :index
     end
 

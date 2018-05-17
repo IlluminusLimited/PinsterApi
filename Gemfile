@@ -9,6 +9,8 @@ end
 gem 'apipie-rails', '~> 0.5.7'
 gem 'health_check', '~> 3.0.0'
 gem 'jbuilder', '~> 2.7.0'
+gem 'jbuilder_pagination_plus', '~> 0.0.2', require: 'jbuilder/pagination'
+gem 'kaminari', '~> 1.1.1'
 gem 'maruku', '~> 0.7.3'
 gem 'oauth2', '~> 1.4.0'
 gem 'oj', '~> 3.5.1'
