@@ -27,6 +27,16 @@ class Pin < ApplicationRecord
 
   scope :with_images, -> { includes(:images) }
 
+  scope :with_counts, lambda {
+    select <<~SQL
+      pins.*,
+      (
+        SELECT COUNT(images.id) FROM images
+        WHERE imageable_type = 'Pin' AND imageable_id = pins.id
+      ) AS counts
+    SQL
+  }
+
   validates :name, presence: true
 
   def all_images

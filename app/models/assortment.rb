@@ -35,6 +35,16 @@ class Assortment < ApplicationRecord
                           .includes(pin_assortments: [pin: :images])
                       }
 
+  scope :with_counts, lambda {
+    select <<~SQL
+      assortments.*,
+      (
+        SELECT COUNT(pins.id) FROM pins
+        INNER JOIN pin_assortments ON assortment_id = assortments.id
+        WHERE assortment_id = assortments.id
+      ) AS counts
+    SQL
+  }
   def to_s
     "Assortment(Set): '#{id}:#{name}'"
   end

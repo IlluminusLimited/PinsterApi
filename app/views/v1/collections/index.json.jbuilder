@@ -7,5 +7,3 @@ end
 json.data do
   json.array! @collections, partial: 'v1/collections/collection', as: :collection
 end
-
-
