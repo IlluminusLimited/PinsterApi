@@ -17,7 +17,8 @@ texas_dragon:
   name: Texas Dragon Pin
   year: 1978
   description: A pin that has been around since the dawn of time.
-  tags: "{\"color\": \"blue\"}"
+  tags:
+    - color: blue
 
 massachusetts_crab:
   name: Massachusetts Crab
