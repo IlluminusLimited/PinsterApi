@@ -17,7 +17,10 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
                               imageable_id: @image.imageable_id,
                               imageable_type: @image.imageable_type,
                               base_file_name: @image.base_file_name,
-                              storage_location_uri: @image.storage_location_uri
+                              storage_location_uri: @image.storage_location_uri,
+                              featured: @image.featured,
+                              name: @image.name,
+                              description: @image.description
                             }
                           }, as: :json
     end

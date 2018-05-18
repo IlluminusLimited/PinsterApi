@@ -8,6 +8,7 @@ module V1
     api :GET, '/v1/:imageable_type/:imageable_id/images', "Show an imageable's images"
     param :imageable_type, String, allow_nil: false
     param :imageable_id, String, allow_nil: false
+
     def index
       @images = Image.where(imageable_type: params[:imageable_type], imageable_id: params[:imageable_id])
 
@@ -20,6 +21,15 @@ module V1
     def show; end
 
     api :POST, '/v1/images', 'Create an image'
+    param :data, Hash do
+      param :imageable_type, String, required: true
+      param :imageable_id, String, required: true
+      param :base_file_name, String, required: true
+      param :storage_location_uri, String, required: true
+      param :featured, String, required: false
+      param :name, String, required: false
+      param :description, String, required: false
+    end
 
     def create
       @image = Image.new(image_params)
