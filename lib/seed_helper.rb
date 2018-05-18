@@ -11,10 +11,11 @@ module SeedHelper
       Image.create!(imageable: resource,
                     base_file_name: file_name,
                     storage_location_uri: file,
-                    featured: (if iterator == 1
-                                 [Faker::Time.between(20.days.ago, Time.zone.today), nil, nil, nil]
-                                     .sample
-                               end))
+                    featured: (
+                    if iterator == 1
+                      [Faker::Time.between(20.days.ago, Time.zone.today), nil, nil, nil]
+                          .sample
+                    end))
     end
 
     def generate_collection
@@ -48,7 +49,8 @@ module SeedHelper
     def generate_pin
       pin = Pin.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}",
                         year: Faker::Time.between(18.years.ago, Time.zone.today).year,
-                        description: Faker::Seinfeld.quote)
+                        description: Faker::Seinfeld.quote,
+                        tags: SeedHelper.generate_tags)
       rand(1..5).times.each do |i|
         SeedHelper.image_for(pin, i)
       end
@@ -60,6 +62,13 @@ module SeedHelper
                              provider: %w[google facebook].sample,
                              token: Faker::Crypto.unique.md5,
                              token_expires_at: Time.now.utc + 3.hours)
+    end
+
+    def generate_tags
+      { 'Color': [Faker::Color.color_name, nil, nil].sample,
+        'Affilliate': %w[INDI DIVA MNDI CADI TURKEY CHINA MADI NYDI TNDI GADI FLDI ALDI OHDI MIDI].sample,
+        'Designer': ['Elizabeth Newell', 'Elizabeth Florez', 'Nina Schwenk', 'Frank Begun', 'Bruce Newell', nil, nil, nil].sample,
+        'Theme': %w[cat dog dragon wolf chicken humans technology].sample }.compact
     end
   end
 end
