@@ -136,6 +136,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     nenv (0.3.0)
+    newrelic_rpm (5.1.0.344)
     nio4r (2.3.1)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
@@ -261,6 +262,7 @@ DEPENDENCIES
   maruku (~> 0.7.3)
   minitest-ci
   minitest-reporters
+  newrelic_rpm
   oauth2 (~> 1.4.0)
   oj (~> 3.5.1)
   pg (>= 0.18, < 2.0)

@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       concerns :api_base
     end
 
-    root to: 'v1/pins#index'
+    root to: redirect('/docs')
   end
   get 'static/legal'
   apipie
