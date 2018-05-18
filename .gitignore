@@ -27,3 +27,4 @@ coverage/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
+*.JPG

@@ -3,10 +3,11 @@
 require 'faker'
 
 module SeedHelper
+  IMAGES ||= Dir.glob(File.join('public', '*.JPG')).map { |file| file.gsub('public/', '') }.flatten.compact
   class << self
     def image_for(resource, iterator = 1)
-      file = Faker::Placeholdit.image(%w[50x50 100x100 400x400 1000x1000].sample, 'jpg')
-      file_name = file.match(/\d+x\d+\.\w+/)[0]
+      file_name = IMAGES.sample
+      file = "http://localhost:3000/#{file_name}"
       Image.create!(imageable: resource,
                     base_file_name: file_name,
                     storage_location_uri: file,
@@ -47,7 +48,7 @@ module SeedHelper
     def generate_pin
       pin = Pin.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}",
                         year: Faker::Time.between(18.years.ago, Time.zone.today).year,
-                        description: Faker::SiliconValley.quote)
+                        description: Faker::Seinfeld.quote)
       rand(1..5).times.each do |i|
         SeedHelper.image_for(pin, i)
       end
