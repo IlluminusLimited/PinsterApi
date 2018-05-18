@@ -14,6 +14,7 @@
 #
 class Pin < ApplicationRecord
   include PgSearch
+  extend EagerLoadable
 
   multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
 
@@ -25,6 +26,16 @@ class Pin < ApplicationRecord
   has_one :assortment, through: :pin_assortment
 
   scope :with_images, -> { includes(:images) }
+
+  scope :with_counts, lambda {
+    select <<~SQL
+      pins.*,
+      (
+        SELECT COUNT(images.id) FROM images
+        WHERE imageable_type = 'Pin' AND imageable_id = pins.id
+      ) AS counts
+    SQL
+  }
 
   validates :name, presence: true
 
@@ -41,5 +52,9 @@ class Pin < ApplicationRecord
         inner join pin_assortments on pin_assortments.assortment_id = assortments.id
       where pin_id ='#{id}';
     SQL
+  end
+
+  def self.default_result
+    includes(:pins)
   end
 end

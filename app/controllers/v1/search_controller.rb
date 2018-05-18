@@ -7,7 +7,7 @@ module V1
     api :GET, '/v1/search', "Show an imageable's images"
     param :query, String, allow_nil: false
     def search
-      @search = PgSearch.multisearch(params[:query])
+      @search = paginate PgSearch.multisearch(params[:query])
     end
   end
 end

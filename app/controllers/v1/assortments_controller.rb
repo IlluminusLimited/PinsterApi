@@ -6,8 +6,10 @@ module V1
     after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/assortments', 'List assortments'
+    param :images, :bool, default: true, required: false
+
     def index
-      @assortments = Assortment.with_images.all
+      @assortments = paginate Assortment.build_query(params)
       render :index
     end
 
