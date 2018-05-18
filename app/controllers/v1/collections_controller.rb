@@ -2,7 +2,6 @@
 
 module V1
   class CollectionsController < ApplicationController
-    before_action :require_login, except: %i[show]
     before_action :set_collection, only: %i[show update]
     after_action :verify_authorized, except: %i[index]
 
@@ -13,7 +12,7 @@ module V1
       param :size, String, default: 10
     end
     def index
-      @collections = paginate policy_scope(Collection.build_query(params))
+      @collections = paginate Collection.with_images
       render :index
     end
 

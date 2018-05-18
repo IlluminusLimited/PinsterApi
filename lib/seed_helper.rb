@@ -3,7 +3,7 @@
 require 'faker'
 
 module SeedHelper
-  IMAGES ||= Dir.glob(File.join('public', '*.JPG')).map { |file| file.gsub('public/', '') }.flatten.compact
+  IMAGES ||= Dir.glob(File.join('public', '*.jpg')).map { |file| file.gsub('public/', '') }.flatten.compact
   class << self
     def image_for(resource, iterator = 1)
       file_name = IMAGES.sample
@@ -19,16 +19,16 @@ module SeedHelper
     end
 
     def generate_collection
-      collection = Collection.create!(name: ['Favorites', 'Wishlist', Faker::SlackEmoji.emoji].sample,
+      collection = Collection.create!(name: %w[Favorites Wishlist].sample,
                                       description: Faker::Movie.quote,
                                       user: User.all.sample)
 
-      rand(1..200).times.each do
+      rand(1..50).times.each do
         CollectableCollection.create!(collection: collection,
                                       collectable: [Pin.all.sample, Assortment.all.sample].sample)
       end
 
-      rand(1..3).times do |i|
+      rand(1..2).times do |i|
         SeedHelper.image_for(collection, i)
       end
     end
@@ -37,11 +37,11 @@ module SeedHelper
       assortment = Assortment.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}".pluralize,
                                       description: Faker::Hobbit.quote)
 
-      rand(1..8).times do
+      rand(1..3).times do
         assortment.pins << Pin.all.sample
       end
 
-      rand(1..3).times do |i|
+      rand(1..2).times do |i|
         SeedHelper.image_for(assortment, i)
       end
     end
@@ -49,9 +49,9 @@ module SeedHelper
     def generate_pin
       pin = Pin.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}",
                         year: Faker::Time.between(18.years.ago, Time.zone.today).year,
-                        description: Faker::Seinfeld.quote,
+                        description: Faker::Hobbit.quote,
                         tags: SeedHelper.generate_tags)
-      rand(1..5).times.each do |i|
+      rand(1..3).times.each do |i|
         SeedHelper.image_for(pin, i)
       end
     end

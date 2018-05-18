@@ -3,7 +3,7 @@
 class CollectionPolicy < ApplicationPolicy
   attr_reader :user, :collection
 
-  def initialize(user, collection)
+  def initialize(_user, collection)
     @user = user
     @collection = collection
   end
@@ -41,14 +41,13 @@ class CollectionPolicy < ApplicationPolicy
   class Scope < Scope
     attr_reader :user, :scope
 
-    def initialize(user, scope)
-      @user = user
+    def initialize(_user, scope)
+      @user = _user
       @scope = scope
     end
 
     def resolve
-      return scope.all if user.admin?
-      scope.where(user_id: user.id)
+      scope
     end
   end
 end

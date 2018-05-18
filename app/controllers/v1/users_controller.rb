@@ -2,7 +2,7 @@
 
 module V1
   class UsersController < ApplicationController
-    before_action :require_login, except: :show
+    before_action :require_login, except: %i[show index]
     before_action :set_user, only: %i[show destroy]
 
     api :GET, '/v1/users', 'List users'

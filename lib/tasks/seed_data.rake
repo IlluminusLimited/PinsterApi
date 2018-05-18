@@ -5,11 +5,11 @@ task seed_data: :environment do
   require 'seed_helper'
   include SeedHelper
 
-  50.times.each do
-    User.create!(email: Faker::Internet.unique.email,
-                 display_name: Faker::Name.name,
-                 bio: Faker::HitchhikersGuideToTheGalaxy.marvin_quote)
-  end
+  # 1.times.each do
+  #   User.create!(email: Faker::Internet.unique.email,
+  #                display_name: Faker::Name.name,
+  #                bio: Faker::HitchhikersGuideToTheGalaxy.marvin_quote)
+  # end
 
   User.find_or_create_by!(email: Faker::Internet.unique.email,
                           display_name: 'Andrew',
@@ -20,15 +20,15 @@ task seed_data: :environment do
     SeedHelper.generate_authentication(user)
   end
 
-  500.times.each do
+  5.times.each do
     SeedHelper.generate_pin
   end
 
-  30.times.each do
+  1.times.each do
     SeedHelper.generate_assortment
   end
 
-  100.times.each do
+  2.times.each do
     SeedHelper.generate_collection
   end
 end
