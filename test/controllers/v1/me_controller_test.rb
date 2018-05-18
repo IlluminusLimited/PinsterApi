@@ -5,7 +5,7 @@ require 'test_helper'
 class MeControllerTest < ActionDispatch::IntegrationTest
   test "Sally's token returns unauthorized" do
     token = authentications(:sally_token)
-    get v1_me_url, params: { headers: { Authorization: token.token } }
+    get v1_me_url, headers: { Authorization: token.token }
 
     assert_response :unauthorized
   end
