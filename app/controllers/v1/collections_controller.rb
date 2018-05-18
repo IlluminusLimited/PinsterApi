@@ -8,10 +8,12 @@ module V1
 
     api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
     param :user_id, String, allow_nil: false
-
+    param :images, :bool, default: true, required: false
+    param :page, Hash do
+      param :size, String, default: 10
+    end
     def index
-      @collections = policy_scope(Collection)
-
+      @collections = paginate policy_scope(Collection.build_query(params))
       render :index
     end
 

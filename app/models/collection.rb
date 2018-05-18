@@ -18,6 +18,9 @@
 #
 
 class Collection < ApplicationRecord
+  extend EagerLoadable
+  max_paginates_per 10
+
   has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, dependent: :destroy
@@ -31,7 +34,7 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :public, presence: true
 
-  scope :with_images, -> { includes(:images).preload(collectable_collections: [collectable: :images]) }
+  scope :with_images, -> { includes(:images).includes(collectable_collections: :collectable) }
 
   scope :with_counts, lambda {
     select <<~SQL
@@ -76,5 +79,9 @@ class Collection < ApplicationRecord
 
   def to_s
     "Collection: '#{id}:#{name}'"
+  end
+
+  def self.default_result
+    includes(:pins)
   end
 end

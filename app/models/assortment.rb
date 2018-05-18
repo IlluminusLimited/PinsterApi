@@ -13,6 +13,7 @@
 
 class Assortment < ApplicationRecord
   include PgSearch
+  extend EagerLoadable
 
   multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
 
@@ -27,9 +28,18 @@ class Assortment < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
 
-  scope :with_images, -> { includes(:images).includes(pin_assortments: [pin: :images]) }
+  scope :with_images, lambda {
+                        includes(:images)
+                          .includes(:pin_assortments)
+                          .includes(:pins)
+                          .includes(pin_assortments: [pin: :images])
+                      }
 
   def to_s
     "Assortment(Set): '#{id}:#{name}'"
+  end
+
+  def self.default_result
+    includes(:pins)
   end
 end

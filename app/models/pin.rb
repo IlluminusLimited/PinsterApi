@@ -14,6 +14,7 @@
 #
 class Pin < ApplicationRecord
   include PgSearch
+  extend EagerLoadable
 
   multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
 
@@ -43,11 +44,7 @@ class Pin < ApplicationRecord
     SQL
   end
 
-  def self.build_query(params)
-    if params[:images].to_s == 'true'
-      Pin.with_images
-    else
-      Pin.all
-    end
+  def self.default_result
+    includes(:pins)
   end
 end
