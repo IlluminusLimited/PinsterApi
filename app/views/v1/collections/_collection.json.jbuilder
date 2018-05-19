@@ -7,5 +7,5 @@ if collection.association(:collectable_collections).loaded?
                     as: :collectable_collection
 end
 json.images collection.images, partial: 'v1/images/image', as: :image if collection.association(:images).loaded?
-json.counted_collectables collection.counted_collectables
+json.counted_collectables collection.counted_collectables if collection.respond_to?(:counted_collectables)
 json.url v1_collection_url(collection, format: :json)
