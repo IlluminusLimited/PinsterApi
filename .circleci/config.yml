@@ -106,7 +106,7 @@ jobs:
           command: |
             pwd
             bundle install --without development test --jobs 4 --retry 3 --path vendor/bundle
-            bundle exec rake db:create db:migrate
+            bundle exec rake db:reset
 
       - run:
           name: Generate apidocks
