@@ -7,45 +7,31 @@ task seed_data: :environment do
 
   logger = Logger.new(STDOUT)
 
-  logger.info{"Deleting everything"}
+  SeedHelper.purge_database(logger)
 
-  User.destroy_all
-  Pin.destroy_all
-  Assortment.destroy_all
-  Collection.destroy_all
+  logger.info { "Creating users!" }
 
-  logger.info{"Creating users!"}
+  SeedHelper::UserHelper.generate_pinster_admin
+
   100.times.each do
-    User.create!(email: Faker::Internet.unique.email,
-                 display_name: Faker::Name.name,
-                 bio: Faker::HitchhikersGuideToTheGalaxy.marvin_quote)
+    SeedHelper::UserHelper.generate
   end
 
-  User.find_or_create_by!(email: Faker::Internet.unique.email,
-                          display_name: 'Andrew',
-                          bio: "Pinster, it can't be beat!",
-                          role: 1)
-  logger.info{"Generating authentications!"}
-
-  User.all.each do |user|
-    SeedHelper.generate_authentication(user)
-  end
-
-  logger.info{"Creating pins!"}
+  logger.info { "Creating pins!" }
 
   50.times.each do
-    SeedHelper.generate_pin
+    SeedHelper::PinHelper.generate
   end
 
-  logger.info{"Creating assortments!"}
+  logger.info { "Creating assortments!" }
 
   10.times.each do
-    SeedHelper.generate_assortment
+    SeedHelper::AssortmentHelper.generate
   end
 
-  logger.info{"Creating collections!"}
+  logger.info { "Creating collections!" }
 
   20.times.each do
-    SeedHelper.generate_collection
+    SeedHelper::CollectionHelper.generate
   end
 end

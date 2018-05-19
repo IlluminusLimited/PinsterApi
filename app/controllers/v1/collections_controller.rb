@@ -12,7 +12,7 @@ module V1
       param :size, String, default: 10
     end
     def index
-      @collections = paginate Collection.with_images
+      @collections = paginate policy_scope(Collection.build_query(params))
       render :index
     end
 
