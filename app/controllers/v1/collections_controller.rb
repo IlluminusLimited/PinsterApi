@@ -2,6 +2,7 @@
 
 module V1
   class CollectionsController < ApplicationController
+    before_action :require_login, except: :show
     before_action :set_collection, only: %i[show update]
     after_action :verify_authorized, except: %i[index]
 
