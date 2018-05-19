@@ -90,7 +90,7 @@ jobs:
             ./tmp/cc-test-reporter sum-coverage tmp/coverage/codeclimate.*.json -p 1 -o tmp/coverage/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/coverage/codeclimate.total.json
 
-bake:
+  bake:
     <<: *defaults
     steps:
       - checkout
