@@ -31,6 +31,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   test "should show image" do
     get v1_image_url(@image), as: :json
     assert_response :success
+    non_date_attributes = @image.attributes.reject do |key|
+      %i[created_at updated_at featured].include?(key.to_sym)
+    end
+    non_date_attributes.values.each do |value|
+      assert_match(value, response.body)
+    end
   end
 
   test "moderator can update an image" do
