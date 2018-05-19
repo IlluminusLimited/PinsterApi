@@ -18,8 +18,10 @@ require 'rails/test_unit/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require 'dotenv'
-Dotenv.load
+if Rails.env.develop?
+  require 'dotenv'
+  Dotenv.load
+end
 
 module PinsterApi
   class Application < Rails::Application
