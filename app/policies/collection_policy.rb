@@ -48,7 +48,7 @@ class CollectionPolicy < ApplicationPolicy
     end
 
     def resolve
-      return scope.where(user_id: collection_user_id) if current_user&.admin? || current_user.id == collection_user_id
+      return scope.where(user_id: collection_user_id) if current_user.admin? || current_user.id == collection_user_id
       scope.where(user_id: collection_user_id, public: true)
     end
   end
