@@ -111,8 +111,8 @@ jobs:
           name: Generate apidocks
           command: |
             pwd
-            chmod +x generate_apidocks.sh
-            bash generate_apidocks.sh
+            chmod +x generate_apidocs.sh
+            bash generate_apidocs.sh
 
       - run:
           name: Setup production dependencies
