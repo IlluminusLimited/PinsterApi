@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 require 'faker'
+require 'user_helper'
+require 'pin_helper'
+require 'assortment_helper'
+require 'collection_helper'
 
 module SeedHelper
   class << self
