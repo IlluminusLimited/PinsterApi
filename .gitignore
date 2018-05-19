@@ -28,3 +28,4 @@ coverage/
 !.elasticbeanstalk/*.global.yml
 
 *.JPG
+*.jpg

@@ -5,30 +5,33 @@ task seed_data: :environment do
   require 'seed_helper'
   include SeedHelper
 
-  50.times.each do
-    User.create!(email: Faker::Internet.unique.email,
-                 display_name: Faker::Name.name,
-                 bio: Faker::HitchhikersGuideToTheGalaxy.marvin_quote)
-  end
+  logger = Logger.new(STDOUT)
 
-  User.find_or_create_by!(email: Faker::Internet.unique.email,
-                          display_name: 'Andrew',
-                          bio: "Pinster, it can't be beat!",
-                          role: 1)
+  SeedHelper.purge_database(logger)
 
-  User.all.each do |user|
-    SeedHelper.generate_authentication(user)
-  end
+  logger.info { "Creating users!" }
 
-  500.times.each do
-    SeedHelper.generate_pin
-  end
-
-  30.times.each do
-    SeedHelper.generate_assortment
-  end
+  SeedHelper::UserHelper.generate_pinster_admin
 
   100.times.each do
-    SeedHelper.generate_collection
+    SeedHelper::UserHelper.generate
+  end
+
+  logger.info { "Creating pins!" }
+
+  50.times.each do
+    SeedHelper::PinHelper.generate
+  end
+
+  logger.info { "Creating assortments!" }
+
+  10.times.each do
+    SeedHelper::AssortmentHelper.generate
+  end
+
+  logger.info { "Creating collections!" }
+
+  20.times.each do
+    SeedHelper::CollectionHelper.generate
   end
 end
