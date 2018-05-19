@@ -90,12 +90,41 @@ jobs:
             ./tmp/cc-test-reporter sum-coverage tmp/coverage/codeclimate.*.json -p 1 -o tmp/coverage/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/coverage/codeclimate.total.json
 
+bake:
+    <<: *defaults
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - gem-cache-{{ arch }}-{{ .Branch }}
+            - gem-cache
+
+      - run:
+          name: Setup dependencies
+          command: |
+            bundle install --jobs 4 --retry 3 --path vendor/bundle
+            bundle exec rake db:create db:migrate
+
+      - run:
+          name: Run backend tests
+          command: |
+            chmod +x generate_apidocks.sh
+            bash generate_apidocks.sh
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - ./
+
   deploy-dev:
     working_directory: ~/repo
     docker:
       - image: pinster/awseb
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/repo
       - run:
           name: Deploy
           command: eb deploy PinsterApi-dev
@@ -105,7 +134,8 @@ jobs:
     docker:
       - image: pinster/awseb
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/repo
       - run:
           name: Deploy
           command: eb deploy PinsterApi-prod
@@ -118,21 +148,27 @@ workflows:
       - backend-tests:
           requires:
             - build
+
       - upload-coverage:
+          requires:
+             - backend-tests
+
+      - bake:
           requires:
              - backend-tests
 
       - deploy-dev:
           requires:
-            - backend-tests
+            - bake
           filters:
             branches:
               only:
                 - develop
+                - newell/apidocks_deploy
 
       - deploy-prod:
           requires:
-            - backend-tests
+            - bake
           filters:
             branches:
               only:
