@@ -2,8 +2,8 @@
 
 require 'test_helper'
 module V1
-  class SearchControllerTest < ActionDispatch::IntegrationTest
-    test "the truth" do
+  class SearchesControllerTest < ActionDispatch::IntegrationTest
+    test 'searches returns results' do
       PgSearch::Multisearch.rebuild(Pin, true)
       PgSearch::Multisearch.rebuild(Assortment, true)
 
@@ -11,6 +11,7 @@ module V1
       assert_response :success
 
       assert_match('Wisconsin Unicorn', response.body)
+      assert_match('url', response.body)
     end
   end
 end

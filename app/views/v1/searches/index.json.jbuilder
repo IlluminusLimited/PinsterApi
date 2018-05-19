@@ -5,5 +5,5 @@ json.links do
 end
 
 json.data do
-  json.array! @search
+  json.array! @search, partial: 'v1/searches/search', as: :search
 end

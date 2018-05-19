@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
       match 'me' => 'me#show', via: :get
       match 'me' => 'me#update', via: %i[patch put]
-      match '/search' => 'search#search', as: :search, via: :get
+      match '/search' => 'searches#index', via: :get
     end
 
     namespace :v1 do
