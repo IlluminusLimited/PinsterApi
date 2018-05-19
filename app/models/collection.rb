@@ -84,4 +84,12 @@ class Collection < ApplicationRecord
   def self.default_result
     includes(:pins)
   end
+
+  def self.build_query(params)
+    if params[:images].nil? || params[:images].to_s == 'true'
+      with_images.with_collectable_count
+    else
+      default_result
+    end
+  end
 end
