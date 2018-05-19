@@ -151,11 +151,11 @@ workflows:
 
       - upload-coverage:
           requires:
-             - backend-tests
+            - backend-tests
 
       - bake:
           requires:
-             - backend-tests
+            - backend-tests
 
       - deploy-dev:
           requires:
