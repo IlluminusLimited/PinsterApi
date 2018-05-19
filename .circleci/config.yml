@@ -104,12 +104,14 @@ jobs:
       - run:
           name: Setup dependencies
           command: |
-            bundle install --jobs 4 --retry 3 --path vendor/bundle
+            pwd
+            bundle install --production --jobs 4 --retry 3 --path vendor/bundle
             bundle exec rake db:create db:migrate
 
       - run:
-          name: Run backend tests
+          name: Generate apidocks
           command: |
+            pwd
             chmod +x generate_apidocks.sh
             bash generate_apidocks.sh
 
@@ -126,8 +128,11 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
+          name: Create archive
+          command: git add .
+      - run:
           name: Deploy
-          command: eb deploy PinsterApi-dev
+          command: eb deploy PinsterApi-dev --staged
 
   deploy-prod:
     working_directory: ~/repo
@@ -137,8 +142,11 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
+          name: Create archive
+          command: git add .
+      - run:
           name: Deploy
-          command: eb deploy PinsterApi-prod
+          command: eb deploy PinsterApi-prod --staged
 
 workflows:
   version: 2
