@@ -11,6 +11,7 @@ module V1
       assert_response :success
 
       assert_match('Wisconsin Unicorn', response.body)
+      assert_match('url', response.body)
     end
   end
 end
