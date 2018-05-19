@@ -17,7 +17,7 @@ class ImagePolicy < ApplicationPolicy
   end
 
   def create?
-    user.moderator?
+    user.admin?
   end
 
   def update?

@@ -7,8 +7,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     @image = images(:texas_dragon_image_one)
   end
 
-  test "moderator can create an image" do
-    token = authentications(:bob_token)
+  test "admin can create an image" do
+    token = authentications(:andrew_token)
 
     assert_difference('Image.count') do
       post v1_images_url, headers: { Authorization: token.token },

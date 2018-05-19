@@ -3,7 +3,7 @@
 module V1
   class ImagesController < ApplicationController
     before_action :require_login, except: %i[show index]
-    before_action :set_image, only: %i[show update destroy]
+    before_action :set_image, only: %i[show update]
     after_action :verify_authorized, except: %i[show index]
 
     api :GET, '/v1/:imageable_type/:imageable_id/images', "Show an imageable's images"
@@ -68,8 +68,9 @@ module V1
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
     def destroy
-      authorize @image
-      @image.destroy
+      image = Image.find(params[:id])
+      authorize image
+      image.destroy
     end
 
     private
@@ -81,8 +82,8 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def image_params
-        image = @collection || Image.new
-        params.require(:data).permit(policy(image))
+        image = @image || Image.new
+        params.require(:data).permit(policy(image).permitted_attributes)
       end
   end
 end
