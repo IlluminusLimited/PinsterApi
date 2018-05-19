@@ -48,7 +48,7 @@ class CollectionPolicy < ApplicationPolicy
 
     def resolve
       return scope.all if user.admin?
-      scope.where(user_id: user.id)
+      scope.where(user_id: user.id, public: true)
     end
   end
 end
