@@ -105,7 +105,7 @@ jobs:
           name: Setup dependencies
           command: |
             pwd
-            bundle install --production --jobs 4 --retry 3 --path vendor/bundle
+            bundle install --without development test --jobs 4 --retry 3 --path vendor/bundle
             bundle exec rake db:create db:migrate
 
       - run:
