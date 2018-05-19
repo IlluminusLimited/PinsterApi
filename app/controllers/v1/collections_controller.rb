@@ -4,16 +4,22 @@ module V1
   class CollectionsController < ApplicationController
     before_action :require_login, except: %i[show index]
     before_action :set_collection, only: %i[show update]
-    after_action :verify_authorized, except: %i[index]
+    after_action :verify_authorized
 
     api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
     param :user_id, String, allow_nil: false
     param :images, :bool, default: true, required: false
-    param :page, Hash do
+    param :page, Hash, required: false do
       param :size, String, default: 10
     end
+
     def index
-      @collections = paginate policy_scope(Collection.build_query(params))
+      @collections = paginate(CollectionPolicy::Scope.new(
+        current_user,
+        params[:user_id],
+        Collection.build_query(params)
+      ).resolve)
+      authorize @collections
       render :index
     end
 

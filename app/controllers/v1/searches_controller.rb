@@ -7,7 +7,7 @@ module V1
     api :GET, '/v1/search', "Show searches results for query"
     param :query, String, allow_nil: false
     def index
-      @search = paginate PgSearch.multisearch(params[:query])
+      @search = paginate PgSearch.multisearch(params[:query]).includes(:searchable)
     end
   end
 end
