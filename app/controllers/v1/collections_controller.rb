@@ -72,7 +72,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_collection
-        @collection = Collection.with_images.find(params[:id])
+        @collection = Collection.build_query(params).find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.
