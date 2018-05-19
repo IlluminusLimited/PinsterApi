@@ -55,6 +55,6 @@ class Pin < ApplicationRecord
   end
 
   def self.default_result
-    includes(:pins)
+    includes(:images)
   end
 end
