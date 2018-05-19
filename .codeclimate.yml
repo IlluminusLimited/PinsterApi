@@ -20,3 +20,4 @@ exclude_patterns:
 - ".ruby-version"
 - ".ebignore"
 - ".gitignore"
+- "lib/**/*.rake"
