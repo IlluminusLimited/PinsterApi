@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 task seed_data: :environment do
-  require 'faker'
   require 'seed_helper'
   include SeedHelper
 

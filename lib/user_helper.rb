@@ -14,14 +14,15 @@ module SeedHelper
       end
 
       def generate_pinster_admin
-        User.find_or_create_by!(email: Faker::Internet.unique.email,
+        User.find_or_create_by!(email: 'pinsterteam@gmail.com',
                                 display_name: 'Andrew',
                                 bio: "Pinster, it can't be beat!",
-                                role: 1,
-                                authentication_attributes: { uid: Faker::Number.number(10),
-                                                             provider: %w[google facebook].sample,
-                                                             token: Faker::Crypto.unique.md5,
-                                                             token_expires_at: Time.now.utc + 14.days })
+                                role: 1) do |user|
+          user.authentication = Authentication.new(user: user, uid: Faker::Number.number(10),
+                                                   provider: %w[google facebook].sample,
+                                                   token: Faker::Crypto.unique.md5,
+                                                   token_expires_at: Time.now.utc + 14.days)
+        end
       end
     end
   end
