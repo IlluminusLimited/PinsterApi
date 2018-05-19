@@ -2,8 +2,8 @@
 
 require 'test_helper'
 module V1
-  class SearchControllerTest < ActionDispatch::IntegrationTest
-    test 'search returns results' do
+  class SearchesControllerTest < ActionDispatch::IntegrationTest
+    test 'searches returns results' do
       PgSearch::Multisearch.rebuild(Pin, true)
       PgSearch::Multisearch.rebuild(Assortment, true)
 
