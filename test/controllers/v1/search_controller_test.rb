@@ -3,7 +3,7 @@
 require 'test_helper'
 module V1
   class SearchControllerTest < ActionDispatch::IntegrationTest
-    test "the truth" do
+    test 'search returns results' do
       PgSearch::Multisearch.rebuild(Pin, true)
       PgSearch::Multisearch.rebuild(Assortment, true)
 
