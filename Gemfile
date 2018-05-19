@@ -24,8 +24,9 @@ gem 'rails', '~> 5.1.6'
 gem 'sorcery', '~> 0.12'
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'bullet'
-  gem 'faker'
+  gem 'faker', git: 'https://github.com/stympy/faker'
   gem 'guard'
   gem 'guard-brakeman'
   gem 'guard-minitest'

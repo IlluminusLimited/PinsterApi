@@ -6,8 +6,8 @@ module SeedHelper
   IMAGES ||= Dir.glob(File.join('public', '*.jpg')).map { |file| file.gsub('public/', '') }.flatten.compact
   class << self
     def image_for(resource, iterator = 1)
-      file_name = IMAGES.sample
-      file = "http://localhost:3000/#{file_name}"
+      file = Faker::Placeholdit.image("300x300", 'jpeg', :random)
+      file_name = file.match(/\d+x\d+/)[0]
       Image.create!(imageable: resource,
                     base_file_name: file_name,
                     storage_location_uri: file,
@@ -35,7 +35,7 @@ module SeedHelper
 
     def generate_assortment
       assortment = Assortment.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}".pluralize,
-                                      description: Faker::Hobbit.quote)
+                                      description: Faker::SiliconValley.quote)
 
       rand(1..3).times do
         assortment.pins << Pin.all.sample
@@ -49,7 +49,7 @@ module SeedHelper
     def generate_pin
       pin = Pin.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}",
                         year: Faker::Time.between(18.years.ago, Time.zone.today).year,
-                        description: Faker::Hobbit.quote,
+                        description: Faker::Hacker.say_something_smart,
                         tags: SeedHelper.generate_tags)
       rand(1..3).times.each do |i|
         SeedHelper.image_for(pin, i)
