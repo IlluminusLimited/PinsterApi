@@ -27,4 +27,12 @@ class ImagePolicy < ApplicationPolicy
   def destroy?
     user.moderator?
   end
+
+  def permitted_attributes
+    if user.admin?
+      Image.public_attribute_names
+    else
+      %i[description featured name]
+    end
+  end
 end
