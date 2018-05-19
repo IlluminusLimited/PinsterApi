@@ -108,9 +108,8 @@ jobs:
             bundle exec rake db:reset
 
       - run:
-          name: Generate apidocks
+          name: Generate apidocs (please help)
           command: |
-            pwd
             chmod +x generate_apidocs.sh
             bash generate_apidocs.sh
 
@@ -177,7 +176,6 @@ workflows:
             branches:
               only:
                 - develop
-                - newell/apidocks_deploy
 
       - deploy-prod:
           requires:
