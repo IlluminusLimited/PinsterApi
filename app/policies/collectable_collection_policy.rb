@@ -9,7 +9,7 @@ class CollectableCollectionPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? or user.user?
+    true
   end
 
   def show?
@@ -17,7 +17,7 @@ class CollectableCollectionPolicy < ApplicationPolicy
   end
 
   def create?
-    user.user?
+    user.admin? or (user.user? and user.owns?(collectable_collection.collection))
   end
 
   def update?
