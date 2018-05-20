@@ -9,6 +9,7 @@
 #  imageable_type       :string
 #  name                 :string
 #  storage_location_uri :text             not null
+#  thumbnailable        :boolean          default(TRUE), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  imageable_id         :uuid

@@ -13,6 +13,7 @@
 # Indexes
 #
 #  index_pin_assortments_on_assortment_id  (assortment_id)
+#  index_pin_assortments_on_pin_id         (pin_id)
 #
 
 class PinAssortment < ApplicationRecord
