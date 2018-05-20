@@ -254,7 +254,7 @@ DEPENDENCIES
   apipie-rails (~> 0.5.8)
   bullet
   dotenv-rails
-  faker
+  faker (~> 1.8.7)
   guard
   guard-brakeman
   guard-minitest
