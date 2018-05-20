@@ -19,9 +19,9 @@
 #
 
 class User < ApplicationRecord
-  authenticates_with_sorcery!
+  include Imageable
 
-  has_many :images, as: :imageable, dependent: :destroy
+  authenticates_with_sorcery!
 
   has_many :collections, dependent: :destroy
   has_one :authentication, dependent: :destroy

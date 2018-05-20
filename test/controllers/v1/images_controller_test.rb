@@ -11,21 +11,29 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     token = authentications(:bob_token)
 
     assert_difference('Image.count') do
-      post v1_images_url, headers: { Authorization: token.token },
-                          params: {
-                            data: {
-                              imageable_id: @image.imageable_id,
-                              imageable_type: @image.imageable_type,
-                              base_file_name: @image.base_file_name,
-                              storage_location_uri: @image.storage_location_uri,
-                              featured: @image.featured,
-                              name: @image.name,
-                              description: @image.description
-                            }
-                          }, as: :json
+      post v1_images_url,
+           headers: { Authorization: token.token },
+           params: {
+             data: {
+               imageable_id: @image.imageable_id,
+               imageable_type: @image.imageable_type,
+               base_file_name: @image.base_file_name,
+               storage_location_uri: @image.storage_location_uri,
+               featured: @image.featured,
+               name: @image.name,
+               description: @image.description,
+               thumbnailable: @image.thumbnailable
+             }
+           }, as: :json
     end
 
     assert_response 201
+  end
+
+  test "should show imageables images" do
+    get polymorphic_url([:v1, @image.imageable, :images]), as: :json
+    assert_response :success
+    assert_match @image.storage_location_uri, response.body
   end
 
   test "should show image" do

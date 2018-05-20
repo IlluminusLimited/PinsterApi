@@ -19,10 +19,9 @@
 #
 
 class Collection < ApplicationRecord
+  include Imageable
   extend EagerLoadable
   max_paginates_per 10
-
-  has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, dependent: :destroy
 
