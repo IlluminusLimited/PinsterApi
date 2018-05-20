@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! assortment, :id, :name, :description, :created_at, :updated_at
+json.extract! assortment, :id, :name, :description, :tags, :created_at, :updated_at
 if assortment.association(:images).loaded?
   json.images assortment.images_or_placeholder, partial: 'v1/images/image', as: :image
 end

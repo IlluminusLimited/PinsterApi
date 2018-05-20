@@ -89,7 +89,8 @@ CREATE TABLE public.assortments (
     name character varying,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    tags jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -416,6 +417,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180422231140'),
 ('20180513050417'),
 ('20180517015010'),
-('20180517015251');
+('20180517015251'),
+('20180520205650');
 
 

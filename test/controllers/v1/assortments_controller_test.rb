@@ -26,7 +26,8 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
                                  data: {
                                    description: @assortment.description,
                                    id: @assortment.id,
-                                   name: @assortment.name
+                                   name: @assortment.name,
+                                   tags: { bob: 'bllago' }
                                  }
                                }, as: :json
     end
