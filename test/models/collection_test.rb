@@ -24,11 +24,13 @@ class CollectionTest < ActiveSupport::TestCase
   setup do
     @sallys_favorite_collection = collections(:sallys_favorite_collection)
     @toms_keepers_collection = collections(:toms_keepers_collection)
+    @toms_secret_collection = collections(:toms_secret_collection)
   end
 
   test 'fixtures are valid' do
     assert @sallys_favorite_collection.valid?
     assert @toms_keepers_collection.valid?
+    assert @toms_secret_collection.valid?
   end
 
   test 'a collection can contain both pins and assortments of pins' do
@@ -37,13 +39,18 @@ class CollectionTest < ActiveSupport::TestCase
                                     collectable_collections_attributes: [
                                       { collectable: Pin.create!(name: 'thing', year: 1998) },
                                       { collectable:
-                                           Assortment.create!(name: 'amazing pin set',
-                                                              pin_assortments_attributes: [
-                                                                {
-                                                                  pin: Pin.create!(name: 'thing', year: 1998)
-                                                                }
-                                                              ]) }
+                                            Assortment.create!(name: 'amazing pin set',
+                                                               pin_assortments_attributes: [
+                                                                 {
+                                                                   pin: Pin.create!(name: 'thing', year: 1998)
+                                                                 }
+                                                               ]) }
                                     ])
     assert collection.valid?
+  end
+
+  test 'a collection can return total number of items' do
+    @toms_secret_collection.reload
+    assert_equal 12, @toms_secret_collection.collectable_count
   end
 end

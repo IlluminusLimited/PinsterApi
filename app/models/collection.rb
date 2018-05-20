@@ -26,16 +26,19 @@ class Collection < ApplicationRecord
 
   has_many :collectable_collections, dependent: :destroy
 
-  has_many :collectables, through: :collectable_collections
-
   belongs_to :user
 
   accepts_nested_attributes_for :collectable_collections
 
   validates :name, presence: true
-  validates :public, presence: true
+  validates :public, inclusion: { in: [true, false] }
 
-  scope :with_images, -> { includes(:images).includes(collectable_collections: :collectable) }
+  scope :with_images, -> { includes(:images) }
+  scope :with_counts, -> { includes(collectable_collections: :collectable) }
+
+  def collectable_count
+    collectable_collections.sum(:count)
+  end
 
   def to_s
     "Collection: '#{id}:#{name}'"

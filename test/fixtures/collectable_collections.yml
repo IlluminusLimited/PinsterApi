@@ -32,3 +32,8 @@ three:
   collectable: wisconsin_unicorn (Pin)
   collection: toms_secret_collection
   count: 2
+
+four:
+  collectable: wisconsin_gargoyle (Pin)
+  collection: toms_secret_collection
+  count: 10
