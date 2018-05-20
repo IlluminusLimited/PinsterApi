@@ -118,6 +118,7 @@ CREATE TABLE public.collectable_collections (
     collectable_type character varying,
     collectable_id uuid,
     collection_id uuid,
+    count integer DEFAULT 1 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -133,6 +134,7 @@ CREATE TABLE public.collections (
     name character varying NOT NULL,
     description text,
     public boolean DEFAULT true NOT NULL,
+    collectable_collections_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -151,6 +153,7 @@ CREATE TABLE public.images (
     storage_location_uri text NOT NULL,
     base_file_name text NOT NULL,
     featured timestamp without time zone,
+    thumbnailable boolean DEFAULT true NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -361,6 +364,13 @@ CREATE INDEX index_images_on_imageable_type_and_imageable_id ON public.images US
 
 
 --
+-- Name: index_on_collectable_collection_unique; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_on_collectable_collection_unique ON public.collectable_collections USING btree (collectable_type, collectable_id, collection_id);
+
+
+--
 -- Name: index_pg_search_documents_on_searchable_type_and_searchable_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -372,6 +382,13 @@ CREATE INDEX index_pg_search_documents_on_searchable_type_and_searchable_id ON p
 --
 
 CREATE INDEX index_pin_assortments_on_assortment_id ON public.pin_assortments USING btree (assortment_id);
+
+
+--
+-- Name: index_pin_assortments_on_pin_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pin_assortments_on_pin_id ON public.pin_assortments USING btree (pin_id);
 
 
 --
@@ -398,7 +415,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180422231052'),
 ('20180422231140'),
 ('20180513050417'),
-('20180515034842'),
 ('20180517015010'),
 ('20180517015251');
 

@@ -35,7 +35,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       %i[created_at updated_at featured].include?(key.to_sym)
     end
     non_date_attributes.values.each do |value|
-      assert_match(value, response.body)
+      assert_match(value.to_s, response.body)
     end
   end
 

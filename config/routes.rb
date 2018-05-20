@@ -21,7 +21,9 @@ Rails.application.routes.draw do
       resources :assortments, concerns: :imageable
 
       resources :users, shallow: true, only: %i[index show destroy], concerns: :imageable do
-        resources :collections, concerns: :imageable
+        resources :collections, concerns: :imageable do
+          resources :collectable_collections, shallow: true
+        end
       end
 
       match 'me' => 'me#show', via: :get
