@@ -94,7 +94,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      # Download and cache dependencies
       - restore_cache:
           keys:
             - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
