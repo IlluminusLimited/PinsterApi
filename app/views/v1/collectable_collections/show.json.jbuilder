@@ -1,0 +1,1 @@
+json.partial! "v1_collectable_collections/v1_collectable_collection", v1_collectable_collection: @v1_collectable_collection
