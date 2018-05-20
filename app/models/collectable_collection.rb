@@ -22,6 +22,8 @@ class CollectableCollection < ApplicationRecord
   belongs_to :collectable, polymorphic: true
   belongs_to :collection, counter_cache: true
 
+  validates :collection_id, uniqueness: { scope: %i[collectable_type collectable_id] }
+
   def self.public_attribute_names
     %i[collectable_type collectable_id collection_id count]
   end
