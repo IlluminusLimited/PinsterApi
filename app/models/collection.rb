@@ -50,7 +50,7 @@ class Collection < ApplicationRecord
 
   def self.build_query(params)
     if params[:images].nil? || params[:images].to_s == 'true'
-      with_images
+      with_images.with_counts
     else
       default_result
     end
