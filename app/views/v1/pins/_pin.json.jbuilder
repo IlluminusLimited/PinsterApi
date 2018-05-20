@@ -2,8 +2,8 @@
 
 json.extract! pin, :id, :name, :year, :description, :tags, :created_at, :updated_at
 
-if pin.association(:assortment).loaded?
-  json.assortment_url v1_assortment_url(pin.assortment, format: :json) if pin.assortment.present?
+if pin.association(:assortment).loaded? && pin.assortment.present?
+  json.assortment_url v1_assortment_url(pin.assortment, format: :json)
 end
 
 if @images.present?
