@@ -54,6 +54,16 @@ class Pin < ApplicationRecord
   end
 
   def self.default_result
-    includes(:images)
+    includes(:images).includes(:assortment)
+  end
+
+  def self.build_query(params)
+    if params[:all_images]
+      with_counts
+    elsif params[:images].nil? || params[:images].to_s == 'true'
+      includes(:assortment).with_images.with_counts
+    else
+      default_result
+    end
   end
 end
