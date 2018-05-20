@@ -5,8 +5,9 @@
 # Table name: assortments
 #
 #  id          :uuid             not null, primary key
-#  name        :string
 #  description :text
+#  name        :string
+#  tags        :jsonb            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

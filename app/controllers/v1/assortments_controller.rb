@@ -67,7 +67,7 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def assortment_params
-        params.require(:data).permit(:name, :description)
+        params.require(:data).permit(:name, :description, :tags)
       end
   end
 end
