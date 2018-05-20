@@ -1,1 +1,3 @@
-json.array! @v1_collectable_collections, partial: 'v1_collectable_collections/v1_collectable_collection', as: :v1_collectable_collection
+# frozen_string_literal: true
+
+json.array! @collectable_collections, partial: 'v1/collectable_collections/collectable_collection', as: :collectable_collection

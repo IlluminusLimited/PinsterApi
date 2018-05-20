@@ -1,1 +1,3 @@
-json.partial! "v1_collectable_collections/v1_collectable_collection", v1_collectable_collection: @v1_collectable_collection
+# frozen_string_literal: true
+
+json.partial! "v1/collectable_collections/collectable_collection", collectable_collection: @collectable_collection

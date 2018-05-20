@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 json.extract! collectable_collection, :id, :count
 json.collectable do
   json.partial! collectable_collection.collectable
