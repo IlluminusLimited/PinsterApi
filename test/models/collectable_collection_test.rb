@@ -21,7 +21,18 @@
 require 'test_helper'
 
 class CollectableCollectionTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @one = collectable_collections(:one)
+    @two = collectable_collections(:two)
+    @three = collectable_collections(:three)
+  end
+
+  test 'fixtures are valid' do
+    assert @one.valid?
+    assert @two.valid?
+    assert @three.valid?
+  end
+
+  test 'can add to a collection' do
+  end
 end

@@ -134,6 +134,7 @@ CREATE TABLE public.collections (
     name character varying NOT NULL,
     description text,
     public boolean DEFAULT true NOT NULL,
+    collectable_collections_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
