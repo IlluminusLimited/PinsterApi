@@ -115,7 +115,7 @@ CREATE TABLE public.authentications (
 
 CREATE TABLE public.collectable_collections (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    collectable_type uuid,
+    collectable_type character varying,
     collectable_id uuid,
     collection_id uuid,
     count integer DEFAULT 1 NOT NULL,

@@ -5,7 +5,7 @@
 # Table name: collectable_collections
 #
 #  id               :uuid             not null, primary key
-#  collectable_type :uuid
+#  collectable_type :string
 #  count            :integer          default(1), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -26,6 +26,7 @@ class CollectableCollection < ApplicationRecord
   validates :collectable, presence: true
   validates_associated :collectable
   validates_associated :collection
+  validates :collectable, uniqueness: true
 
   def self.public_attribute_names
     %i[collectable_id collectable_type collection_id]

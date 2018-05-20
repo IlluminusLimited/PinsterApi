@@ -3,7 +3,7 @@
 # Table name: collectable_collections
 #
 #  id               :uuid             not null, primary key
-#  collectable_type :uuid
+#  collectable_type :string
 #  count            :integer          default(1), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

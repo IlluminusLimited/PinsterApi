@@ -3,7 +3,7 @@
 class CreateCollectableCollections < ActiveRecord::Migration[5.1]
   def change
     create_table :collectable_collections, id: :uuid do |t|
-      t.uuid :collectable_type
+      t.string :collectable_type
       t.uuid :collectable_id
       t.belongs_to :collection, index: true, type: :uuid
       t.integer :count, null: false, default: 1
