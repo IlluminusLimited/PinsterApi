@@ -14,26 +14,29 @@ Rails.application.routes.draw do
     end
 
     concern :api_base do
-      resources :images, only: %i[show update destroy]
+      resources :images, only: %i[show create update destroy]
 
       resources :pins, concerns: :imageable
 
       resources :assortments, concerns: :imageable
 
       resources :users, shallow: true, only: %i[index show destroy], concerns: :imageable do
-        resources :collections, concerns: :imageable
+        resources :collections, concerns: :imageable do
+          resources :collectable_collections, shallow: true
+        end
       end
 
       match 'me' => 'me#show', via: :get
       match 'me' => 'me#update', via: %i[patch put]
+      match '/search' => 'searches#index', via: :get
     end
 
     namespace :v1 do
       concerns :api_base
     end
 
-    root to: 'v1/pins#index'
+    root to: redirect('/docs')
   end
-
+  get 'static/legal'
   apipie
 end

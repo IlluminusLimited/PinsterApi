@@ -65,6 +65,7 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Exclude:
     - lib/tasks/auto_annotate_models.rake
+    - config/routes.rb
 
 Rails:
   Enabled: true

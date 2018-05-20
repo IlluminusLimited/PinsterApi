@@ -2,12 +2,14 @@
 
 module V1
   class AssortmentsController < ApplicationController
-    before_action :set_assortment, only: %i[show update destroy]
+    before_action :set_assortment, only: %i[show update]
     after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/assortments', 'List assortments'
+    param :images, :bool, default: true, required: false
+
     def index
-      @assortments = Assortment.all
+      @assortments = paginate Assortment.build_query(params)
       render :index
     end
 
@@ -50,16 +52,17 @@ module V1
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
     def destroy
-      authorize @assortment
+      assortment = Assortment.find(params[:id])
+      authorize assortment
 
-      @assortment.destroy
+      assortment.destroy
     end
 
     private
 
       # Use callbacks to share common setup or constraints between actions.
       def set_assortment
-        @assortment = Assortment.find(params[:id])
+        @assortment = Assortment.with_images.find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

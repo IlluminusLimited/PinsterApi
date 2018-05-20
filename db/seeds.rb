@@ -7,3 +7,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+user = User.find_or_create_by!(email: 'pinsterteam@gmail.com', display_name: 'PinsterTeam', role: 1)
+Authentication.find_or_create_by!(user: user) do |auth|
+  auth.provider = 'pinster'
+  auth.token = SecureRandom.hex
+  auth.token_expires_at = Time.zone.now + 14.days
+  auth.uid = SecureRandom.hex
+end

@@ -9,6 +9,7 @@
 #  imageable_type       :string
 #  name                 :string
 #  storage_location_uri :text             not null
+#  thumbnailable        :boolean          default(TRUE), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  imageable_id         :uuid
@@ -22,8 +23,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 texas_dragon_image_one:
-  imageable: texas_dragon
-  imageable_type: Pin
+  imageable: texas_dragon (Pin)
   name: Bob Dragon Pin
   description: A wonderful compilation of lights and darks
   base_file_name: bob_dragon
@@ -31,8 +31,7 @@ texas_dragon_image_one:
   featured: 2017-08-22 22:03:22
 
 massachusetts_crab_image_one:
-  imageable: massachusetts_crab
-  imageable_type: Pin
+  imageable: massachusetts_crab (Pin)
   name: Sally Pin
   description: User submitted photo of a yeti!
   base_file_name: yeti
@@ -40,8 +39,7 @@ massachusetts_crab_image_one:
   featured: 2017-08-22 22:03:23
 
 sallys_favorite_collection_main_image:
-  imageable: sallys_favorite_collection
-  imageable_type: Collection
+  imageable: sallys_favorite_collection (Collection)
   name: Avalanche Themed Pins
   description: A bunch of pins that are themed around Avalanches.
   base_file_name: avalanches
@@ -49,10 +47,19 @@ sallys_favorite_collection_main_image:
   featured: 2017-08-29 22:03:20
 
 toms_keepers_collection_main_image:
-  imageable: toms_keepers_collection
-  imageable_type: Collection
+  imageable: toms_keepers_collection (Collection)
   name: Tom Themed Pins
   description: A bunch of pins that are themed around the amazing Tom.
   base_file_name: some_uuid
   storage_location_uri: s3://bucket_o_chum/folder/some_uuid
   featured: 2017-08-29 22:03:27
+
+wisconsin_unicorn_image:
+  imageable: wisconsin_unicorn (Pin)
+  base_file_name: some_uuid2
+  storage_location_uri: s3://bucket_o_chum/folder/some_uuid2
+
+wisconsin_assortment_main_image:
+  imageable: wisconsin_2009 (Assortment)
+  base_file_name: some_uuid3
+  storage_location_uri: s3://bucket_o_chum/folder/some_uuid3

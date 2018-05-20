@@ -2,16 +2,24 @@
 
 module V1
   class CollectionsController < ApplicationController
-    before_action :require_login, except: %i[show]
-    before_action :set_collection, only: %i[show update destroy]
-    after_action :verify_authorized, except: %i[index]
+    before_action :require_login, except: %i[show index]
+    before_action :set_collection, only: %i[show update]
+    after_action :verify_authorized
 
     api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
     param :user_id, String, allow_nil: false
+    param :images, :bool, default: true, required: false
+    param :page, Hash, required: false do
+      param :size, String, default: 10
+    end
 
     def index
-      @collections = policy_scope(Collection)
-
+      @collections = paginate(CollectionPolicy::Scope.new(
+        current_user,
+        params[:user_id],
+        Collection.build_query(params)
+      ).resolve)
+      authorize @collections
       render :index
     end
 
@@ -61,15 +69,16 @@ module V1
     error :forbidden, 'You are not authorized to perform this action'
 
     def destroy
-      authorize @collection
-      @collection.destroy
+      collection = Collection.find(params[:id])
+      authorize collection
+      collection.destroy
     end
 
     private
 
       # Use callbacks to share common setup or constraints between actions.
       def set_collection
-        @collection = Collection.find(params[:id])
+        @collection = Collection.build_query(params).find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

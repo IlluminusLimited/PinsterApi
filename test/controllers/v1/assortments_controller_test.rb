@@ -50,7 +50,9 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "Bob can destroy an assortment" do
     token = authentications(:bob_token)
-
+    assert @assortment.valid?
+    @assortment = Assortment.find(@assortment.id)
+    assert @assortment.valid?
     assert_difference('Assortment.count', -1) do
       delete v1_assortment_url(@assortment),  headers: { Authorization: token.token }, as: :json
     end

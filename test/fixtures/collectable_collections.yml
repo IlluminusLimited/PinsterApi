@@ -4,6 +4,7 @@
 #
 #  id               :uuid             not null, primary key
 #  collectable_type :string
+#  count            :integer          default(1), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  collectable_id   :uuid
@@ -12,6 +13,7 @@
 # Indexes
 #
 #  index_collectable_collections_on_collection_id  (collection_id)
+#  index_on_collectable_collection_unique          (collectable_type,collectable_id,collection_id) UNIQUE
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -19,11 +21,14 @@
 one:
   collectable: texas_dragon (Pin)
   collection: sallys_favorite_collection
+  count: 1
 
 two:
   collectable: wisconsin_2009 (Assortment)
   collection: toms_keepers_collection
+  count: 1
 
 three:
   collectable: wisconsin_unicorn (Pin)
   collection: toms_secret_collection
+  count: 2

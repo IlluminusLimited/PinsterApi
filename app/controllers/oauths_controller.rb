@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class OauthsController < ApplicationController
+  include Sorcery::Controller
+
   after_action :verify_authorized, except: %i[login oauth callback]
 
   api :GET, '/login', 'Get list of oauth providers'
@@ -19,15 +21,13 @@ class OauthsController < ApplicationController
     user = login_from(provider)
     user ||= auth_and_login(provider)
 
-    @token = user.authentications.find_by(provider: provider)
-    @token.refresh_token
-    @token
+    @token = user.authentications.find_by(provider: provider).refresh_token
   end
 
   private
 
-    def auth_and_login provider
-      user = create_from(provider, &:set_auth_uuid)
+    def auth_and_login(provider)
+      user = create_from(provider)
       reset_session # protect from session fixation attack
       auto_login(user)
       user

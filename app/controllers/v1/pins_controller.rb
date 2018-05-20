@@ -6,16 +6,22 @@ module V1
     after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/pins', 'List pins'
+    param :images, :bool, default: true, required: false
     def index
-      @pins = Pin.all
+      @pins = paginate Pin.build_query(params)
+
       render :index
     end
 
     api :GET, '/v1/pins/:id', 'Show a pin'
     param :id, String, allow_nil: false
-    def show; end
+    param :all_images, String
+    def show
+      @images = @pin.all_images if params[:all_images]
+    end
 
     api :POST, '/v1/pins', 'Create a pin'
+
     def create
       @pin = Pin.new(pin_params)
       authorize @pin
@@ -32,6 +38,7 @@ module V1
     param :id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def update
       authorize @pin
 
@@ -46,6 +53,7 @@ module V1
     param :id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def destroy
       authorize @pin
       @pin.destroy
@@ -55,7 +63,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_pin
-        @pin = Pin.find(params[:id])
+        @pin = Pin.includes(:images).find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

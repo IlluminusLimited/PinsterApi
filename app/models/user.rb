@@ -24,9 +24,9 @@ class User < ApplicationRecord
   has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collections, dependent: :destroy
-  has_many :authentications, dependent: :destroy
+  has_one :authentication, dependent: :destroy
 
-  accepts_nested_attributes_for :authentications
+  accepts_nested_attributes_for :authentication
 
   validates :email, uniqueness: true
   validates :display_name, presence: true

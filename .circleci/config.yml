@@ -6,14 +6,14 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/ruby:2.4.4-jessie-node
+    - image: pinster/ruby:2.4.4-jessie-node
       environment:
              RAILS_ENV: test
              DATABASE_HOST: 127.0.0.1
              DATABASE_USERNAME: pinsterapi
              DATABASE_PASSWORD:
 
-    - image: circleci/postgres:10.3-alpine-ram
+    - image: circleci/postgres:10.4-alpine-ram
       environment:
              POSTGRES_USER: pinsterapi
              POSTGRES_DB: PinsterApi_test
@@ -90,25 +90,66 @@ jobs:
             ./tmp/cc-test-reporter sum-coverage tmp/coverage/codeclimate.*.json -p 1 -o tmp/coverage/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/coverage/codeclimate.total.json
 
+  bake:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - gem-cache-{{ arch }}-{{ .Branch }}
+            - gem-cache
+
+      - run:
+          name: Setup dependencies
+          command: |
+            bundle install --jobs 4 --retry 3 --path vendor/bundle
+            bundle exec rake db:reset
+
+      - run:
+          name: Generate apidocs (please help)
+          command: |
+            chmod +x generate_apidocs.sh
+            bash generate_apidocs.sh
+
+      - run:
+          name: Setup production dependencies
+          command: |
+            bundle install --without development test --jobs 4 --retry 3 --path vendor/bundle
+            bundle clean
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - ./
+
   deploy-dev:
     working_directory: ~/repo
     docker:
       - image: pinster/awseb
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Create archive
+          command: git add .
       - run:
           name: Deploy
-          command: eb deploy PinsterApi-dev
+          command: eb deploy PinsterApi-dev --staged
 
   deploy-prod:
     working_directory: ~/repo
     docker:
       - image: pinster/awseb
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Create archive
+          command: git add .
       - run:
           name: Deploy
-          command: eb deploy PinsterApi-prod
+          command: eb deploy PinsterApi-prod --staged
 
 workflows:
   version: 2
@@ -118,13 +159,18 @@ workflows:
       - backend-tests:
           requires:
             - build
+
       - upload-coverage:
           requires:
-             - backend-tests
+            - backend-tests
+
+      - bake:
+          requires:
+            - backend-tests
 
       - deploy-dev:
           requires:
-            - backend-tests
+            - bake
           filters:
             branches:
               only:
@@ -132,7 +178,7 @@ workflows:
 
       - deploy-prod:
           requires:
-            - backend-tests
+            - bake
           filters:
             branches:
               only:
