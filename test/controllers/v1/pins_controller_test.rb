@@ -4,7 +4,7 @@ require 'test_helper'
 
 class PinsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @pin = pins(:texas_dragon)
+    @pin = pins(:wisconsin_unicorn)
   end
 
   test "should get index" do
@@ -32,6 +32,7 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   test "should show pin" do
     get v1_pin_url(@pin), as: :json
     assert_response :success
+    assert_match v1_assortment_url(@pin.assortment, format: :json), response.body
   end
 
   test "moderator can update a pin" do
@@ -59,11 +60,11 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show pin with all images" do
-    get v1_pin_url(@pin), as: :json
+    get v1_pin_url(@pin, all_images: true), as: :json
     assert_response :success
 
     @pin.all_images.each do |image|
-      assert response.body.include?(image.id)
+      assert_match image.id, response.body
     end
   end
 end
