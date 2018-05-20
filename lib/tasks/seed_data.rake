@@ -18,19 +18,19 @@ task seed_data: :environment do
 
   logger.info { "Creating pins!" }
 
-  100.times.each do
+  200.times.each do
     SeedHelper::PinHelper.generate
   end
 
   logger.info { "Creating assortments!" }
 
-  30.times.each do
+  50.times.each do
     SeedHelper::AssortmentHelper.generate
   end
 
   logger.info { "Creating collections!" }
 
-  50.times.each do
+  200.times.each do
     SeedHelper::CollectionHelper.generate
   end
 end

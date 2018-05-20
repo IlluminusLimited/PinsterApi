@@ -7,7 +7,7 @@ module SeedHelper
         assortment = Assortment.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}".pluralize,
                                         description: Faker::SiliconValley.quote)
 
-        rand(1..3).times do
+        rand(1..6).times do
           assortment.pins << Pin.all.sample
         end
 
