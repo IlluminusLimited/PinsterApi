@@ -7,6 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 gem 'apipie-rails', '~> 0.5.8'
+gem 'faker', git: 'https://github.com/stympy/faker'
 gem 'health_check', '~> 3.0.0'
 gem 'jbuilder', '~> 2.7.0'
 gem 'jbuilder_pagination_plus', '~> 0.0.4', require: 'jbuilder/pagination'
@@ -26,7 +27,6 @@ gem 'sorcery', '~> 0.12'
 group :development, :test do
   gem 'bullet'
   gem 'dotenv-rails'
-  gem 'faker', git: 'https://github.com/stympy/faker'
   gem 'guard'
   gem 'guard-brakeman'
   gem 'guard-minitest'

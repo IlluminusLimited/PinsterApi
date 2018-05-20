@@ -6,12 +6,12 @@ module V1
     after_action :verify_authorized, except: %i[show index]
 
     api :GET, '/v1/:imageable_type/:imageable_id/images', "Show an imageable's images"
-    param :imageable_type, String, allow_nil: false
+    param :imageable_type, String, allow_nil: false, required: true
     param :imageable_id, String, allow_nil: false
 
     def index
-      @images = Image.where(imageable_type: params[:imageable_type], imageable_id: params[:imageable_id])
-
+      imageable_key = params.keys.select { |key| /\w+_id/.match(key.to_s) }.compact.first
+      @images = Image.where(imageable_type: params[:imageable_type], imageable_id: params[imageable_key.to_sym])
       render :index
     end
 

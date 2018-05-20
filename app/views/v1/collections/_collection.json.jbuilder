@@ -8,6 +8,7 @@ if collection.association(:collectable_collections).loaded?
                     partial: 'v1/collectable_collections/collectable_collection',
                     as: :collectable_collection
 end
-
-json.images collection.images, partial: 'v1/images/image', as: :image if collection.association(:images).loaded?
+if collection.association(:images).loaded?
+  json.images collection.images_or_placeholder, partial: 'v1/images/image', as: :image
+end
 json.url v1_collection_url(collection, format: :json)

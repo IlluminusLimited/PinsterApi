@@ -16,12 +16,12 @@ Rails.application.routes.draw do
     concern :api_base do
       resources :images, only: %i[show create update destroy]
 
-      resources :pins, concerns: :imageable
+      resources :pins, concerns: :imageable, imageable_type: 'Pin'
 
-      resources :assortments, concerns: :imageable
+      resources :assortments, concerns: :imageable, imageable_type: 'Assortment'
 
-      resources :users, shallow: true, only: %i[index show destroy], concerns: :imageable do
-        resources :collections, concerns: :imageable do
+      resources :users, shallow: true, only: %i[index show destroy], concerns: :imageable, imageable_type: 'User' do
+        resources :collections, concerns: :imageable, imageable_type: 'Collection' do
           resources :collectable_collections, shallow: true
         end
       end

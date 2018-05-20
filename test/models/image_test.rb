@@ -36,4 +36,10 @@ class ImageTest < ActiveSupport::TestCase
   test 'images are always returned in order by featured' do
     assert_equal Image.all.order(featured: :desc).to_sql, Image.all.to_sql
   end
+
+  test 'imageables can get placeholder if no images present' do
+    placeholder_image = Pin.new.images_or_placeholder.first
+    assert_match '300x300', placeholder_image.storage_location_uri
+    assert_equal false, placeholder_image.thumbnailable
+  end
 end
