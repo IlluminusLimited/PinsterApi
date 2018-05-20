@@ -23,6 +23,6 @@ class CollectableCollection < ApplicationRecord
   belongs_to :collection, counter_cache: true
 
   def self.public_attribute_names
-    %i[collectable_id collectable_type collection_id]
+    %i[collectable_type collectable_id collection_id count]
   end
 end
