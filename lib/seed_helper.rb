@@ -25,7 +25,7 @@ module SeedHelper
     end
 
     def image_for(resource, iterator = 1)
-      file = Faker::Placeholdit.image("300x300", 'jpeg', :random)
+      file = Faker::Placeholdit.image("300x300", 'jpeg')
       file_name = file.match(/\d+x\d+/)[0]
       Image.create!(imageable: resource,
                     base_file_name: file_name,
