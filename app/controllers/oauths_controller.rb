@@ -27,7 +27,7 @@ class OauthsController < ApplicationController
     user ||= auth_and_login(provider)
 
     token = user.authentications.find_by(provider: provider).refresh_token.token
-    redirect_to((ENV['CLIENT_AUTH_CALLBACK_URL'] || root_url) + '?token=' + token)
+    redirect_to((ENV['CLIENT_AUTH_CALLBACK_URL'] || root_url) + "/#{token}")
   end
 
   private
