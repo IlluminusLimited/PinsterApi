@@ -15,7 +15,8 @@
 #
 # Indexes
 #
-#  index_collections_on_user_id  (user_id)
+#  index_collections_on_created_at  (created_at)
+#  index_collections_on_user_id     (user_id)
 #
 
 class Collection < ApplicationRecord
@@ -32,6 +33,7 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :public, inclusion: { in: [true, false] }
 
+  scope :recently_added, -> { order(created_at: :desc) }
   scope :with_images, -> { includes(:images) }
   scope :with_counts, -> { includes(collectable_collections: :collectable) }
 
@@ -44,14 +46,14 @@ class Collection < ApplicationRecord
   end
 
   def self.default_result
-    includes(:pins)
+    includes(:pins).recently_added
   end
 
   def self.build_query(params)
     if params[:images].nil? || params[:images].to_s == 'true'
-      with_images.with_counts
+      with_images.with_counts.recently_added
     else
-      default_result
+      default_result.recently_added
     end
   end
 end
