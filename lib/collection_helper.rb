@@ -9,7 +9,7 @@ module SeedHelper
                                         user: User.all.sample)
 
         rand(1..20).times.each do
-          CollectionHelper.generate_collectables
+          CollectionHelper.generate_collectables(collection)
         end
 
         rand(0..2).times do |i|
@@ -17,7 +17,7 @@ module SeedHelper
         end
       end
 
-      def generate_collectables
+      def generate_collectables(collection)
         rand(0..5).times.each do
           CollectableCollection.create(collection: collection,
                                        collectable: Assortment.all.sample,
