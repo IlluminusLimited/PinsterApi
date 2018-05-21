@@ -316,6 +316,13 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: index_assortments_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_assortments_on_created_at ON public.assortments USING btree (created_at);
+
+
+--
 -- Name: index_authentications_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -341,6 +348,13 @@ CREATE INDEX index_authentications_on_user_id ON public.authentications USING bt
 --
 
 CREATE INDEX index_collectable_collections_on_collection_id ON public.collectable_collections USING btree (collection_id);
+
+
+--
+-- Name: index_collections_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_collections_on_created_at ON public.collections USING btree (created_at);
 
 
 --
@@ -393,6 +407,13 @@ CREATE INDEX index_pin_assortments_on_pin_id ON public.pin_assortments USING btr
 
 
 --
+-- Name: index_pins_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -418,6 +439,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180513050417'),
 ('20180517015010'),
 ('20180517015251'),
-('20180520205650');
+('20180520205650'),
+('20180521145523');
 
 

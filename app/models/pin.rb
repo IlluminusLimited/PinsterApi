@@ -12,6 +12,11 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_pins_on_created_at  (created_at)
+#
+
 class Pin < ApplicationRecord
   include PgSearch
   include Imageable
@@ -24,8 +29,8 @@ class Pin < ApplicationRecord
   has_one :pin_assortment, dependent: :destroy
   has_one :assortment, through: :pin_assortment
 
+  scope :recently_added, -> { order(created_at: :desc) }
   scope :with_images, -> { includes(:images) }
-
   scope :with_counts, lambda {
     select <<~SQL
       pins.*,
@@ -54,14 +59,14 @@ class Pin < ApplicationRecord
   end
 
   def self.default_result
-    includes(:images).includes(:assortment)
+    includes(:images).includes(:assortment).recently_added
   end
 
   def self.build_query(params)
     if params[:all_images]
-      with_counts
+      with_counts.recently_added
     elsif params[:images].nil? || params[:images].to_s == 'true'
-      includes(:assortment).with_images.with_counts
+      includes(:assortment).with_images.with_counts.recently_added
     else
       default_result
     end

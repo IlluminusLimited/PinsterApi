@@ -3,9 +3,9 @@
 module EagerLoadable
   def build_query(params)
     if params[:images].nil? || params[:images].to_s == 'true'
-      with_images.with_counts
+      with_images.with_counts.recently_added
     else
-      default_result
+      default_result.recently_added
     end
   end
 
