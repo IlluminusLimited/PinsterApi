@@ -167,7 +167,11 @@ workflows:
       - bake:
           requires:
             - backend-tests
-
+          filters:
+            branches:
+              only:
+                - develop
+                - master
       - deploy-dev:
           requires:
             - bake
