@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :authentications
 
-  validates :email, presence: true,uniqueness: true
+  validates :email, presence: true, uniqueness: true
   validates :display_name, presence: true
 
   def self.anon_user
