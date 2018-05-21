@@ -15,13 +15,16 @@ class OauthsController < ApplicationController
     login_at(auth_params[:provider])
   end
 
+  api :GET, '/oauth/callback', 'Callback url for Oauth provider'
+  param :provider, String, desc: 'Oauth provider'
   def callback
     provider = auth_params[:provider]
 
     user = login_from(provider)
     user ||= auth_and_login(provider)
 
-    @token = user.authentications.find_by(provider: provider).refresh_token
+    token = user.authentications.find_by(provider: provider).refresh_token
+    redirect_to(ENV['CLIENT_AUTH_CALLBACK_URL'] || root_url, {token: token})
   end
 
   private

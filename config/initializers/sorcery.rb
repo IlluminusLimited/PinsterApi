@@ -108,7 +108,7 @@ Rails.application.config.sorcery.configure do |config|
   config.facebook.key = ENV['oa_facebook_client']
   config.facebook.secret = ENV['oa_facebook_secret']
   config.facebook.callback_url = ENV['oa_facebook_callback']
-  config.facebook.user_info_mapping = {email: 'email', display_name: 'name'}
+  config.facebook.user_info_mapping = {email: 'user/email', display_name: 'name'}
   config.facebook.access_permissions = ["email"]
   config.facebook.display = "page"
   config.facebook.api_version = "v2.3"
