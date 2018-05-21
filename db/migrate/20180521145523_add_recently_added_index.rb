@@ -10,5 +10,6 @@ class AddRecentlyAddedIndex < ActiveRecord::Migration[5.1]
   def down
     remove_index :pins, :created_at
     remove_index :assortments, :created_at
+    remove_index :collections, :created_at
   end
 end
