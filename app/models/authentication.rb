@@ -37,6 +37,6 @@ class Authentication < ApplicationRecord
   def refresh_token
     self.token_expires_at = Time.now.utc + 3.hours
     regenerate_token
-    token
+    self
   end
 end
