@@ -172,6 +172,7 @@ workflows:
               only:
                 - develop
                 - master
+
       - deploy-dev:
           requires:
             - bake
