@@ -165,8 +165,6 @@ workflows:
             - backend-tests
 
       - bake:
-          requires:
-            - build
           filters:
             branches:
               only:
