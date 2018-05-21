@@ -24,9 +24,9 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
 
   has_many :collections, dependent: :destroy
-  has_one :authentication, dependent: :destroy
+  has_many :authentications, dependent: :destroy
 
-  accepts_nested_attributes_for :authentication
+  accepts_nested_attributes_for :authentications
 
   validates :email, uniqueness: true
   validates :display_name, presence: true
