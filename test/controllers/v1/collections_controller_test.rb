@@ -47,6 +47,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
   test "should show collection" do
     get v1_collection_url(@collection), as: :json
     assert_response :success
+    assert_match @collection.collectable_count.to_s, response.body
   end
 
   test "Tom can create a collection" do

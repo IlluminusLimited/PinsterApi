@@ -5,19 +5,19 @@
 # Table name: assortments
 #
 #  id          :uuid             not null, primary key
-#  name        :string
 #  description :text
+#  name        :string
+#  tags        :jsonb            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 class Assortment < ApplicationRecord
   include PgSearch
+  include Imageable
   extend EagerLoadable
 
   multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
-
-  has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
   has_many :collections, through: :collectable_collections

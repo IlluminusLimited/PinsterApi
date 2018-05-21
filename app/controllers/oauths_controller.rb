@@ -6,14 +6,19 @@ class OauthsController < ApplicationController
   after_action :verify_authorized, except: %i[login oauth callback]
 
   api :GET, '/login', 'Get list of oauth providers'
+
   def login; end
 
   # :nocov:
   api :GET, '/login/:provider', "Redirect to Oauth provider's flow"
   param :provider, String, desc: 'Oauth provider', required: true
+
   def oauth
     login_at(auth_params[:provider])
   end
+
+  api :GET, '/oauth/callback', 'Callback url for Oauth provider'
+  param :provider, String, desc: 'Oauth provider'
 
   def callback
     provider = auth_params[:provider]
@@ -21,7 +26,8 @@ class OauthsController < ApplicationController
     user = login_from(provider)
     user ||= auth_and_login(provider)
 
-    @token = user.authentications.find_by(provider: provider).refresh_token
+    token = user.authentications.find_by(provider: provider).refresh_token.token
+    redirect_to((ENV['CLIENT_AUTH_CALLBACK_URL'] || root_url) + "/#{token}")
   end
 
   private

@@ -14,11 +14,10 @@
 #
 class Pin < ApplicationRecord
   include PgSearch
+  include Imageable
   extend EagerLoadable
 
   multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
-
-  has_many :images, as: :imageable, dependent: :destroy
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
   has_many :collections, through: :collectable_collections
@@ -55,6 +54,16 @@ class Pin < ApplicationRecord
   end
 
   def self.default_result
-    includes(:images)
+    includes(:images).includes(:assortment)
+  end
+
+  def self.build_query(params)
+    if params[:all_images]
+      with_counts
+    elsif params[:images].nil? || params[:images].to_s == 'true'
+      includes(:assortment).with_images.with_counts
+    else
+      default_result
+    end
   end
 end

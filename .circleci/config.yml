@@ -32,6 +32,7 @@ jobs:
           root: tmp
           paths:
             - cc-test-reporter
+
   backend-tests:
     <<: *defaults
     steps:
@@ -165,12 +166,16 @@ workflows:
             - backend-tests
 
       - bake:
-          requires:
-            - backend-tests
+          filters:
+            branches:
+              only:
+                - develop
+                - master
 
       - deploy-dev:
           requires:
             - bake
+            - backend-tests
           filters:
             branches:
               only:
@@ -179,6 +184,7 @@ workflows:
       - deploy-prod:
           requires:
             - bake
+            - backend-tests
           filters:
             branches:
               only:

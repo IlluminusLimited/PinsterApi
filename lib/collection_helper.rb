@@ -8,13 +8,25 @@ module SeedHelper
                                         description: Faker::Movie.quote,
                                         user: User.all.sample)
 
-        rand(1..50).times.each do
-          CollectableCollection.create!(collection: collection,
-                                        collectable: [Pin.all.sample, Assortment.all.sample].sample)
+        rand(1..20).times.each do
+          CollectionHelper.generate_collectables(collection)
         end
 
-        rand(1..2).times do |i|
+        rand(0..2).times do |i|
           SeedHelper.image_for(collection, i)
+        end
+      end
+
+      def generate_collectables(collection)
+        rand(0..5).times.each do
+          CollectableCollection.create(collection: collection,
+                                       collectable: Assortment.all.sample,
+                                       count: rand(1..3))
+        end
+        rand(0..10).times.each do
+          CollectableCollection.create(collection: collection,
+                                       collectable: Pin.all.sample,
+                                       count: rand(1..15))
         end
       end
     end
