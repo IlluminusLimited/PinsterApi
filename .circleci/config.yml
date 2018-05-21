@@ -166,7 +166,7 @@ workflows:
 
       - bake:
           requires:
-            - backend-tests
+            - build
           filters:
             branches:
               only:
@@ -176,6 +176,7 @@ workflows:
       - deploy-dev:
           requires:
             - bake
+            - backend-tests
           filters:
             branches:
               only:
@@ -184,6 +185,7 @@ workflows:
       - deploy-prod:
           requires:
             - bake
+            - backend-tests
           filters:
             branches:
               only:
