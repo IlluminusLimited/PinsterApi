@@ -108,7 +108,7 @@ Rails.application.config.sorcery.configure do |config|
   config.facebook.key = ENV['oa_facebook_client']
   config.facebook.secret = ENV['oa_facebook_secret']
   config.facebook.callback_url = ENV['oa_facebook_callback']
-  config.facebook.user_info_mapping = {email: 'email', name: 'display_name'}
+  config.facebook.user_info_mapping = {email: 'email', display_name: 'name'}
   config.facebook.access_permissions = ["email"]
   config.facebook.display = "page"
   config.facebook.api_version = "v2.3"
@@ -132,7 +132,7 @@ Rails.application.config.sorcery.configure do |config|
   config.google.key = ENV['oa_google_client']
   config.google.secret = ENV['oa_google_secret']
   config.google.callback_url = ENV['oa_google_callback']
-  config.google.user_info_mapping = { email: 'email', name: 'display_name' }
+  config.google.user_info_mapping = { email: 'email', display_name: 'name' }
   config.google.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
 
   # For Microsoft Graph, the key will be your App ID, and the secret will be your app password/public key.
