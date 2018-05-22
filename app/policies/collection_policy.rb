@@ -12,6 +12,10 @@ class CollectionPolicy < ApplicationPolicy
     true
   end
 
+  def summary?
+    true
+  end
+
   def show?
     user.admin? or collection.public? or user.owns?(collection)
   end

@@ -2,13 +2,13 @@
 
 module V1
   class CollectionsController < ApplicationController
-    before_action :require_login, except: %i[show index]
+    before_action :require_login, except: %i[show index summary]
     before_action :set_collection, only: %i[show update]
     after_action :verify_authorized
 
     api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
     param :user_id, String, allow_nil: false
-    param :images, :bool, default: true, required: false
+    param :images, :bool, default: true, required: false, allow_nil: false
     param :page, Hash, required: false do
       param :size, String, default: 10
     end
@@ -21,6 +21,20 @@ module V1
       ).resolve)
       authorize @collections
       render :index
+    end
+
+    api :GET, '/v1/users/:user_id/collections/summary', "Show a user's collections summary"
+    param :user_id, String, allow_nil: false
+    param :summary, :bool, default: true, required: false, allow_nil: false
+    def summary
+      params[:summary] = true
+      @collections = paginate(CollectionPolicy::Scope.new(
+        current_user,
+        params[:user_id],
+        Collection.build_query(params)
+      ).resolve.select(:id, :name))
+      authorize @collections
+      render :summary
     end
 
     api :GET, '/v1/collections/:id', 'Show a collection'

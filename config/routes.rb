@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :assortments, concerns: :imageable, imageable_type: 'Assortment'
 
       resources :users, shallow: true, only: %i[index show destroy], concerns: :imageable, imageable_type: 'User' do
+        get 'collections/summary' => 'collections#summary'
         resources :collections, concerns: :imageable, imageable_type: 'Collection' do
           resources :collectable_collections, shallow: true
         end

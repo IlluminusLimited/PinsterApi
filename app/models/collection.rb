@@ -50,7 +50,9 @@ class Collection < ApplicationRecord
   end
 
   def self.build_query(params)
-    if params[:images].nil? || params[:images].to_s == 'true'
+    if params[:summary].to_s == 'true'
+      select(:id, :name)
+    elsif params[:images].nil? || params[:images].to_s == 'true'
       with_images.with_counts.recently_added
     else
       default_result.recently_added
