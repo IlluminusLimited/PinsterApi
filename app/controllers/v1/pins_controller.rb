@@ -69,7 +69,7 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def pin_params
-        params.require(:data).permit(:name, :year, :description)
+        params.require(:data).permit(:name, :year, :description, :tags)
       end
   end
 end
