@@ -58,8 +58,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
            params: {
              data: {
                description: @collection.description,
-               name: @collection.name,
-               user_id: tom_token.user.id
+               name: @collection.name
              }
            }, as: :json
     end
