@@ -21,7 +21,8 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                           data: {
                             name: @pin.name,
                             year: @pin.year,
-                            description: @pin.description
+                            description: @pin.description,
+                            tags: @pin.tags
                           }
                         }, as: :json
     end
@@ -43,7 +44,8 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                               data: {
                                 description: @pin.description,
                                 name: @pin.name,
-                                year: @pin.year
+                                year: @pin.year,
+                                tags: @pin.tags
                               }
                             }, as: :json
     assert_response 200
