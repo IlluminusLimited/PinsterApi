@@ -25,14 +25,12 @@ module V1
 
     api :GET, '/v1/users/:user_id/collections/summary', "Show a user's collections summary"
     param :user_id, String, allow_nil: false
-    param :summary, :bool, default: true, required: false, allow_nil: false
     def summary
-      params[:summary] = true
       @collections = paginate(CollectionPolicy::Scope.new(
         current_user,
         params[:user_id],
-        Collection.build_query(params)
-      ).resolve.select(:id, :name))
+        Collection.select(:id, :name)
+      ).resolve)
       authorize @collections
       render :summary
     end
