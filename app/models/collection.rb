@@ -35,7 +35,7 @@ class Collection < ApplicationRecord
 
   scope :recently_added, -> { order(created_at: :desc) }
   scope :with_images, -> { includes(:images) }
-  scope :with_counts, -> { includes(collectable_collections: :collectable) }
+  scope :with_counts, -> { includes(:collectable_collections) }
 
   def collectable_count
     collectable_collections.sum(:count)

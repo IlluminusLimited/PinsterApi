@@ -15,7 +15,7 @@ module V1
     # end
 
     def index
-      @collectable_collections = CollectableCollection.includes(:collectable).all
+      @collectable_collections = CollectableCollection.all
       authorize @collectable_collections
       render :index
     end
@@ -78,7 +78,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_collectable_collection
-        @collectable_collection = CollectableCollection.includes(:collection).find(params[:id])
+        @collectable_collection = CollectableCollection.find(params[:id])
       end
 
       # Never trust parameters from the scary internet, only allow the white list through.
