@@ -14,8 +14,13 @@ module V1
     end
 
     api :GET, '/v1/assortments/:id', 'Show an assortment'
+    param :with_collections, :bool, default: false, required: false
     param :id, String, requred: true
-    def show; end
+    def show
+      @collections = @assortment.collections.where(user_id: current_user.id) if params[:with_collections].to_s == 'true'
+      authorize @assortment
+      render :show
+    end
 
     api :POST, '/v1/assortments', 'Create an assortment'
     param :id, String, requred: true
