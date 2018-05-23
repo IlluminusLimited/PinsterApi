@@ -16,8 +16,14 @@ module V1
     api :GET, '/v1/assortments/:id', 'Show an assortment'
     param :with_collections, :bool, default: false, required: false
     param :id, String, requred: true
+
     def show
-      @collections = @assortment.collections.where(user_id: current_user.id) if params[:with_collections].to_s == 'true'
+      if params[:with_collectable_collections].to_s == 'true'
+        @collectable_collections = CollectableCollection.where(collectable: @assortment)
+                                                        .joins(:collection)
+                                                        .where('collections.user_id = ?', current_user.id)
+      end
+
       authorize @assortment
       render :show
     end
@@ -26,6 +32,7 @@ module V1
     param :id, String, requred: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def create
       @assortment = Assortment.new(assortment_params)
       authorize @assortment
@@ -42,6 +49,7 @@ module V1
     param :id, String, requred: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def update
       authorize @assortment
 
@@ -56,6 +64,7 @@ module V1
     param :id, String, requred: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+
     def destroy
       assortment = Assortment.find(params[:id])
       authorize assortment
