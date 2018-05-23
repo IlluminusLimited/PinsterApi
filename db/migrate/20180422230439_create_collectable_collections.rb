@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateCollectableCollections < ActiveRecord::Migration[5.1]
-  def change
+  def up
     create_table :collectable_collections, id: :uuid do |t|
       t.string :collectable_type
       t.uuid :collectable_id
@@ -13,5 +13,10 @@ class CreateCollectableCollections < ActiveRecord::Migration[5.1]
               %i[collectable_type collectable_id collection_id],
               unique: true,
               name: 'index_on_collectable_collection_unique'
+  end
+
+  def down
+    remove_index :collectable_collections, name: 'index_on_collectable_collection_unique'
+    drop_table :collectable_collections
   end
 end
