@@ -15,4 +15,9 @@ class CreateImages < ActiveRecord::Migration[5.1]
     end
     add_index :images, :featured, order: :desc
   end
+
+  def down
+    remove_index :images, :featured
+    drop_table :images
+  end
 end
