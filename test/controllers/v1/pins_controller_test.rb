@@ -70,25 +70,25 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "should show pin with user's collections" do
+  test "should show pin with user's collectable_collections" do
     authentication = authentications(:tom_token)
 
-    get v1_pin_url(@pin, with_collections: true),
+    get v1_pin_url(@pin, with_collectable_collections: true),
         headers: { Authorization: authentication.token },
         as: :json
     assert_response :success
 
-    @pin.collections.each do |collection|
+    @pin.collectable_collections.each do |collection|
       assert_match collection.id, response.body
     end
   end
 
-  test "should show pin without collections" do
-    get v1_pin_url(@pin, with_collections: true),
+  test "should show pin without collectable_collections" do
+    get v1_pin_url(@pin, with_collectable_collections: true),
         as: :json
     assert_response :success
 
-    @pin.collections.each do |collection|
+    @pin.collectable_collections.each do |collection|
       refute_match collection.id, response.body
     end
   end
