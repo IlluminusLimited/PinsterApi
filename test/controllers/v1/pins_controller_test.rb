@@ -21,7 +21,8 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                           data: {
                             name: @pin.name,
                             year: @pin.year,
-                            description: @pin.description
+                            description: @pin.description,
+                            tags: @pin.tags
                           }
                         }, as: :json
     end
@@ -43,7 +44,8 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                               data: {
                                 description: @pin.description,
                                 name: @pin.name,
-                                year: @pin.year
+                                year: @pin.year,
+                                tags: @pin.tags
                               }
                             }, as: :json
     assert_response 200
@@ -65,6 +67,29 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
 
     @pin.all_images.each do |image|
       assert_match image.id, response.body
+    end
+  end
+
+  test "should show pin with user's collectable_collections" do
+    authentication = authentications(:tom_token)
+
+    get v1_pin_url(@pin, with_collectable_collections: true),
+        headers: { Authorization: authentication.token },
+        as: :json
+    assert_response :success
+
+    @pin.collectable_collections.each do |collection|
+      assert_match collection.id, response.body
+    end
+  end
+
+  test "should show pin without collectable_collections" do
+    get v1_pin_url(@pin, with_collectable_collections: true),
+        as: :json
+    assert_response :success
+
+    @pin.collectable_collections.each do |collection|
+      refute_match collection.id, response.body
     end
   end
 end

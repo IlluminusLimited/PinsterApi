@@ -15,7 +15,8 @@
 #
 # Indexes
 #
-#  index_collections_on_user_id  (user_id)
+#  index_collections_on_created_at  (created_at)
+#  index_collections_on_user_id     (user_id)
 #
 
 require 'test_helper'
@@ -52,5 +53,9 @@ class CollectionTest < ActiveSupport::TestCase
   test 'a collection can return total number of items' do
     @toms_secret_collection.reload
     assert_equal 12, @toms_secret_collection.collectable_count
+  end
+
+  test 'collections are sorted by created at :desc' do
+    assert_equal Collection.order(created_at: :desc).to_sql, Collection.recently_added.all.to_sql
   end
 end

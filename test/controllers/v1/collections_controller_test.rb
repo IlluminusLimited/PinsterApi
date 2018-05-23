@@ -18,6 +18,18 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "user can get all of their collections summaries" do
+    tom_token = authentications(:tom_token)
+    get v1_user_collections_summary_url(user_id: tom_token.user.id),
+        headers: { Authorization: tom_token.token },
+        as: :json
+    assert_response :success
+    assert_not response.body.blank?
+    tom_token.user.collections.pluck(:name).each do |collection_name|
+      assert_match collection_name, response.body
+    end
+  end
+
   test "user can get all of their collections" do
     tom_token = authentications(:tom_token)
     get v1_user_collections_url(user_id: tom_token.user.id),
@@ -58,8 +70,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
            params: {
              data: {
                description: @collection.description,
-               name: @collection.name,
-               user_id: tom_token.user.id
+               name: @collection.name
              }
            }, as: :json
     end

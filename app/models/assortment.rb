@@ -11,6 +11,10 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_assortments_on_created_at  (created_at)
+#
 
 class Assortment < ApplicationRecord
   include PgSearch
@@ -28,13 +32,13 @@ class Assortment < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
 
+  scope :recently_added, -> { order(created_at: :desc) }
   scope :with_images, lambda {
                         includes(:images)
                           .includes(:pin_assortments)
                           .includes(:pins)
                           .includes(pin_assortments: [pin: :images])
                       }
-
   scope :with_counts, lambda {
     select <<~SQL
       assortments.*,

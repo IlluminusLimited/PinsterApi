@@ -60,4 +60,27 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response 204
   end
+
+  test "should show assortment with user's collections" do
+    authentication = authentications(:tom_token)
+
+    get v1_assortment_url(@assortment, with_collections: true),
+        headers: { Authorization: authentication.token },
+        as: :json
+    assert_response :success
+
+    @assortment.collections.each do |collection|
+      assert_match collection.id, response.body
+    end
+  end
+
+  test "should show assortment without collections" do
+    get v1_assortment_url(@assortment, with_collections: true),
+        as: :json
+    assert_response :success
+
+    @assortment.collections.each do |collection|
+      refute_match collection.id, response.body
+    end
+  end
 end
