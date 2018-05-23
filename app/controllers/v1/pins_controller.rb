@@ -7,6 +7,7 @@ module V1
 
     api :GET, '/v1/pins', 'List pins'
     param :images, :bool, default: true, required: false
+
     def index
       @pins = paginate Pin.build_query(params)
 
@@ -15,9 +16,20 @@ module V1
 
     api :GET, '/v1/pins/:id', 'Show a pin'
     param :id, String, allow_nil: false
+    param :with_collections, :bool, default: false, required: false
     param :all_images, :bool, default: false, required: false
+
     def show
-      @images = @pin.all_images if params[:all_images]
+      if params[:with_collections].to_s == 'true'
+        @collections = @pin.collections.where(user_id: current_user.id)
+
+        # @collections = @pin.collections.where(user_id: current_user.id)
+
+      elsif params[:all_images]
+        @images = @pin.all_images if params[:all_images]
+      end
+      authorize @pin
+      render :show
     end
 
     api :POST, '/v1/pins', 'Create a pin'
