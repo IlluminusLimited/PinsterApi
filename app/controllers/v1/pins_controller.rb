@@ -16,15 +16,14 @@ module V1
 
     api :GET, '/v1/pins/:id', 'Show a pin'
     param :id, String, allow_nil: false
-    param :with_collections, :bool, default: false, required: false
+    param :with_collectable_collections, :bool, default: false, required: false
     param :all_images, :bool, default: false, required: false
 
     def show
-      if params[:with_collections].to_s == 'true'
-        @collections = @pin.collections.where(user_id: current_user.id)
-
-        # @collections = @pin.collections.where(user_id: current_user.id)
-
+      if params[:with_collectable_collections].to_s == 'true'
+        @collectable_collections = CollectableCollection.where(collectable: @pin)
+                                                        .joins(:collection)
+                                                        .where('collections.user_id = ?', current_user.id)
       elsif params[:all_images]
         @images = @pin.all_images if params[:all_images]
       end
