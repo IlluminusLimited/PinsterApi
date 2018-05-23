@@ -33,7 +33,7 @@ class OauthsController < ApplicationController
   private
 
     def auth_and_login(provider)
-      user = create_from(provider)
+      user = User.find_or_create_by!(email: build_from(provider).email)
       reset_session # protect from session fixation attack
       auto_login(user)
       user
