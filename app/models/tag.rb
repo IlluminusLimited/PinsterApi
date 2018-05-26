@@ -17,4 +17,13 @@
 
 class Tag < ApplicationRecord
   belongs_to :taggable, polymorphic: true
+
+  has_many :tag_categories, dependent: :destroy
+
+  has_many :categories, through: :tag_categories
+
+  before_save {|tag| tag.name  = tag.name.downcase}
+
+  validates :name, presence: true
+  validates :name, uniqueness: true
 end

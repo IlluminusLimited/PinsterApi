@@ -482,24 +482,10 @@ CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at);
 
 
 --
--- Name: index_tag_categories_on_category_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tag_categories_on_category_id ON public.tag_categories USING btree (category_id);
-
-
---
 -- Name: index_tag_categories_on_category_id_and_tag_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_tag_categories_on_category_id_and_tag_id ON public.tag_categories USING btree (category_id, tag_id);
-
-
---
--- Name: index_tag_categories_on_tag_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tag_categories_on_tag_id ON public.tag_categories USING btree (tag_id);
 
 
 --
@@ -521,22 +507,6 @@ CREATE INDEX index_tags_on_taggable_type_and_taggable_id ON public.tags USING bt
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
-
-
---
--- Name: tag_categories fk_rails_23893ce708; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.tag_categories
-    ADD CONSTRAINT fk_rails_23893ce708 FOREIGN KEY (category_id) REFERENCES public.categories(id);
-
-
---
--- Name: tag_categories fk_rails_7e8bfc1687; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.tag_categories
-    ADD CONSTRAINT fk_rails_7e8bfc1687 FOREIGN KEY (tag_id) REFERENCES public.tags(id);
 
 
 --

@@ -1,8 +1,8 @@
 class CreateTagCategories < ActiveRecord::Migration[5.1]
   def up
     create_table :tag_categories, id: :uuid do |t|
-      t.references :tag, foreign_key: true, type: :uuid
-      t.references :category, foreign_key: true, type: :uuid
+      t.uuid :tag_id
+      t.uuid :category_id
 
       t.timestamps
     end

@@ -13,4 +13,9 @@
 #
 
 class Category < ApplicationRecord
+  has_many :tag_categories, dependent: :destroy
+  has_many :tags, through: :tag_categories
+
+  validates :name, presence: true
+  validates :name, uniqueness: true
 end

@@ -10,14 +10,7 @@
 #
 # Indexes
 #
-#  index_tag_categories_on_category_id             (category_id)
 #  index_tag_categories_on_category_id_and_tag_id  (category_id,tag_id) UNIQUE
-#  index_tag_categories_on_tag_id                  (tag_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (category_id => categories.id)
-#  fk_rails_...  (tag_id => tags.id)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
