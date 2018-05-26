@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :tags
+  resources :categories
   health_check_routes
 
   defaults format: :json do

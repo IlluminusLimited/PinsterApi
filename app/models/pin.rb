@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: pins
@@ -7,7 +6,6 @@
 #  id          :uuid             not null, primary key
 #  description :text
 #  name        :string           not null
-#  tags        :jsonb            not null
 #  year        :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -22,7 +20,7 @@ class Pin < ApplicationRecord
   include Imageable
   extend EagerLoadable
 
-  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" }, trigram: { dictionary: "english" } }
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
   has_many :collections, through: :collectable_collections

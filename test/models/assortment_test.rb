@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: assortments
@@ -7,7 +6,6 @@
 #  id          :uuid             not null, primary key
 #  description :text
 #  name        :string
-#  tags        :jsonb            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

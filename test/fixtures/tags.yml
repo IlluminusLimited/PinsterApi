@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: tags
+#
+#  id            :uuid             not null, primary key
+#  name          :string
+#  taggable_type :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  taggable_id   :uuid
+#
+# Indexes
+#
+#  index_tags_on_name                           (name) UNIQUE
+#  index_tags_on_taggable_type_and_taggable_id  (taggable_type,taggable_id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  taggable: one
+  taggable_type: Taggable
+  name: MyString
+
+two:
+  taggable: two
+  taggable_type: Taggable
+  name: MyString

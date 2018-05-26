@@ -89,8 +89,7 @@ CREATE TABLE public.assortments (
     name character varying,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    tags jsonb DEFAULT '[]'::jsonb NOT NULL
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -105,6 +104,18 @@ CREATE TABLE public.authentications (
     uid character varying NOT NULL,
     token character varying DEFAULT ''::character varying,
     token_expires_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.categories (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -197,8 +208,7 @@ CREATE TABLE public.pins (
     year integer,
     description text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    tags jsonb DEFAULT '[]'::jsonb NOT NULL
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -208,6 +218,33 @@ CREATE TABLE public.pins (
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
+);
+
+
+--
+-- Name: tag_categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tag_categories (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    tag_id uuid,
+    category_id uuid,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tags (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    taggable_type character varying,
+    taggable_id uuid,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -249,6 +286,14 @@ ALTER TABLE ONLY public.assortments
 
 ALTER TABLE ONLY public.authentications
     ADD CONSTRAINT authentications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -308,6 +353,22 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: tag_categories tag_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tag_categories
+    ADD CONSTRAINT tag_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -341,6 +402,13 @@ CREATE UNIQUE INDEX index_authentications_on_token ON public.authentications USI
 --
 
 CREATE INDEX index_authentications_on_user_id ON public.authentications USING btree (user_id);
+
+
+--
+-- Name: index_categories_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_categories_on_name ON public.categories USING btree (name);
 
 
 --
@@ -414,10 +482,61 @@ CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at);
 
 
 --
+-- Name: index_tag_categories_on_category_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tag_categories_on_category_id ON public.tag_categories USING btree (category_id);
+
+
+--
+-- Name: index_tag_categories_on_category_id_and_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tag_categories_on_category_id_and_tag_id ON public.tag_categories USING btree (category_id, tag_id);
+
+
+--
+-- Name: index_tag_categories_on_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tag_categories_on_tag_id ON public.tag_categories USING btree (tag_id);
+
+
+--
+-- Name: index_tags_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tags_on_name ON public.tags USING btree (name);
+
+
+--
+-- Name: index_tags_on_taggable_type_and_taggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tags_on_taggable_type_and_taggable_id ON public.tags USING btree (taggable_type, taggable_id);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: tag_categories fk_rails_23893ce708; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tag_categories
+    ADD CONSTRAINT fk_rails_23893ce708 FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
+-- Name: tag_categories fk_rails_7e8bfc1687; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tag_categories
+    ADD CONSTRAINT fk_rails_7e8bfc1687 FOREIGN KEY (tag_id) REFERENCES public.tags(id);
 
 
 --
@@ -440,6 +559,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180517015010'),
 ('20180517015251'),
 ('20180520205650'),
-('20180521145523');
+('20180521145523'),
+('20180526142603'),
+('20180526142604'),
+('20180526142636'),
+('20180526142702');
 
 
