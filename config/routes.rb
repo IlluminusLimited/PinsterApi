@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :tagged_taggables
   resources :tags
   resources :categories
   health_check_routes

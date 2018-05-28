@@ -235,13 +235,25 @@ CREATE TABLE public.tag_categories (
 
 
 --
+-- Name: tagged_taggables; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tagged_taggables (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    tag_id uuid,
+    taggable_type character varying,
+    taggable_id uuid,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: tags; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.tags (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    taggable_type character varying,
-    taggable_id uuid,
     name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -358,6 +370,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.tag_categories
     ADD CONSTRAINT tag_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tagged_taggables tagged_taggables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tagged_taggables
+    ADD CONSTRAINT tagged_taggables_pkey PRIMARY KEY (id);
 
 
 --
@@ -489,17 +509,24 @@ CREATE UNIQUE INDEX index_tag_categories_on_category_id_and_tag_id ON public.tag
 
 
 --
+-- Name: index_tagged_taggables_on_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tagged_taggables_on_tag_id ON public.tagged_taggables USING btree (tag_id);
+
+
+--
+-- Name: index_tagged_taggables_on_taggable_type_and_taggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tagged_taggables_on_taggable_type_and_taggable_id ON public.tagged_taggables USING btree (taggable_type, taggable_id);
+
+
+--
 -- Name: index_tags_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_tags_on_name ON public.tags USING btree (name);
-
-
---
--- Name: index_tags_on_taggable_type_and_taggable_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tags_on_taggable_type_and_taggable_id ON public.tags USING btree (taggable_type, taggable_id);
+CREATE INDEX index_tags_on_name ON public.tags USING btree (name);
 
 
 --
@@ -507,6 +534,14 @@ CREATE INDEX index_tags_on_taggable_type_and_taggable_id ON public.tags USING bt
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: tagged_taggables fk_rails_0f79fc3389; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tagged_taggables
+    ADD CONSTRAINT fk_rails_0f79fc3389 FOREIGN KEY (tag_id) REFERENCES public.tags(id);
 
 
 --
@@ -532,7 +567,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180521145523'),
 ('20180526142603'),
 ('20180526142604'),
-('20180526142636'),
-('20180526142702');
+('20180526150849'),
+('20180526150850'),
+('20180526150928');
 
 
