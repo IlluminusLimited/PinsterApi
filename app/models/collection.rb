@@ -7,6 +7,7 @@
 #  id                            :uuid             not null, primary key
 #  collectable_collections_count :integer          default(0), not null
 #  description                   :text
+#  images_count                  :integer          default(0), not null
 #  name                          :string           not null
 #  public                        :boolean          default(TRUE), not null
 #  created_at                    :datetime         not null
@@ -15,8 +16,9 @@
 #
 # Indexes
 #
-#  index_collections_on_created_at  (created_at)
-#  index_collections_on_user_id     (user_id)
+#  index_collections_on_created_at    (created_at)
+#  index_collections_on_images_count  (images_count)
+#  index_collections_on_user_id       (user_id)
 #
 
 class Collection < ApplicationRecord
@@ -39,6 +41,10 @@ class Collection < ApplicationRecord
 
   def collectable_count
     collectable_collections.sum(:count)
+  end
+
+  def fetch_more_images
+    # collectable_collections.joins(:images).where
   end
 
   def to_s

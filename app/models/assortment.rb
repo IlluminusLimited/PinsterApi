@@ -4,16 +4,18 @@
 #
 # Table name: assortments
 #
-#  id          :uuid             not null, primary key
-#  description :text
-#  name        :string
-#  tags        :jsonb            not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id           :uuid             not null, primary key
+#  description  :text
+#  images_count :integer          default(0), not null
+#  name         :string
+#  tags         :jsonb            not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
-#  index_assortments_on_created_at  (created_at)
+#  index_assortments_on_created_at    (created_at)
+#  index_assortments_on_images_count  (images_count)
 #
 
 class Assortment < ApplicationRecord
@@ -33,12 +35,14 @@ class Assortment < ApplicationRecord
   accepts_nested_attributes_for :pin_assortments
 
   scope :recently_added, -> { order(created_at: :desc) }
+
   scope :with_images, lambda {
                         includes(:images)
                           .includes(:pin_assortments)
                           .includes(:pins)
                           .includes(pin_assortments: [pin: :images])
                       }
+
   scope :with_counts, lambda {
     select <<~SQL
       assortments.*,
@@ -49,6 +53,7 @@ class Assortment < ApplicationRecord
       ) AS counts
     SQL
   }
+
   def to_s
     "Assortment(Set): '#{id}:#{name}'"
   end

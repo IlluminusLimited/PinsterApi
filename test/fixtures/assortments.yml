@@ -2,16 +2,18 @@
 #
 # Table name: assortments
 #
-#  id          :uuid             not null, primary key
-#  description :text
-#  name        :string
-#  tags        :jsonb            not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id           :uuid             not null, primary key
+#  description  :text
+#  images_count :integer          default(0), not null
+#  name         :string
+#  tags         :jsonb            not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
-#  index_assortments_on_created_at  (created_at)
+#  index_assortments_on_created_at    (created_at)
+#  index_assortments_on_images_count  (images_count)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -21,3 +23,4 @@ wisconsin_2009:
   description: This is the mystical creatures set. It features mystical creatures which are a mainstay for made up sets.
   tags:
     - color: red
+  images_count: 1
