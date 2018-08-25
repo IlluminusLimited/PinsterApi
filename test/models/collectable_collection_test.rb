@@ -7,7 +7,6 @@
 #  id               :uuid             not null, primary key
 #  collectable_type :string
 #  count            :integer          default(1), not null
-#  images_count     :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  collectable_id   :uuid
@@ -16,7 +15,6 @@
 # Indexes
 #
 #  index_collectable_collections_on_collection_id  (collection_id)
-#  index_collectable_collections_on_images_count   (images_count)
 #  index_on_collectable_collection_unique          (collectable_type,collectable_id,collection_id) UNIQUE
 #
 

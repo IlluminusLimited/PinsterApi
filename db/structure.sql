@@ -122,8 +122,7 @@ CREATE TABLE public.collectable_collections (
     collection_id uuid,
     count integer DEFAULT 1 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    images_count integer DEFAULT 0 NOT NULL
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -360,13 +359,6 @@ CREATE INDEX index_authentications_on_user_id ON public.authentications USING bt
 --
 
 CREATE INDEX index_collectable_collections_on_collection_id ON public.collectable_collections USING btree (collection_id);
-
-
---
--- Name: index_collectable_collections_on_images_count; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_collectable_collections_on_images_count ON public.collectable_collections USING btree (images_count);
 
 
 --
