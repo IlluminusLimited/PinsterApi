@@ -62,6 +62,6 @@ class CollectionTest < ActiveSupport::TestCase
   end
 
   test 'a collection inherits images from its items' do
-    assert_equal @toms_secret_collection.images&.first, images(:wisconsin_unicorn_image)
+    assert_equal images(:wisconsin_unicorn_image).id, @toms_secret_collection.images&.first&.id
   end
 end

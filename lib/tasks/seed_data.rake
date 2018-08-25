@@ -12,25 +12,27 @@ task seed_data: :environment do
 
   SeedHelper::UserHelper.generate_pinster_admin
 
-  50.times.each do
+  Parallel.map(50.times, in_threads: 4) do
     SeedHelper::UserHelper.generate
   end
 
   logger.info { "Creating pins!" }
 
-  200.times.each do
+  Parallel.map(200.times, in_threads: 4) do
     SeedHelper::PinHelper.generate
   end
 
   logger.info { "Creating assortments!" }
 
-  50.times.each do
+  Parallel.map(50.times, in_processes: Concurrent.processor_count) do
     SeedHelper::AssortmentHelper.generate
   end
 
   logger.info { "Creating collections!" }
 
-  200.times.each do
+  Parallel.map(200.times, in_processes: Concurrent.processor_count) do
     SeedHelper::CollectionHelper.generate
   end
+
+  logger.info { "Done!" }
 end
