@@ -5,6 +5,7 @@
 #  id                            :uuid             not null, primary key
 #  collectable_collections_count :integer          default(0), not null
 #  description                   :text
+#  images_count                  :integer          default(0), not null
 #  name                          :string           not null
 #  public                        :boolean          default(TRUE), not null
 #  created_at                    :datetime         not null
@@ -13,8 +14,9 @@
 #
 # Indexes
 #
-#  index_collections_on_created_at  (created_at)
-#  index_collections_on_user_id     (user_id)
+#  index_collections_on_created_at    (created_at)
+#  index_collections_on_images_count  (images_count)
+#  index_collections_on_user_id       (user_id)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -25,6 +27,7 @@ sallys_favorite_collection:
   public: TRUE
   description: A big 'ol group of my favorite pins!!!!!!!!
   collectable_collections_count: 1
+  images_count: 1
 
 toms_keepers_collection:
   user: tom
@@ -32,6 +35,7 @@ toms_keepers_collection:
   public: TRUE
   description: Don't touch my pins.
   collectable_collections_count: 1
+  images_count: 1
 
 toms_secret_collection:
   user: tom
@@ -39,3 +43,4 @@ toms_secret_collection:
   public: FALSE
   description: You can't even!
   collectable_collections_count: 1
+  images_count: 0
