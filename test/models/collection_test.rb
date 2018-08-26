@@ -61,7 +61,7 @@ class CollectionTest < ActiveSupport::TestCase
     assert_equal Collection.order(created_at: :desc).to_sql, Collection.recently_added.all.to_sql
   end
 
-  # test 'a collection inherits images from its items' do
-  #   assert_equal images(:wisconsin_unicorn_image).id, @toms_secret_collection.images&.first&.id
-  # end
+  test 'a collection inherits images from its items' do
+    assert_includes @toms_secret_collection.images.pluck(:id), images(:wisconsin_unicorn_image).id
+  end
 end

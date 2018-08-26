@@ -5,6 +5,11 @@ require 'user_helper'
 require 'pin_helper'
 require 'assortment_helper'
 require 'collection_helper'
+require 'user'
+require 'pin'
+require 'assortment'
+require 'collection'
+require 'image'
 
 module SeedHelper
   class << self
@@ -22,6 +27,8 @@ module SeedHelper
       logger.info { "Deleting collections" }
 
       Collection.destroy_all
+
+      logger.info { "Done deleting everything" }
     end
 
     def image_for(resource, iterator = 1)

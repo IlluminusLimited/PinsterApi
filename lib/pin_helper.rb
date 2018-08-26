@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pin'
+
 module SeedHelper
   module PinHelper
     class << self

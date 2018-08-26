@@ -42,4 +42,14 @@ class ImageTest < ActiveSupport::TestCase
     assert_match '300x300', placeholder_image.storage_location_uri
     assert_equal false, placeholder_image.thumbnailable
   end
+
+  test 'images will update images_count on imageable' do
+    file = Faker::Placeholdit.image("300x300", 'jpeg')
+    file_name = file.match(/\d+x\d+/)[0]
+    Image.create!(imageable: images(:texas_dragon_image_one).imageable,
+                  base_file_name: file_name,
+                  storage_location_uri: file,
+                  thumbnailable: false)
+    assert_equal 2, images(:texas_dragon_image_one).imageable.images_count
+  end
 end

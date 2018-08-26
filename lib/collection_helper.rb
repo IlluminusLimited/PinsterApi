@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'utilities/synchronized_array'
+require 'collection'
+require 'collectable_collection'
+require 'user'
 
 module SeedHelper
   module CollectionHelper
