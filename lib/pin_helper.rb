@@ -9,7 +9,7 @@ module SeedHelper
         pin = Pin.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}",
                           year: Faker::Time.between(18.years.ago, Time.zone.today).year,
                           description: Faker::Hacker.say_something_smart,
-                          tags: PinHelper.generate_tags)
+                          tags: generate_tags)
         rand(1..3).times.each do |i|
           SeedHelper.image_for(pin, i)
         end

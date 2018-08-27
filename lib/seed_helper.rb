@@ -32,6 +32,7 @@ module SeedHelper
     end
 
     def image_for(resource, iterator = 1)
+      return unless resource
       file = Faker::Placeholdit.image("300x300", 'jpeg')
       file_name = file.match(/\d+x\d+/)[0]
       Image.create!(imageable: resource,

@@ -62,6 +62,10 @@ class CollectionTest < ActiveSupport::TestCase
   end
 
   test 'a collection inherits images from its items' do
-    assert_includes @toms_secret_collection.images.pluck(:id), images(:wisconsin_unicorn_image).id
+    assert_includes @toms_secret_collection.all_images.pluck(:id), images(:wisconsin_unicorn_image).id
+  end
+
+  test 'a collection inherits images from pins in an assortment' do
+    assert_includes @toms_keepers_collection.all_images.pluck(:id), images(:wisconsin_unicorn_image).id
   end
 end

@@ -16,7 +16,7 @@ module SeedHelper
                                             .to_a,
                                         Mutex.new)
 
-        Parallel.map(rand(1..6).times, in_threads: 4) do
+        rand(1..6).times.each do
           PinAssortment.create(pin_id: pin_ids.delete_sample!, assortment_id: assortment.id)
         end
 

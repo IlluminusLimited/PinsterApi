@@ -2,7 +2,7 @@
 
 class SynchronizedArray
   def initialize(array, semaphore)
-    @array = array
+    @array = array.dup
     @semaphore = semaphore
   end
 

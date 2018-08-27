@@ -7,7 +7,7 @@ module SeedHelper
   module UserHelper
     class << self
       def generate
-        user = User.create!(email: Faker::Internet.unique.email,
+        user = User.create(email: Faker::Internet.unique.email,
                             display_name: Faker::Name.name,
                             bio: Faker::HitchhikersGuideToTheGalaxy.marvin_quote,
                             authentications_attributes: [{ uid: Faker::Number.number(10),

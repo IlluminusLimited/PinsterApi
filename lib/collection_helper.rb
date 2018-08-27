@@ -8,17 +8,17 @@ require 'user'
 module SeedHelper
   module CollectionHelper
     class << self
-      def generate
+      def generate(assortment_ids_array, pin_ids_array)
         collection = generate_collection
 
-        assortment_ids = SynchronizedArray.new(Assortment.all.pluck(:id), Mutex.new)
-        pin_ids = SynchronizedArray.new(Pin.all.pluck(:id), Mutex.new)
+        assortment_ids = SynchronizedArray.new(assortment_ids_array, Mutex.new)
+        pin_ids = SynchronizedArray.new(pin_ids_array, Mutex.new)
 
         Parallel.map(rand(1..20).times, in_threads: 4) do
           CollectionHelper.generate_collectables(collection, assortment_ids, pin_ids)
         end
 
-        rand(0..2).times do |i|
+        rand(0..4).times do |i|
           SeedHelper.image_for(collection, i)
         end
       end
@@ -43,14 +43,14 @@ module SeedHelper
         CollectableCollection.create(collection: collection,
                                      collectable_type: 'Assortment',
                                      collectable_id: assortment_ids.delete_sample!,
-                                     count: rand(1..3))
+                                     count: rand(1..30))
       end
 
       def generate_pin_collectables(collection, pin_ids)
         CollectableCollection.create(collection: collection,
                                      collectable_type: 'Pin',
                                      collectable_id: pin_ids.delete_sample!,
-                                     count: rand(1..15))
+                                     count: rand(1..150))
       end
     end
   end
