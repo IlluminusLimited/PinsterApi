@@ -80,7 +80,7 @@ class AssortmentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     @assortment.collectable_collections.each do |collection|
-      refute_match collection.id, response.body
+      assert_no_match collection.id, response.body
     end
   end
 end
