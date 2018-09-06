@@ -8,7 +8,7 @@ Minitest::Ci.report_dir = Rails.root.join('tmp', 'test-results')
 
 SimpleCov.coverage_dir(Rails.root.join('tmp', 'coverage', 'backend'))
 
-SimpleCov.start
+SimpleCov.start 'rails'
 
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
