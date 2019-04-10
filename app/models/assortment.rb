@@ -4,16 +4,18 @@
 #
 # Table name: assortments
 #
-#  id          :uuid             not null, primary key
-#  description :text
-#  name        :string
-#  tags        :jsonb            not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id           :uuid             not null, primary key
+#  description  :text
+#  images_count :integer          default(0), not null
+#  name         :string
+#  tags         :jsonb            not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
-#  index_assortments_on_created_at  (created_at)
+#  index_assortments_on_created_at    (created_at)
+#  index_assortments_on_images_count  (images_count)
 #
 
 class Assortment < ApplicationRecord
@@ -49,6 +51,7 @@ class Assortment < ApplicationRecord
       ) AS counts
     SQL
   }
+
   def to_s
     "Assortment(Set): '#{id}:#{name}'"
   end

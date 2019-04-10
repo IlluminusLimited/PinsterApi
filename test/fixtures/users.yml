@@ -6,6 +6,7 @@
 #  bio          :text
 #  display_name :string
 #  email        :string           not null
+#  images_count :integer          default(0), not null
 #  role         :integer          default(3), not null
 #  verified     :datetime
 #  created_at   :datetime         not null
@@ -13,7 +14,8 @@
 #
 # Indexes
 #
-#  index_users_on_email  (email) UNIQUE
+#  index_users_on_email         (email) UNIQUE
+#  index_users_on_images_count  (images_count)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -24,6 +26,7 @@ sally:
   bio: I like pins.
   verified: null
   role: 3
+  images_count: 0
 
 tom:
   email: tom.likes.pins@mailinator.com
@@ -31,6 +34,7 @@ tom:
   bio: Colorful clockwork dragons are the best.
   verified: null
   role: 3
+  images_count: 0
 
 bob:
   email: bob@bob.com
@@ -38,6 +42,7 @@ bob:
   bio: Bobbing for apples, oh and I'm da moderator.
   verified: null
   role: 2
+  images_count: 0
 
 andrew:
   email: andrew@andrew.com
@@ -45,3 +50,4 @@ andrew:
   bio: I'm the admin and I don't give a fig.
   verified: null
   role: 1
+  images_count: 0

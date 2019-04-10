@@ -4,17 +4,19 @@
 #
 # Table name: pins
 #
-#  id          :uuid             not null, primary key
-#  description :text
-#  name        :string           not null
-#  tags        :jsonb            not null
-#  year        :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id           :uuid             not null, primary key
+#  description  :text
+#  images_count :integer          default(0), not null
+#  name         :string           not null
+#  tags         :jsonb            not null
+#  year         :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
-#  index_pins_on_created_at  (created_at)
+#  index_pins_on_created_at    (created_at)
+#  index_pins_on_images_count  (images_count)
 #
 
 class Pin < ApplicationRecord

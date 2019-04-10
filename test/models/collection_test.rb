@@ -7,6 +7,7 @@
 #  id                            :uuid             not null, primary key
 #  collectable_collections_count :integer          default(0), not null
 #  description                   :text
+#  images_count                  :integer          default(0), not null
 #  name                          :string           not null
 #  public                        :boolean          default(TRUE), not null
 #  created_at                    :datetime         not null
@@ -15,8 +16,9 @@
 #
 # Indexes
 #
-#  index_collections_on_created_at  (created_at)
-#  index_collections_on_user_id     (user_id)
+#  index_collections_on_created_at    (created_at)
+#  index_collections_on_images_count  (images_count)
+#  index_collections_on_user_id       (user_id)
 #
 
 require 'test_helper'
@@ -58,4 +60,8 @@ class CollectionTest < ActiveSupport::TestCase
   test 'collections are sorted by created at :desc' do
     assert_equal Collection.order(created_at: :desc).to_sql, Collection.recently_added.all.to_sql
   end
+
+  # test 'a collection inherits images from its items' do
+  #   assert_equal images(:wisconsin_unicorn_image).id, @toms_secret_collection.images&.first&.id
+  # end
 end

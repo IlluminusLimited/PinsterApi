@@ -23,10 +23,10 @@
 #
 
 class Image < ApplicationRecord
-  belongs_to :imageable, polymorphic: true
+  belongs_to :imageable, counter_cache: :images_count, polymorphic: true
 
-  validates :storage_location_uri, presence: true
-  validates :base_file_name, inclusion: { in: :storage_location_uri }
+  validates :storage_location_uri, presence: true, allow_blank: false
+  validates :base_file_name, inclusion: { in: :storage_location_uri }, allow_blank: false
 
   default_scope { order(featured: :desc) }
 

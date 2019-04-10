@@ -90,7 +90,8 @@ CREATE TABLE public.assortments (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    tags jsonb DEFAULT '[]'::jsonb NOT NULL
+    tags jsonb DEFAULT '[]'::jsonb NOT NULL,
+    images_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -137,7 +138,8 @@ CREATE TABLE public.collections (
     public boolean DEFAULT true NOT NULL,
     collectable_collections_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    images_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -198,7 +200,8 @@ CREATE TABLE public.pins (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    tags jsonb DEFAULT '[]'::jsonb NOT NULL
+    tags jsonb DEFAULT '[]'::jsonb NOT NULL,
+    images_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -223,7 +226,8 @@ CREATE TABLE public.users (
     verified timestamp without time zone,
     role integer DEFAULT 3 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    images_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -323,6 +327,13 @@ CREATE INDEX index_assortments_on_created_at ON public.assortments USING btree (
 
 
 --
+-- Name: index_assortments_on_images_count; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_assortments_on_images_count ON public.assortments USING btree (images_count);
+
+
+--
 -- Name: index_authentications_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -355,6 +366,13 @@ CREATE INDEX index_collectable_collections_on_collection_id ON public.collectabl
 --
 
 CREATE INDEX index_collections_on_created_at ON public.collections USING btree (created_at);
+
+
+--
+-- Name: index_collections_on_images_count; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_collections_on_images_count ON public.collections USING btree (images_count);
 
 
 --
@@ -414,10 +432,24 @@ CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at);
 
 
 --
+-- Name: index_pins_on_images_count; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pins_on_images_count ON public.pins USING btree (images_count);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_images_count; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_images_count ON public.users USING btree (images_count);
 
 
 --
@@ -440,6 +472,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180517015010'),
 ('20180517015251'),
 ('20180520205650'),
-('20180521145523');
+('20180521145523'),
+('20180825192310');
 
 
