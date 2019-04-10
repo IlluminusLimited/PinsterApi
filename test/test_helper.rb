@@ -2,6 +2,7 @@
 
 ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
+require 'minitest/reporters'
 require 'minitest/ci'
 
 Minitest::Ci.report_dir = Rails.root.join('tmp', 'test-results')
