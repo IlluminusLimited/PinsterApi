@@ -6,14 +6,14 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: pinster/ruby:2.4.4-jessie-node
+    - image: pinster/ruby:2.6.2-jessie-node
       environment:
              RAILS_ENV: test
              DATABASE_HOST: 127.0.0.1
              DATABASE_USERNAME: pinsterapi
              DATABASE_PASSWORD:
 
-    - image: circleci/postgres:10.4-alpine-ram
+    - image: circleci/postgres:10.6-alpine-ram
       environment:
              POSTGRES_USER: pinsterapi
              POSTGRES_DB: PinsterApi_test
