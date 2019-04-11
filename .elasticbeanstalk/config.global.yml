@@ -1,10 +1,10 @@
 branch-defaults:
   develop:
-    environment: PinsterApi-dev
+    environment: PinsterApi-1
   master:
     environment: PinsterApi-prod
 environment-defaults:
-  PinsterApi-dev:
+  PinsterApi-1:
     branch: null
     repository: null
   PinsterApi-prod:
