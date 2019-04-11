@@ -17,6 +17,13 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
+guard :rubocop, cli: %w[-D -S -a] do
+  watch(/.rubocop.yml/)
+  watch(/.+\.rb$/)
+  watch(/Rakefile/)
+  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end
+
 guard :minitest, spring: 'bin/rails test', all_after_pass: true do
   watch(%r{^app/(.+)\.rb$}) { |m| ["test/#{m[1]}", "test/#{m[1]}_test.rb"] }
   watch(%r{^app/controllers/(admin|application)_controller\.rb$}) { 'test/controllers' }
@@ -33,13 +40,6 @@ guard :minitest, spring: 'bin/rails test', all_after_pass: true do
 
   # run mailers/integration test when touching mailer erb files
   watch(%r{^app/views/(.*_mailer/)?([^/]+)\.erb$}) { ['test/mailers', 'test/integration'] }
-end
-
-guard :rubocop, cli: %w[-D -S -a] do
-  watch(/.rubocop.yml/)
-  watch(/.+\.rb$/)
-  watch(/Rakefile/)
-  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
 guard 'brakeman', run_on_start: true, quiet: true do
