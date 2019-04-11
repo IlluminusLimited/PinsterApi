@@ -21,7 +21,7 @@ gem 'pg_search', '~> 2.1.2'
 gem 'puma', '~> 3.11'
 gem 'pundit', '~> 1.1.0'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.2.0'
 gem 'sorcery', '~> 0.12'
 
 group :development, :test do
@@ -35,7 +35,7 @@ group :development, :test do
   gem 'minitest-ci'
   gem 'minitest-reporters'
   gem 'policy-assertions', '~> 0.1.1'
-  gem 'rubocop', '0.55.0' # Locked to 0.55.0 until https://github.com/bbatsov/rubocop/issues/5896 is resolved
+  gem 'rubocop', '~> 0.55.0'
   gem 'simplecov', require: false
 end
 
