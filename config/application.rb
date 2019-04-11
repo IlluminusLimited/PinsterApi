@@ -24,10 +24,10 @@ if Rails.env.development? || ENV['REMOTE_DEBUG']
 end
 
 if defined?(AwsSsmEnv)
-  AWS.config({
-                 log_level: :debug,
-                 region: 'us-east-1'
-             })
+  AWS.config(
+    log_level: :debug,
+    region: 'us-east-1'
+  )
   AwsSsmEnv.load(path: "/PinsterApi/#{ENV['RAILS_ENV']}", recursive: true)
 end
 

@@ -304,6 +304,7 @@ DEPENDENCIES
   pundit (~> 1.1.0)
   rack-cors
   rails (~> 5.2.0)
+  rake
   rubocop (~> 0.67.2)
   rubocop-performance
   simplecov

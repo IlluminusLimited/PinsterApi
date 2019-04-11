@@ -24,7 +24,6 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.0'
 gem 'sorcery', '~> 0.12'
 
-
 group :development, :test do
   gem 'bullet'
   gem 'dotenv-rails'
