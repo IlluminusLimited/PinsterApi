@@ -50,6 +50,20 @@ GEM
       rails (>= 4.1)
     arel (9.0.0)
     ast (2.4.0)
+    aws-eventstream (1.0.2)
+    aws-partitions (1.149.0)
+    aws-sdk-core (3.48.3)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-ssm (1.42.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+    aws-ssm-env (0.1.1)
+      aws-sdk-ssm (~> 1)
     bcrypt (3.1.12)
     brakeman (4.5.0)
     builder (3.2.3)
@@ -105,6 +119,7 @@ GEM
       multi_json (>= 1.2)
     jbuilder_pagination_plus (0.0.5)
       jbuilder (~> 2.2, >= 2.2.0)
+    jmespath (1.4.0)
     json (2.2.0)
     jwt (2.1.0)
     kaminari (1.1.1)
@@ -263,6 +278,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   apipie-rails (~> 0.5.8)
+  aws-ssm-env (~> 0.1.1)
   bullet
   dotenv-rails
   faker (~> 1.8.7)

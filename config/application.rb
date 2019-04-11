@@ -23,6 +23,14 @@ if Rails.env.development? || ENV['REMOTE_DEBUG']
   Dotenv.load
 end
 
+if defined?(AwsSsmEnv)
+  AWS.config({
+                 log_level: :debug,
+                 region: 'us-east-1'
+             })
+  AwsSsmEnv.load(path: "/PinsterApi/#{ENV['RAILS_ENV']}", recursive: true)
+end
+
 module PinsterApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

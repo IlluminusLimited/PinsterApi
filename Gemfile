@@ -24,6 +24,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.0'
 gem 'sorcery', '~> 0.12'
 
+
 group :development, :test do
   gem 'bullet'
   gem 'dotenv-rails'
@@ -44,6 +45,10 @@ group :development do
   gem 'annotate', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :production do
+  gem 'aws-ssm-env', '~> 0.1.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
