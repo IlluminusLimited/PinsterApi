@@ -56,6 +56,7 @@ class User < ApplicationRecord
 
   def owns?(resource)
     return false unless resource.respond_to?(:user_id)
+
     resource.user_id == id
   end
 
