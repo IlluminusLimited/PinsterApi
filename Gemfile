@@ -35,7 +35,8 @@ group :development, :test do
   gem 'minitest-ci'
   gem 'minitest-reporters'
   gem 'policy-assertions', '~> 0.1.1'
-  gem 'rubocop', '~> 0.55.0'
+  gem 'rubocop', '~> 0.67.2'
+  gem 'rubocop-performance'
   gem 'simplecov', require: false
 end
 
