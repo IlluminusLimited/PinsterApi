@@ -24,6 +24,7 @@ if Rails.env.development? || ENV['REMOTE_DEBUG']
 end
 
 if defined?(AwsSsmEnv)
+  require 'aws-sdk-core'
   AWS.config(
     log_level: :debug,
     region: 'us-east-1'
