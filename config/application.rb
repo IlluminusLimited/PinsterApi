@@ -23,7 +23,10 @@ if Rails.env.development? || ENV['REMOTE_DEBUG']
   Dotenv.load
 end
 
-AwsSsmEnv.load(path: "/PinsterApi/#{ENV['RAILS_ENV']}", recursive: true) if defined?(AwsSsmEnv)
+if defined?(AwsSsmEnv)
+  ENV['AWS_REGION'] = 'us-east-1'
+  AwsSsmEnv.load(path: "/PinsterApi/#{ENV['RAILS_ENV']}", recursive: true)
+end
 
 module PinsterApi
   class Application < Rails::Application
