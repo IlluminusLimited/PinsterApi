@@ -23,14 +23,7 @@ if Rails.env.development? || ENV['REMOTE_DEBUG']
   Dotenv.load
 end
 
-if defined?(AwsSsmEnv)
-  require 'aws-sdk-core'
-  AWS.config(
-    log_level: :debug,
-    region: 'us-east-1'
-  )
-  AwsSsmEnv.load(path: "/PinsterApi/#{ENV['RAILS_ENV']}", recursive: true)
-end
+AwsSsmEnv.load(path: "/PinsterApi/#{ENV['RAILS_ENV']}", recursive: true) if defined?(AwsSsmEnv)
 
 module PinsterApi
   class Application < Rails::Application
