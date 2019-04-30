@@ -32,7 +32,7 @@ class OauthsController < ApplicationController
     user ||= auth_and_login(provider)
 
     token = user.authentications.find_by(provider: provider).refresh_token.token
-    return  redirect_to((ENV['APP_LOGIN_URI'] || root_url) + "/?token=#{token}") if provider == 'auth0'
+    return  redirect_to((ENV['NATIVE_LOGIN_URI'] || root_url) + "/?token=#{token}") if provider == 'auth0'
 
     redirect_to((ENV['CLIENT_AUTH_CALLBACK_URL'] || root_url) + "/#{token}")
   end
