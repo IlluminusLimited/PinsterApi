@@ -68,6 +68,7 @@ Metrics/BlockLength:
   Exclude:
     - lib/tasks/auto_annotate_models.rake
     - config/routes.rb
+    - config/initializers/sorcery.rb
 
 Rails:
   Enabled: true

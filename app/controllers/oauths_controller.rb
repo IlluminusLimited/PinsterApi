@@ -9,6 +9,11 @@ class OauthsController < ApplicationController
 
   def login; end
 
+  def logout
+    reset_session
+    redirect_to logout_url.to_s
+  end
+
   # :nocov:
   api :GET, '/login/:provider', "Redirect to Oauth provider's flow"
   param :provider, String, desc: 'Oauth provider', required: true
@@ -35,6 +40,7 @@ class OauthsController < ApplicationController
     def auth_and_login(provider)
       built_user = build_from(provider)
       user = User.find_by(email: built_user.email)
+
       user = user.presence || create_from(provider)
       reset_session # protect from session fixation attack
       auto_login(user)
@@ -42,6 +48,6 @@ class OauthsController < ApplicationController
     end
 
     def auth_params
-      params.permit(:provider, :code)
+      params.permit(:provider, :code, :format)
     end
 end

@@ -14,7 +14,7 @@ gem 'jbuilder_pagination_plus', '~> 0.0.5', require: 'jbuilder/pagination'
 gem 'kaminari', '~> 1.1.1'
 gem 'maruku', '~> 0.7.3'
 gem 'newrelic_rpm'
-gem 'oauth2', '~> 1.4.0'
+gem 'oauth2', git: 'https://github.com/oauth-xx/oauth2', branch: :master
 gem 'oj', '~> 3.5.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'pg_search', '~> 2.1.2'
@@ -44,10 +44,6 @@ group :development do
   gem 'annotate', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-end
-
-group :production do
-  gem 'aws-ssm-env', '~> 0.1.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

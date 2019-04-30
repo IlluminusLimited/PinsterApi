@@ -36,6 +36,7 @@ class Authentication < ApplicationRecord
 
   def refresh_token
     self.token_expires_at = Time.now.utc + 14.days
+    # ActiveRecord can generate a secure token because we called has_secure_token
     regenerate_token
     self
   end

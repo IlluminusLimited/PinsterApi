@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The first thing you need to configure is which modules you need in your app.
 # The default is nothing which will include only core features (password encryption, login/logout).
 # Available submodules are: :user_activation, :http_basic_auth, :remember_me,
@@ -77,7 +79,7 @@ Rails.application.config.sorcery.configure do |config|
   # What providers are supported by this app, i.e. [:twitter, :facebook, :github, :linkedin, :xing, :google, :liveid, :salesforce, :slack] .
   # Default: `[]`
   #
-  config.external_providers = %i[google facebook]
+  config.external_providers = %i[google facebook auth0]
 
   # You can change it by your local ca_file. i.e. '/etc/pki/tls/certs/ca-bundle.crt'
   # Path to ca_file. By default use a internal ca-bundle.crt.
@@ -145,13 +147,15 @@ Rails.application.config.sorcery.configure do |config|
   # config.wechat.key = ""
   # config.wechat.secret = ""
   # config.wechat.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=wechat"
-  #
+
   # For Auth0, site is required and should match the domain provided by Auth0.
-  #
-  # config.auth0.key = ""
-  # config.auth0.secret = ""
-  # config.auth0.callback_url = "https://0.0.0.0:3000/oauth/callback?provider=auth0"
-  # config.auth0.site = "https://example.auth0.com"
+
+  config.auth0.key = ENV['oa_auth0_key']
+  config.auth0.secret = ENV['oa_auth0_secret']
+  config.auth0.callback_url = ENV['oa_auth0_callback']
+  config.auth0.site = ENV['oa_auth0_site']
+  config.auth0.user_info_mapping = { email: 'email', display_name: 'name' }
+
 
   config.google.key = ENV['oa_google_client']
   config.google.secret = ENV['oa_google_secret']
@@ -385,7 +389,7 @@ Rails.application.config.sorcery.configure do |config|
     # Default: `5 * 60`
     #
     # user.reset_password_time_between_emails =
-    
+
     # access counter to a reset password page attribute name
     # Default: `:access_count_to_reset_password_page`
     #
