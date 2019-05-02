@@ -23,7 +23,7 @@ gem 'pundit', '~> 1.1.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.0'
 gem 'sorcery', '~> 0.13'
-gem 'jwt' , '~> 2.1.0'
+gem 'jwt', '~> 2.1.0'
 
 group :development, :test do
   gem 'bullet'
@@ -39,6 +39,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.67.2'
   gem 'rubocop-performance'
   gem 'simplecov', require: false
+  gem 'httplog', '~> 1.2.2'
 end
 
 group :development do

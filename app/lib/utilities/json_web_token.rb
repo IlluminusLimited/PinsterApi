@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'uri'
-
 module Utilities
   module JsonWebToken
     def self.verify(token)
@@ -20,7 +17,7 @@ module Utilities
     # TODO: Cache this
     def self.jwks_hash
       Rails.logger.debug { "Fetching jwks.json from auth0" }
-      jwks_raw = Net::HTTP.get URI("https://dev-pinster-illuminusltd.auth0.com/.well-known/jwks.json")
+      jwks_raw = Net::HTTP.get URI("#{ENV['oa_auth0_site']}/.well-known/jwks.json")
       jwks_keys = Array(JSON.parse(jwks_raw)['keys'])
       Hash[
           jwks_keys.map do |key|

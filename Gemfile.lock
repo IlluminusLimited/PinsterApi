@@ -109,6 +109,9 @@ GEM
       guard-compat (~> 1.0)
     health_check (3.0.0)
       railties (>= 5.0)
+    httplog (1.2.2)
+      rack (>= 1.0)
+      rainbow (>= 2.0.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.2)
@@ -278,6 +281,7 @@ DEPENDENCIES
   guard-rubocop
   guard-shell
   health_check (~> 3.0.0)
+  httplog (~> 1.2.2)
   jbuilder (~> 2.7.0)
   jbuilder_pagination_plus (~> 0.0.5)
   jwt (~> 2.1.0)
