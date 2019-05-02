@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'utilities/synchronized_array'
-
 module SeedHelper
   module CollectionHelper
     class << self

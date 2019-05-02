@@ -4,20 +4,19 @@
 #
 # Table name: users
 #
-#  id           :uuid             not null, primary key
-#  bio          :text
-#  display_name :string
-#  email        :string           not null
-#  images_count :integer          default(0), not null
-#  role         :integer          default(3), not null
-#  verified     :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id               :uuid             not null, primary key
+#  bio              :text
+#  display_name     :string
+#  images_count     :integer          default(0), not null
+#  verified         :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  external_user_id :text             not null
 #
 # Indexes
 #
-#  index_users_on_email         (email) UNIQUE
-#  index_users_on_images_count  (images_count)
+#  index_users_on_external_user_id  (external_user_id) UNIQUE
+#  index_users_on_images_count      (images_count)
 #
 
 require 'test_helper'

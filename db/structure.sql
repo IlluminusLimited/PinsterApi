@@ -96,22 +96,6 @@ CREATE TABLE public.assortments (
 
 
 --
--- Name: authentications; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.authentications (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    user_id uuid NOT NULL,
-    provider character varying NOT NULL,
-    uid character varying NOT NULL,
-    token character varying DEFAULT ''::character varying,
-    token_expires_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
 -- Name: collectable_collections; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -220,14 +204,13 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.users (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    email character varying NOT NULL,
     display_name character varying,
     bio text,
     verified timestamp without time zone,
-    role integer DEFAULT 3 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    images_count integer DEFAULT 0 NOT NULL
+    images_count integer DEFAULT 0 NOT NULL,
+    external_user_id text NOT NULL
 );
 
 
@@ -245,14 +228,6 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.assortments
     ADD CONSTRAINT assortments_pkey PRIMARY KEY (id);
-
-
---
--- Name: authentications authentications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.authentications
-    ADD CONSTRAINT authentications_pkey PRIMARY KEY (id);
 
 
 --
@@ -323,7 +298,7 @@ ALTER TABLE ONLY public.users
 -- Name: index_assortments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_assortments_on_created_at ON public.assortments USING btree (created_at);
+CREATE INDEX index_assortments_on_created_at ON public.assortments USING btree (created_at DESC);
 
 
 --
@@ -331,27 +306,6 @@ CREATE INDEX index_assortments_on_created_at ON public.assortments USING btree (
 --
 
 CREATE INDEX index_assortments_on_images_count ON public.assortments USING btree (images_count);
-
-
---
--- Name: index_authentications_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_authentications_on_provider_and_uid ON public.authentications USING btree (provider, uid);
-
-
---
--- Name: index_authentications_on_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_authentications_on_token ON public.authentications USING btree (token);
-
-
---
--- Name: index_authentications_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_authentications_on_user_id ON public.authentications USING btree (user_id);
 
 
 --
@@ -365,7 +319,7 @@ CREATE INDEX index_collectable_collections_on_collection_id ON public.collectabl
 -- Name: index_collections_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_collections_on_created_at ON public.collections USING btree (created_at);
+CREATE INDEX index_collections_on_created_at ON public.collections USING btree (created_at DESC);
 
 
 --
@@ -386,7 +340,7 @@ CREATE INDEX index_collections_on_user_id ON public.collections USING btree (use
 -- Name: index_images_on_featured; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_images_on_featured ON public.images USING btree (featured);
+CREATE INDEX index_images_on_featured ON public.images USING btree (featured DESC);
 
 
 --
@@ -428,7 +382,7 @@ CREATE INDEX index_pin_assortments_on_pin_id ON public.pin_assortments USING btr
 -- Name: index_pins_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at);
+CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at DESC);
 
 
 --
@@ -439,10 +393,10 @@ CREATE INDEX index_pins_on_images_count ON public.pins USING btree (images_count
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_external_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+CREATE UNIQUE INDEX index_users_on_external_user_id ON public.users USING btree (external_user_id);
 
 
 --
@@ -473,6 +427,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180517015251'),
 ('20180520205650'),
 ('20180521145523'),
-('20180825192310');
+('20180825192310'),
+('20190501020226');
 
 

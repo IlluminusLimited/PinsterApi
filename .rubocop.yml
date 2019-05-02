@@ -76,6 +76,10 @@ Rails:
 Rails/InverseOf:
   Enabled: false
 
+Rails/NotNullColumn:
+  Exclude:
+    - db/migrate/20190501020226_auth0_support.rb # All users are deleted in this migration so the default isn't bad.
+
 Rails/FilePath:
   Exclude:
     - config/initializers/apipie.rb

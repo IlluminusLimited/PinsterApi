@@ -15,9 +15,7 @@
 #
 # Indexes
 #
-#  index_authentications_on_provider_and_uid  (provider,uid)
-#  index_authentications_on_token             (token) UNIQUE
-#  index_authentications_on_user_id           (user_id)
+#  index_authentications_on_user_id  (user_id)
 #
 
 require 'test_helper'
