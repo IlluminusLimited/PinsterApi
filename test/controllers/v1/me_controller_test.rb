@@ -28,7 +28,6 @@ class MeControllerTest < ActionDispatch::IntegrationTest
       data: {
         display_name: 'new name',
         bio: 'sample bio thing',
-        email: 'new-email@me.no',
         role: 1
       }
     }, headers: { Authorization: token.token }, as: :json
@@ -45,7 +44,6 @@ class MeControllerTest < ActionDispatch::IntegrationTest
       data: {
         display_name: 'new name',
         bio: 'sample bio thing',
-        email: 'new-email@me.no'
       }
     }, headers: { Authorization: token.token }, as: :json
 

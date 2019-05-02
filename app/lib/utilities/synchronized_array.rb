@@ -1,14 +1,15 @@
 # frozen_string_literal: true
+module Utilities
+  class SynchronizedArray
+    def initialize(array, semaphore)
+      @array = array
+      @semaphore = semaphore
+    end
 
-class SynchronizedArray
-  def initialize(array, semaphore)
-    @array = array
-    @semaphore = semaphore
-  end
-
-  def delete_sample!
-    @semaphore.synchronize do
-      @array.delete_at(rand(@array.length))
+    def delete_sample!
+      @semaphore.synchronize do
+        @array.delete_at(rand(@array.length))
+      end
     end
   end
 end

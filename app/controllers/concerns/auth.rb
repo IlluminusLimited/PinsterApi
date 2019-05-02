@@ -20,9 +20,7 @@ module Auth
   def current_user
     return @current_user if defined?(@current_user)
 
-    auth = Authentication.find_by(token: request.headers['Authorization']&.gsub('Bearer ', ''))
-
-    @current_user = auth&.token_valid? ?  auth.user : User.anon_user
+    @current_user = CurrentUser.from_token(http_token)
   end
 
   def not_authenticated
@@ -31,5 +29,9 @@ module Auth
 
   def user_not_authorized
     render status: :forbidden, json: { "error": "You are not authorized to perform this action." }
+  end
+
+  def http_token
+    request.headers['Authorization'].split(' ').last if request.headers['Authorization'].present?
   end
 end

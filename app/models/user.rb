@@ -26,28 +26,19 @@ class User < ApplicationRecord
 
   has_many :collections, dependent: :destroy
 
-  validates :email, presence: true, uniqueness: true
+  validates :external_user_id, presence: true, uniqueness: true
   validates :display_name, presence: true
 
   def self.anon_user
-    new(id: nil, display_name: 'Anonymous')
+    new(id: nil, display_name: 'Anonymous', external_user_id: nil)
   end
 
   def anonymous?
-    role == 4
+    id.nil?
   end
 
-  # All users default to having a role of 3
   def user?
-    role < 4
-  end
-
-  def moderator?
-    role < 3
-  end
-
-  def admin?
-    role < 2
+    external_user_id.present?
   end
 
   # Basically need to either decorate the user class into a proper CurrentUser or add
@@ -64,6 +55,6 @@ class User < ApplicationRecord
   end
 
   def to_s
-    "User: '#{id}:#{display_name}'"
+    "User: '#{id}:#{display_name}:#{external_user_id}'"
   end
 end

@@ -26,9 +26,9 @@ class UserPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.admin?
-      %i[bio display_name email role verified]
+      %i[bio display_name verified]
     else
-      %i[bio display_name email]
+      %i[bio display_name]
     end
   end
 end
