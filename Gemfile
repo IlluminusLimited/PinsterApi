@@ -22,7 +22,6 @@ gem 'puma', '~> 3.11'
 gem 'pundit', '~> 1.1.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.0'
-gem 'sorcery', '~> 0.13'
 
 group :development, :test do
   gem 'bullet'

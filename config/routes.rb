@@ -4,11 +4,6 @@ Rails.application.routes.draw do
   health_check_routes
 
   defaults format: :json do
-    get "login/:provider", to: "oauths#oauth", as: :auth_at_provider
-    get "login", to: "oauths#login"
-    post "oauth/callback", to: "oauths#callback"
-    get "oauth/callback", to: "oauths#callback"
-
     concern :imageable do
       resources :images, only: %i[index create]
     end

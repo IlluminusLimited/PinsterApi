@@ -22,8 +22,6 @@
 class User < ApplicationRecord
   include Imageable
 
-  authenticates_with_sorcery!
-
   has_many :collections, dependent: :destroy
 
   validates :external_user_id, presence: true, uniqueness: true
