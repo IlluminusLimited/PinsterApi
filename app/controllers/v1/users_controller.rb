@@ -37,7 +37,6 @@ module V1
       authorize @user
 
       if @user.save
-        save_avatar
         render :show, status: :created, location: v1_user_url(@user)
       else
         render json: @user.errors, status: :unprocessable_entity
@@ -80,16 +79,17 @@ module V1
         User.new(display_name: display_name, external_user_id: access_token['sub'])
       end
 
+      # Not supported until more work is done on images and users.
       def save_avatar
-        avatar_uri = user_creation_params['avatar_uri']
-
-        if avatar_uri
-          Image.create(base_file_name: avatar_uri,
-                       storage_location_uri: avatar_uri,
-                       thumbnailable: false,
-                       imageable: @user)
-        end
-        nil
+        # avatar_uri = user_creation_params['avatar_uri']
+        #
+        # if avatar_uri
+        #   Image.create(base_file_name: avatar_uri,
+        #                storage_location_uri: avatar_uri,
+        #                thumbnailable: false,
+        #                imageable: @user)
+        # end
+        # nil
       end
   end
 end

@@ -75,4 +75,28 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_response 204
     end
   end
+
+  # Not supported until more work is done on images
+  # test "Tom can update his own image" do
+  #   token = TokenHelper.for_user(users(:tom))
+  #   image = images(:toms_face)
+  #
+  #   patch v1_image_url(image), headers: { Authorization: "Bearer " + token },
+  #         params: {
+  #             data: {
+  #                 name: "cool name",
+  #                 description: "cool description"
+  #             }
+  #         }, as: :json
+  #   assert_response 200
+  # end
+  #
+  # test "Tom can destroy their own image" do
+  #   token = TokenHelper.for_user(users(:tom))
+  #
+  #   assert_difference('Image.count', -1) do
+  #     delete v1_image_url(images(:toms_face)), headers: { Authorization: "Bearer " + token }, as: :json
+  #     assert_response 204
+  #   end
+  # end
 end
