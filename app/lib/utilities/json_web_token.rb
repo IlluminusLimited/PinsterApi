@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'uri'
+require 'net/http'
+
 module Utilities
   module JsonWebToken
     def self.call(token)
