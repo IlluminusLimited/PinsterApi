@@ -5,3 +5,15 @@
 # PinsterApi
 
 The api that brings the bacon home.
+
+
+
+# .env setup
+
+```dotenv
+oa_auth0_key=some_key
+oa_auth0_secret=super_secret
+oa_auth0_callback=http://localhost:3000/oauth/callback?provider=auth0
+oa_auth0_site=auth0_site_url
+auth0_audience=hosted_address
+```

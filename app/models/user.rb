@@ -4,54 +4,41 @@
 #
 # Table name: users
 #
-#  id           :uuid             not null, primary key
-#  bio          :text
-#  display_name :string
-#  email        :string           not null
-#  images_count :integer          default(0), not null
-#  role         :integer          default(3), not null
-#  verified     :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id               :uuid             not null, primary key
+#  bio              :text
+#  display_name     :string
+#  images_count     :integer          default(0), not null
+#  verified         :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  external_user_id :text             not null
 #
 # Indexes
 #
-#  index_users_on_email         (email) UNIQUE
-#  index_users_on_images_count  (images_count)
+#  index_users_on_external_user_id  (external_user_id) UNIQUE
+#  index_users_on_images_count      (images_count)
 #
 
 class User < ApplicationRecord
   include Imageable
 
-  authenticates_with_sorcery!
-
   has_many :collections, dependent: :destroy
-  has_many :authentications, dependent: :destroy
 
-  accepts_nested_attributes_for :authentications
-
-  validates :email, presence: true, uniqueness: true
+  validates :external_user_id, presence: true, uniqueness: true
   validates :display_name, presence: true
 
+  scope :with_images, -> { includes(:images) }
+
   def self.anon_user
-    new(id: nil, display_name: 'Anonymous', role: 4)
+    new(id: nil, display_name: 'Anonymous', external_user_id: nil)
   end
 
   def anonymous?
-    role == 4
+    id.nil?
   end
 
-  # All users default to having a role of 3
   def user?
-    role < 4
-  end
-
-  def moderator?
-    role < 3
-  end
-
-  def admin?
-    role < 2
+    external_user_id.present?
   end
 
   def owns?(resource)
@@ -61,6 +48,6 @@ class User < ApplicationRecord
   end
 
   def to_s
-    "User: '#{id}:#{display_name}'"
+    "User:<#{id}:#{external_user_id}:'#{display_name}'>"
   end
 end

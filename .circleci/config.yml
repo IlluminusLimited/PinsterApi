@@ -150,7 +150,7 @@ jobs:
           command: git add .
       - run:
           name: Deploy
-          command: eb deploy PinsterApi-prod --staged
+          command: eb deploy PinsterApi-A --staged
 
 workflows:
   version: 2

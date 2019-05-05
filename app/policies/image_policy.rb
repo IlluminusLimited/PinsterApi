@@ -17,14 +17,14 @@ class ImagePolicy < ApplicationPolicy
   end
 
   def create?
-    user.moderator?
+    user.can?('create:image')
   end
 
   def update?
-    user.moderator?
+    user.can?('update:image')
   end
 
   def destroy?
-    user.moderator?
+    user.can?('destroy:image')
   end
 end

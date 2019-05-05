@@ -17,14 +17,14 @@ class AssortmentPolicy < ApplicationPolicy
   end
 
   def create?
-    user.moderator?
+    user.can?('create:assortment')
   end
 
   def update?
-    user.moderator?
+    user.can?('update:assortment')
   end
 
   def destroy?
-    user.moderator?
+    user.can?('destroy:assortment')
   end
 end

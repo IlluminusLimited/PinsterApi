@@ -7,12 +7,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     @image = images(:texas_dragon_image_one)
   end
 
-  test "moderator can create an image" do
-    token = authentications(:bob_token)
+  test "Bob can create an image" do
+    token = TokenHelper.for_user(users(:bob), %w[create:image])
 
     assert_difference('Image.count') do
       post v1_images_url,
-           headers: { Authorization: token.token },
+           headers: { Authorization: "Bearer " + token },
            params: {
              data: {
                imageable_id: @image.imageable_id,
@@ -25,9 +25,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
                thumbnailable: @image.thumbnailable
              }
            }, as: :json
+      assert_response :created
     end
-
-    assert_response 201
   end
 
   test "should show imageables images" do
@@ -47,10 +46,10 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "moderator can update an image" do
-    token = authentications(:bob_token)
+  test "Bob can update an image" do
+    token = TokenHelper.for_user(users(:bob), %w[update:image])
 
-    patch v1_image_url(@image), headers: { Authorization: token.token },
+    patch v1_image_url(@image), headers: { Authorization: "Bearer " + token },
                                 params: {
                                   data: {
                                     imageable: @image.imageable,
@@ -61,13 +60,43 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
-  test "moderator can destroy an image" do
-    token = authentications(:bob_token)
+  test "anon cannot destroy an image" do
+    assert_difference('Image.count', 0) do
+      delete v1_image_url(@image), as: :json
+      assert_response :forbidden
+    end
+  end
+
+  test "Bob can destroy an image" do
+    token = TokenHelper.for_user(users(:bob), %w[destroy:image])
 
     assert_difference('Image.count', -1) do
-      delete v1_image_url(@image), headers: { Authorization: token.token }, as: :json
+      delete v1_image_url(@image), headers: { Authorization: "Bearer " + token }, as: :json
+      assert_response 204
     end
-
-    assert_response 204
   end
+
+  # Not supported until more work is done on images
+  # test "Tom can update his own image" do
+  #   token = TokenHelper.for_user(users(:tom))
+  #   image = images(:toms_face)
+  #
+  #   patch v1_image_url(image), headers: { Authorization: "Bearer " + token },
+  #         params: {
+  #             data: {
+  #                 name: "cool name",
+  #                 description: "cool description"
+  #             }
+  #         }, as: :json
+  #   assert_response 200
+  # end
+  #
+  # test "Tom can destroy their own image" do
+  #   token = TokenHelper.for_user(users(:tom))
+  #
+  #   assert_difference('Image.count', -1) do
+  #     delete v1_image_url(images(:toms_face)), headers: { Authorization: "Bearer " + token }, as: :json
+  #     assert_response 204
+  #   end
+  # end
 end
