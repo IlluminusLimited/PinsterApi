@@ -46,6 +46,6 @@ class User < ApplicationRecord
   end
 
   def to_s
-    "User: '#{id}:#{display_name}:#{external_user_id}'"
+    "User:<#{id}:#{external_user_id}:'#{display_name}'>"
   end
 end
