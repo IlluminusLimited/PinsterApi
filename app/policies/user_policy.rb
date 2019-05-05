@@ -9,7 +9,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin?
+    user.can?('index:user')
   end
 
   def show?
@@ -17,15 +17,15 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? or (user.user? and user.id == user_to_be_modified.id)
+    user.can?('update:user') or (user.user? and user.id == user_to_be_modified.id)
   end
 
   def destroy?
-    user.admin?
+    user.can?('destroy:user')
   end
 
   def permitted_attributes
-    if user.admin?
+    if user.can?('update:user')
       %i[bio display_name verified]
     else
       %i[bio display_name]

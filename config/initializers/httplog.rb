@@ -1,5 +1,6 @@
-HttpLog.configure do |config|
+# frozen_string_literal: true
 
+HttpLog.configure do |config|
   # Enable or disable all logging
   config.enabled = Rails.env.development?
 

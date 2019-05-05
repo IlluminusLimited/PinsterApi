@@ -43,7 +43,7 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     put v1_me_url, params: {
       data: {
         display_name: 'new name',
-        bio: 'sample bio thing',
+        bio: 'sample bio thing'
       }
     }, headers: { Authorization: token.token }, as: :json
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Utilities
   class SynchronizedArray
     def initialize(array, semaphore)

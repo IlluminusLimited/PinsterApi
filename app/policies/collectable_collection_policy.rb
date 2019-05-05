@@ -13,18 +13,18 @@ class CollectableCollectionPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? or collectable_collection.collection.public? or user.owns?(collectable_collection.collection)
+    user.can?('show:collectable_collection') or collectable_collection.collection.public? or user.owns?(collectable_collection.collection)
   end
 
   def create?
-    user.admin? or (user.user? and user.owns?(collectable_collection.collection))
+    user.can?('create:collectable_collection') or (user.user? and user.owns?(collectable_collection.collection))
   end
 
   def update?
-    user.admin? or user.owns?(collectable_collection.collection)
+    user.can?('update:collectable_collection') or user.owns?(collectable_collection.collection)
   end
 
   def destroy?
-    user.admin? or user.owns?(collectable_collection.collection)
+    user.can?('destroy:collectable_collection') or user.owns?(collectable_collection.collection)
   end
 end

@@ -2,7 +2,8 @@
 
 module Utilities
   module JsonWebToken
-    def self.verify(token)
+    def self.call(token)
+      @jwks_hash ||= jwks_hash
       JWT.decode(token, nil,
                  true, # Verify the signature of this token
                  algorithm: 'RS256',
@@ -10,13 +11,12 @@ module Utilities
                  verify_iss: true,
                  aud: ENV['auth0_audience'],
                  verify_aud: true) do |header|
-        jwks_hash[header['kid']]
+        @jwks_hash[header['kid']]
       end
     end
 
-    # TODO: Cache this
     def self.jwks_hash
-      Rails.logger.debug { "Fetching jwks.json from auth0" }
+      Rails.logger.warn { "Fetching jwks.json from auth0" }
       jwks_raw = Net::HTTP.get URI("#{ENV['oa_auth0_site']}/.well-known/jwks.json")
       jwks_keys = Array(JSON.parse(jwks_raw)['keys'])
       Hash[
