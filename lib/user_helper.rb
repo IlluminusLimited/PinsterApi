@@ -12,7 +12,7 @@ module SeedHelper
       def generate_pinster_admin
         User.find_or_create_by!(display_name: 'Andrew',
                                 bio: "Pinster, it can't be beat!",
-                                external_user_id: 'facebook|10215762532594846')
+                                external_user_id: ENV['SEED_USER_ID'])
       end
     end
   end
