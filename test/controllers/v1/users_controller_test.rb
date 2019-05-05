@@ -10,6 +10,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "Anon cannot create user" do
+    post v1_users_url, params: {
+      data: {
+        display_name: 'billy',
+        avatar_uri: Faker::Placeholdit.image("300x300", 'jpeg')
+      }
+    }, as: :json
+
+    assert_response :unauthorized
+  end
+
   test "User can be created" do
     sub = 'facebook|12341234'
     token = TokenHelper.token(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)

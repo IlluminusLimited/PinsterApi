@@ -4,7 +4,7 @@ module V1
   class UsersController < ApplicationController
     before_action :require_login, except: %i[show create]
     before_action :set_user, only: %i[show]
-    after_action :verify_authorized
+    after_action :verify_authorized, except: [:create]
 
     api :GET, '/v1/users', 'List users'
 
@@ -24,10 +24,14 @@ module V1
     end
 
     api :POST, '/v1/users', 'Create a user'
-    param :id, String, allow_nil: false
-
+    param :display_name, String, allow_nil: false
+    param :avatar_uri, String, allow_nil: true
+    error :unauthorized, 'Request missing Authorization header'
     def create
-      access_token, _access_token_headers = current_user_factory.token_verifier.call(http_token)
+      token = http_token
+      return not_authenticated unless token
+
+      access_token, _access_token_headers = current_user_factory.token_verifier.call(token)
 
       display_name = user_creation_params['display_name']
       avatar_uri = user_creation_params['avatar_uri']
