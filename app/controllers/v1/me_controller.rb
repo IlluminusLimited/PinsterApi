@@ -46,7 +46,7 @@ module V1
       # By nature no other users can edit other user's because we don't accept
       # an external parameter for user_id
       def set_me
-        @user = current_user_with_images
+        @user = current_user
       end
 
       def me_params

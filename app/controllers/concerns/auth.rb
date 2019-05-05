@@ -28,8 +28,9 @@ module Auth
     @current_user = current_user_factory.from_token(http_token)
   end
 
+  # Not used yet until user profile pictures are supported
   def current_user_with_images
-    @current_user = current_user_with_images_factory.from_token(http_token)
+    # @current_user = current_user_with_images_factory.from_token(http_token)
   end
 
   def token_error(exception)

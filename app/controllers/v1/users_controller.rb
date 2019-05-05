@@ -59,7 +59,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_user
-        @user = User.includes(:images).find(params[:id])
+        @user = User.find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.
@@ -68,7 +68,7 @@ module V1
       end
 
       def user_creation_params
-        params.require(:data).permit(:display_name, :avatar_uri)
+        params.require(:data).permit(:display_name)
       end
 
       def process_user_create(token)
