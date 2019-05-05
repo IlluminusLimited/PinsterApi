@@ -27,6 +27,8 @@ class User < ApplicationRecord
   validates :external_user_id, presence: true, uniqueness: true
   validates :display_name, presence: true
 
+  scope :with_images, -> { includes(:images) }
+
   def self.anon_user
     new(id: nil, display_name: 'Anonymous', external_user_id: nil)
   end

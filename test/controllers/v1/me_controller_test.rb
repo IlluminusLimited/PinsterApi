@@ -25,6 +25,7 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert_equal tom.display_name, body['display_name']
     assert_equal tom.bio, body['bio']
+    assert_equal tom.images.first.storage_location_uri, body['images'][0]['storage_location_uri']
   end
 
   test "should update me" do

@@ -28,6 +28,10 @@ module Auth
     @current_user = current_user_factory.from_token(http_token)
   end
 
+  def current_user_with_images
+    @current_user = current_user_with_images_factory.from_token(http_token)
+  end
+
   def token_error(exception)
     logger.warn { "Token error: #{exception.message}" }
     render status: :forbidden, json: { "error": "Request missing valid Authorization header.",
@@ -46,8 +50,18 @@ module Auth
     request.headers['Authorization'].slice(7..-1) if request.headers['Authorization'].present?
   end
 
+  def current_user_factory_producer
+    @@current_user_factory_producer ||= proc { |args = {}| CurrentUserFactory.new(args) }
+  end
+
   def current_user_factory
-    @@current_user_factory ||= CurrentUserFactory.new
+    @@current_user_factory ||= current_user_factory_producer.call
+  end
+
+  def current_user_with_images_factory
+    @@current_user_with_images_factory ||= current_user_factory_producer.call(user_finder: lambda do |external_user_id|
+      User.with_images.find_by(external_user_id: external_user_id)
+    end)
   end
 
   def truncate_error_message(message)
@@ -56,8 +70,8 @@ module Auth
   end
 
   # For testing use only
-  def self.current_user_factory=(current_user_factory)
-    @@current_user_factory = current_user_factory
+  def self.current_user_factory_producer=(current_user_factory_producer)
+    @@current_user_factory_producer = current_user_factory_producer
   end
 
   def self.exception_message_handler=(exception_message_handler)

@@ -27,26 +27,17 @@ module V1
     param :display_name, String, allow_nil: false
     param :avatar_uri, String, allow_nil: true
     error :unauthorized, 'Request missing Authorization header'
+    error :unprocessable_entity, 'Unprocessable entity, please check the payload'
+
     def create
       token = http_token
       return not_authenticated unless token
 
-      access_token, _access_token_headers = current_user_factory.token_verifier.call(token)
-
-      display_name = user_creation_params['display_name']
-      avatar_uri = user_creation_params['avatar_uri']
-
-      @user = User.new(display_name: display_name,
-                       external_user_id: access_token['sub'])
+      @user = process_user_create(token)
       authorize @user
 
       if @user.save
-        if avatar_uri
-          Image.create(base_file_name: avatar_uri,
-                       storage_location_uri: avatar_uri,
-                       thumbnailable: false,
-                       imageable: @user)
-        end
+        save_avatar
         render :show, status: :created, location: v1_user_url(@user)
       else
         render json: @user.errors, status: :unprocessable_entity
@@ -79,6 +70,26 @@ module V1
 
       def user_creation_params
         params.require(:data).permit(:display_name, :avatar_uri)
+      end
+
+      def process_user_create(token)
+        access_token, _access_token_headers = current_user_factory.token_verifier.call(token)
+
+        display_name = user_creation_params['display_name']
+
+        User.new(display_name: display_name, external_user_id: access_token['sub'])
+      end
+
+      def save_avatar
+        avatar_uri = user_creation_params['avatar_uri']
+
+        if avatar_uri
+          Image.create(base_file_name: avatar_uri,
+                       storage_location_uri: avatar_uri,
+                       thumbnailable: false,
+                       imageable: @user)
+        end
+        nil
       end
   end
 end

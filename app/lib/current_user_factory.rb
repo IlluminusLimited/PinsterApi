@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class CurrentUserFactory
-  attr_reader :logger, :token_verifier, :current_user
+  attr_reader :logger, :token_verifier, :current_user, :user_finder
 
   def initialize(opts = {})
     @logger = opts[:logger] ||= Rails.logger
     @token_verifier = opts[:token_verifier] ||= Utilities::JsonWebToken
+    @user_finder = opts[:user_finder] ||= ->(external_user_id) { User.find_by(external_user_id: external_user_id) }
     @current_user = opts[:current_user] ||= CurrentUser
   end
 
@@ -15,7 +16,7 @@ class CurrentUserFactory
     decoded_token = decode_token(token)
     external_user_id = decoded_token['sub']
 
-    user = User.find_by(external_user_id: external_user_id)
+    user = user_finder.call(external_user_id)
     build_user(user, external_user_id, decoded_token)
   end
 

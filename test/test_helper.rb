@@ -28,6 +28,9 @@ class ActiveSupport::TestCase
     CurrentUserFactory.new(token_verifier: TokenHelper.token_verifier).from_token(token)
   end
 
-  Auth.current_user_factory = CurrentUserFactory.new(token_verifier: TokenHelper.token_verifier)
+  Auth.current_user_factory_producer = proc do |args = {}|
+    CurrentUserFactory.new(args.merge(token_verifier: TokenHelper.token_verifier))
+  end
+
   Auth.exception_message_handler = ->(message) { message }
 end
