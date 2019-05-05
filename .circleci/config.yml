@@ -136,7 +136,7 @@ jobs:
           command: git add .
       - run:
           name: Deploy
-          command: eb deploy PinsterApi-B --staged
+          command: eb deploy PinsterApi-2 --staged
 
   deploy-prod:
     working_directory: ~/repo
