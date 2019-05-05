@@ -2,7 +2,9 @@
 
 module V1
   class AssortmentsController < ApplicationController
-    before_action :set_assortment, only: %i[show update]
+    before_action :require_login, except: %i[show index]
+    before_action :set_assortment, only: %i[update destroy]
+    before_action :set_assortment_with_images, only: %i[show]
     after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/assortments', 'List assortments'
@@ -66,16 +68,18 @@ module V1
     error :forbidden, 'You are not authorized to perform this action'
 
     def destroy
-      assortment = Assortment.find(params[:id])
-      authorize assortment
+      authorize @assortment
 
-      assortment.destroy
+      @assortment.destroy
     end
 
     private
 
-      # Use callbacks to share common setup or constraints between actions.
       def set_assortment
+        @assortment = Assortment.find(params[:id])
+      end
+
+      def set_assortment_with_images
         @assortment = Assortment.with_images.find(params[:id])
       end
 

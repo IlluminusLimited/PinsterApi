@@ -17,14 +17,14 @@ class PinPolicy < ApplicationPolicy
   end
 
   def create?
-    user.moderator?
+    user.can?('create:pin')
   end
 
   def update?
-    user.moderator?
+    user.can?('update:pin')
   end
 
   def destroy?
-    user.moderator?
+    user.can?('destroy:pin')
   end
 end

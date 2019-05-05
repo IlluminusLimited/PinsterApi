@@ -38,7 +38,7 @@ class CollectionTest < ActiveSupport::TestCase
 
   test 'a collection can contain both pins and assortments of pins' do
     collection = Collection.create!(name: 'Amazing collection',
-                                    user: User.create!(email: 'bob@bob.bob', display_name: 'bob'),
+                                    user: User.create!(external_user_id: 'bblah|asdf', display_name: 'bob'),
                                     collectable_collections_attributes: [
                                       { collectable: Pin.create!(name: 'thing', year: 1998) },
                                       { collectable:

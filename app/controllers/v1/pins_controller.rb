@@ -2,7 +2,9 @@
 
 module V1
   class PinsController < ApplicationController
-    before_action :set_pin, only: %i[show update]
+    before_action :require_login, except: %i[show index]
+    before_action :set_pin, only: %i[update destroy]
+    before_action :set_pin_with_images, only: %i[show]
     after_action :verify_authorized, except: %i[index show]
 
     api :GET, '/v1/pins', 'List pins'
@@ -66,15 +68,17 @@ module V1
     error :forbidden, 'You are not authorized to perform this action'
 
     def destroy
-      pin = Pin.find(params[:id])
-      authorize pin
-      pin.destroy
+      authorize @pin
+      @pin.destroy
     end
 
     private
 
-      # Use callbacks to share common setup or constraints between actions.
       def set_pin
+        @pin = Pin.find(params[:id])
+      end
+
+      def set_pin_with_images
         @pin = Pin.build_query(params).find(params[:id])
       end
 

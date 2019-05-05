@@ -2,8 +2,11 @@
 
 module V1
   class MeController < ApplicationController
-    before_action :require_login
+    # The order of these actions matter. set_me loads the user using with_images. Then
+    # require_login makes sure the user is actually a user.
     before_action :set_me
+    before_action :require_login
+    after_action :verify_authorized
 
     resource_description do
       description <<-DESCRIPTION
@@ -20,7 +23,6 @@ module V1
 
     api :PATCH, '/v1/me', 'Update the current user'
     api :PUT, '/v1/me', 'Update the current user'
-    param :email, String, desc: "The user's email address"
     param :display_name, String, desc: 'The name to be shown to other users'
     param :bio, String, desc: 'A short description of yourself'
     error :unauthorized, 'Request missing Authorization header'

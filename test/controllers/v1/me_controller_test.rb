@@ -3,52 +3,68 @@
 require 'test_helper'
 
 class MeControllerTest < ActionDispatch::IntegrationTest
-  test "Sally's token returns unauthorized" do
-    token = authentications(:sally_token)
-    get v1_me_url, headers: { Authorization: token.token }
-
+  test "no token returns unauthorized" do
+    get v1_me_url
     assert_response :unauthorized
   end
 
-  test "should show me" do
-    authentication = authentications(:tom_token)
-    get v1_me_url, headers: { Authorization: authentication.token }, as: :json
+  test "Sallys expired token returns forbidden" do
+    token = TokenHelper.for_user(users(:sally), [], (Time.now.in_time_zone - 30.minutes).to_i)
+    get v1_me_url, headers: { Authorization: "Bearer " + token }
 
-    assert_response :success
-    assert_not response.body.blank?
-    body = JSON.parse(response.body)
-    assert_equal authentication.user.display_name, body['display_name']
-    assert_equal authentication.user.role, body['role']
-    assert_equal authentication.user.bio, body['bio']
+    assert_response :forbidden
   end
 
-  test "user cannot update role" do
-    token = authentications(:tom_token)
-    put v1_me_url, params: {
-      data: {
-        display_name: 'new name',
-        bio: 'sample bio thing',
-        email: 'new-email@me.no',
-        role: 1
-      }
-    }, headers: { Authorization: token.token }, as: :json
+  test "should show me" do
+    tom = users(:tom)
+    token = TokenHelper.for_user(tom)
+    get v1_me_url, headers: { Authorization: "Bearer " + token }, as: :json
 
     assert_response :success
     assert_not response.body.blank?
     body = JSON.parse(response.body)
-    assert_equal 'new name', body['display_name']
+    assert_equal tom.display_name, body['display_name']
+    assert_equal tom.bio, body['bio']
+    # assert_equal tom.images.first.storage_location_uri, body['images'][0]['storage_location_uri']
   end
 
   test "should update me" do
-    token = authentications(:tom_token)
+    token = TokenHelper.for_user(users(:tom))
+
     put v1_me_url, params: {
       data: {
         display_name: 'new name',
-        bio: 'sample bio thing',
-        email: 'new-email@me.no'
+        bio: 'sample bio thing'
       }
-    }, headers: { Authorization: token.token }, as: :json
+    }, headers: { Authorization: "Bearer " + token }, as: :json
 
-    assert_response :success
+    assert_response :ok
+    body = JSON.parse(response.body)
+
+    assert_equal 'new name', body['display_name']
+    assert_equal 'sample bio thing', body['bio']
+  end
+
+  test "user cannot change external_user_id" do
+    tom = users(:tom)
+    token = TokenHelper.for_user(tom)
+
+    put v1_me_url, params: {
+      data: {
+        external_user_id: 'new id'
+      }
+    }, headers: { Authorization: "Bearer " + token }, as: :json
+
+    assert_response :ok
+    assert_equal tom.external_user_id, User.find_by(display_name: 'tom').external_user_id
+  end
+
+  test "Unknown user is not authorized" do
+    sub = 'facebook|12341234'
+    token = TokenHelper.token(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)
+
+    get v1_me_url, headers: { Authorization: "Bearer " + token }, as: :json
+
+    assert_response :unauthorized
   end
 end

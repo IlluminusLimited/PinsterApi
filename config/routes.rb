@@ -4,11 +4,6 @@ Rails.application.routes.draw do
   health_check_routes
 
   defaults format: :json do
-    get "login/:provider", to: "oauths#oauth", as: :auth_at_provider
-    get "login", to: "oauths#login"
-    post "oauth/callback", to: "oauths#callback"
-    get "oauth/callback", to: "oauths#callback"
-
     concern :imageable do
       resources :images, only: %i[index create]
     end
@@ -20,7 +15,11 @@ Rails.application.routes.draw do
 
       resources :assortments, concerns: :imageable, imageable_type: 'Assortment'
 
-      resources :users, shallow: true, only: %i[index show destroy], concerns: :imageable, imageable_type: 'User' do
+      resources :users,
+                shallow: true,
+                only: %i[index show create destroy],
+                concerns: :imageable,
+                imageable_type: 'User' do
         get 'collections/summary' => 'collections#summary'
         resources :collections, concerns: :imageable, imageable_type: 'Collection' do
           resources :collectable_collections, shallow: true
