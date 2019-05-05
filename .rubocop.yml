@@ -48,6 +48,10 @@ Style/StructInheritance:
   Exclude:
     - app/policies/**/*
 
+Style/ClassVars:
+  Exclude:
+    - app/controllers/concerns/auth.rb
+
 Metrics/AbcSize:
   Exclude:
     - db/migrate/**/*
@@ -69,6 +73,12 @@ Metrics/BlockLength:
     - lib/tasks/auto_annotate_models.rake
     - config/routes.rb
     - config/initializers/sorcery.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - test/controllers/v1/pins_controller_test.rb
+    - test/controllers/v1/assortments_controller_test.rb
+    - test/controllers/v1/collections_controller_test.rb
 
 Rails:
   Enabled: true
