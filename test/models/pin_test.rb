@@ -29,6 +29,6 @@ class PinTest < ActiveSupport::TestCase
   end
 
   test 'pins are sorted by created at :desc' do
-    assert_equal Pin.order(created_at: :desc).to_sql, Pin.recently_added.all.to_sql
+    assert_equal Pin.order(year: :desc, created_at: :desc).to_sql, Pin.recently_added.all.to_sql
   end
 end
