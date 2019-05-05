@@ -15,8 +15,8 @@
 #
 # Indexes
 #
-#  index_pins_on_created_at    (created_at)
-#  index_pins_on_images_count  (images_count)
+#  index_pins_on_images_count         (images_count)
+#  index_pins_on_year_and_created_at  (year,created_at)
 #
 
 class Pin < ApplicationRecord

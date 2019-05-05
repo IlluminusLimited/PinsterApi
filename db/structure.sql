@@ -379,17 +379,17 @@ CREATE INDEX index_pin_assortments_on_pin_id ON public.pin_assortments USING btr
 
 
 --
--- Name: index_pins_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_pins_on_created_at ON public.pins USING btree (created_at DESC);
-
-
---
 -- Name: index_pins_on_images_count; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_pins_on_images_count ON public.pins USING btree (images_count);
+
+
+--
+-- Name: index_pins_on_year_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_pins_on_year_and_created_at ON public.pins USING btree (year DESC, created_at DESC);
 
 
 --
@@ -428,6 +428,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180520205650'),
 ('20180521145523'),
 ('20180825192310'),
-('20190501020226');
+('20190501020226'),
+('20190505170435');
 
 
