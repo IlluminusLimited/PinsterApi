@@ -41,13 +41,6 @@ class User < ApplicationRecord
     external_user_id.present?
   end
 
-  # Basically need to either decorate the user class into a proper CurrentUser or add
-  # the token into the user somehow which sounds wrong.
-  # If we use a decorator then the pundit policies will be easy to adjust
-  # and instead of checking for things like .admin? or .moderator?
-  # we will just check to see if that particular permission is present.
-  # Logging will probably be a good idea too
-
   def owns?(resource)
     return false unless resource.respond_to?(:user_id)
 

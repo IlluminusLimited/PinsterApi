@@ -42,7 +42,10 @@ class CollectableCollectionPolicyTest < PolicyAssertions::Test
   end
 
   test 'admins can perform any action' do
-    user = current_user(TokenHelper.for_user(users(:bob), %w[create:collectable_collection update:collectable_collection destroy:collectable_collection]))
+    user = current_user(TokenHelper.for_user(users(:bob), %w[show:collectable_collection
+                                                             create:collectable_collection
+                                                             update:collectable_collection
+                                                             destroy:collectable_collection]))
     # will refactor since the class doesn't have an instance of collection to check against so this test fails
     # assert_permit(user, CollectableCollection, ANY_ACTION)
     assert_permit(user, collectable_collections(:three), ANY_ACTION)

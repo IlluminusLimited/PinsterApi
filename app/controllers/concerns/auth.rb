@@ -49,6 +49,16 @@ module Auth
   end
 
   def truncate_error_message(message)
-    message.split('.')&.first
+    @@exception_message_handler ||= ->(msg) { msg.split('.')&.first }
+    @@exception_message_handler.call(message)
+  end
+
+  # For testing use only
+  def self.current_user_factory=(current_user_factory)
+    @@current_user_factory = current_user_factory
+  end
+
+  def self.exception_message_handler=(exception_message_handler)
+    @@exception_message_handler = exception_message_handler
   end
 end

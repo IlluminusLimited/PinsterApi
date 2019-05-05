@@ -3,7 +3,7 @@
 module V1
   class UsersController < ApplicationController
     before_action :require_login, except: :show
-    before_action :set_user, only: %i[show destroy]
+    before_action :set_user, only: %i[show]
 
     api :GET, '/v1/users', 'List users'
 
@@ -26,6 +26,8 @@ module V1
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
     def destroy
+      @user = User.includes(:images, collections: %i[images collectable_collections]).find(params[:id])
+
       authorize @user
       @user.destroy
     end
@@ -34,7 +36,7 @@ module V1
 
       # Use callbacks to share common setup or constraints between actions.
       def set_user
-        @user = User.find(params[:id])
+        @user = User.includes(:images).find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

@@ -23,4 +23,11 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  def current_user(token)
+    CurrentUserFactory.new(token_verifier: TokenHelper.token_verifier).from_token(token)
+  end
+
+  Auth.current_user_factory = CurrentUserFactory.new(token_verifier: TokenHelper.token_verifier)
+  Auth.exception_message_handler = ->(message) { message }
 end

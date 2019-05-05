@@ -27,14 +27,10 @@ class AssortmentPolicyTest < PolicyAssertions::Test
     assert_not_permitted(user, assortments(:wisconsin_2009), ANY_INSTANCE_MODIFY_ACTION)
   end
 
-  test 'moderators can perform any action' do
-    user = current_user(TokenHelper.for_user(users(:bob), %w[create:assortment update:assortment destroy:assortment]))
-    assert_permit(user, Assortment, ANY_ACTION)
-    assert_permit(user, assortments(:wisconsin_2009), ANY_ACTION)
-  end
-
   test 'admins can perform any action' do
-    user = current_user(TokenHelper.for_user(users(:andrew), %w[create:assortment update:assortment destroy:assortment]))
+    user = current_user(TokenHelper.for_user(users(:andrew), %w[create:assortment
+                                                                update:assortment
+                                                                destroy:assortment]))
     assert_permit(user, Assortment, ANY_ACTION)
     assert_permit(user, assortments(:wisconsin_2009), ANY_ACTION)
   end

@@ -8,11 +8,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "moderator can create an image" do
-    token = authentications(:bob_token)
+    token = TokenHelper.for_user(users(:bob), %w[create:image])
 
     assert_difference('Image.count') do
       post v1_images_url,
-           headers: { Authorization: token.token },
+           headers: { Authorization: "Bearer " + token },
            params: {
              data: {
                imageable_id: @image.imageable_id,
@@ -25,9 +25,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
                thumbnailable: @image.thumbnailable
              }
            }, as: :json
+      assert_response 201
     end
-
-    assert_response 201
   end
 
   test "should show imageables images" do
@@ -48,9 +47,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "moderator can update an image" do
-    token = authentications(:bob_token)
+    token = TokenHelper.for_user(users(:bob), %w[update:image])
 
-    patch v1_image_url(@image), headers: { Authorization: token.token },
+    patch v1_image_url(@image), headers: { Authorization: "Bearer " + token },
                                 params: {
                                   data: {
                                     imageable: @image.imageable,
@@ -62,12 +61,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "moderator can destroy an image" do
-    token = authentications(:bob_token)
+    token = TokenHelper.for_user(users(:bob), %w[destroy:image])
 
     assert_difference('Image.count', -1) do
-      delete v1_image_url(@image), headers: { Authorization: token.token }, as: :json
+      delete v1_image_url(@image), headers: { Authorization: "Bearer " + token }, as: :json
+      assert_response 204
     end
-
-    assert_response 204
   end
 end

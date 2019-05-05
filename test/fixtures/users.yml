@@ -31,7 +31,7 @@ tom:
   display_name: tom
   bio: Colorful clockwork dragons are the best.
   verified: null
-  images_count: 0
+  images_count: 1
 
 bob:
   external_user_id: instagram|5678

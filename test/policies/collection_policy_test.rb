@@ -59,7 +59,10 @@ class CollectionPolicyTest < PolicyAssertions::Test
   end
 
   test 'admins can perform any action' do
-    user = current_user(TokenHelper.for_user(users(:bob), %w[create:collection update:collection destroy:collection]))
+    user = current_user(TokenHelper.for_user(users(:andrew), %w[show:collection
+                                                                create:collection
+                                                                update:collection
+                                                                destroy:collection]))
     assert_permit(user, Collection, ANY_ACTION)
     assert_permit(user, collections(:toms_secret_collection), ANY_ACTION)
   end

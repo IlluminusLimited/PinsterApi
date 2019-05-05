@@ -13,10 +13,10 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "moderator can create a pin" do
-    token = authentications(:bob_token)
+    token = TokenHelper.for_user(users(:bob), %w[create:pin])
 
     assert_difference('Pin.count') do
-      post v1_pins_url, headers: { Authorization: token.token },
+      post v1_pins_url, headers: { Authorization: "Bearer " + token },
                         params: {
                           data: {
                             name: @pin.name,
@@ -25,9 +25,8 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                             tags: @pin.tags
                           }
                         }, as: :json
+      assert_response 201
     end
-
-    assert_response 201
   end
 
   test "should show pin" do
@@ -37,9 +36,9 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "moderator can update a pin" do
-    token = authentications(:bob_token)
+    token = TokenHelper.for_user(users(:bob), %w[update:pin])
 
-    patch v1_pin_url(@pin), headers: { Authorization: token.token },
+    patch v1_pin_url(@pin), headers: { Authorization: "Bearer " + token },
                             params: {
                               data: {
                                 description: @pin.description,
@@ -52,13 +51,12 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "moderator can destroy a pin" do
-    token = authentications(:bob_token)
+    token = TokenHelper.for_user(users(:bob), %w[destroy:pin])
 
     assert_difference('Pin.count', -1) do
-      delete v1_pin_url(@pin), headers: { Authorization: token.token }, as: :json
+      delete v1_pin_url(@pin), headers: { Authorization: "Bearer " + token }, as: :json
+      assert_response 204
     end
-
-    assert_response 204
   end
 
   test "should show pin with all images" do
@@ -71,10 +69,10 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show pin with user's collectable_collections" do
-    authentication = authentications(:tom_token)
+    token = TokenHelper.for_user(users(:tom))
 
     get v1_pin_url(@pin, with_collectable_collections: true),
-        headers: { Authorization: authentication.token },
+        headers: { Authorization: "Bearer " + token },
         as: :json
     assert_response :success
 

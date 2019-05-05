@@ -13,7 +13,8 @@ class CollectableCollectionPolicy < ApplicationPolicy
   end
 
   def show?
-    user.can?('show:collectable_collection') or collectable_collection.collection.public? or user.owns?(collectable_collection.collection)
+    user.can?('show:collectable_collection') or collectable_collection.collection.public? \
+      or user.owns?(collectable_collection.collection)
   end
 
   def create?

@@ -10,6 +10,8 @@ class CurrentUserFactory
   end
 
   def from_token(token)
+    return current_user.new(User.anon_user) if token.nil?
+
     decoded_token = decode_token(token)
     external_user_id = decoded_token['sub']
     logger.debug { "Looking up user with sub: #{external_user_id}" }
