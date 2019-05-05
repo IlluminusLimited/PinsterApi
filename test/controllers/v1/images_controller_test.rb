@@ -7,7 +7,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     @image = images(:texas_dragon_image_one)
   end
 
-  test "moderator can create an image" do
+  test "Bob can create an image" do
     token = TokenHelper.for_user(users(:bob), %w[create:image])
 
     assert_difference('Image.count') do
@@ -25,7 +25,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
                thumbnailable: @image.thumbnailable
              }
            }, as: :json
-      assert_response 201
+      assert_response :created
     end
   end
 
@@ -46,7 +46,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "moderator can update an image" do
+  test "Bob can update an image" do
     token = TokenHelper.for_user(users(:bob), %w[update:image])
 
     patch v1_image_url(@image), headers: { Authorization: "Bearer " + token },
@@ -60,7 +60,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
-  test "moderator can destroy an image" do
+  test "anon cannot destroy an image" do
+    assert_difference('Image.count', 0) do
+      delete v1_image_url(@image), as: :json
+      assert_response :forbidden
+    end
+  end
+
+  test "Bob can destroy an image" do
     token = TokenHelper.for_user(users(:bob), %w[destroy:image])
 
     assert_difference('Image.count', -1) do

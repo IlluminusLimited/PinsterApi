@@ -4,6 +4,7 @@ module V1
   class MeController < ApplicationController
     before_action :require_login
     before_action :set_me
+    after_action :verify_authorized
 
     resource_description do
       description <<-DESCRIPTION
