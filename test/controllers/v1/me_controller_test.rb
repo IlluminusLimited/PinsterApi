@@ -43,4 +43,18 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'new name', body['display_name']
     assert_equal 'sample bio thing', body['bio']
   end
+
+  test "user cannot change external_user_id" do
+    tom = users(:tom)
+    token = TokenHelper.for_user(tom)
+
+    put v1_me_url, params: {
+      data: {
+        external_user_id: 'new id'
+      }
+    }, headers: { Authorization: "Bearer " + token }, as: :json
+
+    assert_response :ok
+    assert_equal tom.external_user_id, User.find_by(display_name: 'tom').external_user_id
+  end
 end

@@ -25,9 +25,7 @@ module Auth
   def current_user
     return @current_user if defined?(@current_user)
 
-    @@current_user_factory ||= CurrentUserFactory.new
-
-    @current_user = @@current_user_factory.from_token(http_token)
+    @current_user = current_user_factory.from_token(http_token)
   end
 
   def token_error(exception)
@@ -46,6 +44,10 @@ module Auth
 
   def http_token
     request.headers['Authorization'].slice(7..-1) if request.headers['Authorization'].present?
+  end
+
+  def current_user_factory
+    @@current_user_factory ||= CurrentUserFactory.new
   end
 
   def truncate_error_message(message)

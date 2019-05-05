@@ -10,6 +10,35 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "User can be created" do
+    sub = 'facebook|12341234'
+    token = TokenHelper.token(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)
+
+    post v1_users_url, headers: { Authorization: "Bearer " + token }, params: {
+      data: {
+        display_name: 'billy',
+        avatar_uri: Faker::Placeholdit.image("300x300", 'jpeg')
+      }
+    }, as: :json
+
+    assert_response :created
+    body = JSON.parse(response.body)
+
+    assert_equal 'billy', body['display_name']
+  end
+
+  test "Duplicate users cannot be created" do
+    token = TokenHelper.for_user(users(:tom))
+
+    post v1_users_url, headers: { Authorization: "Bearer " + token }, params: {
+      data: {
+        display_name: 'billy'
+      }
+    }, as: :json
+
+    assert_response :unprocessable_entity
+  end
+
   test "Tom can get his user info" do
     token = TokenHelper.for_user(users(:tom))
 

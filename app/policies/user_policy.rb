@@ -16,6 +16,10 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def create?
+    true
+  end
+
   def update?
     user.can?('update:user') or (user.user? and user.id == user_to_be_modified.id)
   end

@@ -14,7 +14,6 @@ class CurrentUserFactory
 
     decoded_token = decode_token(token)
     external_user_id = decoded_token['sub']
-    logger.debug { "Looking up user with sub: #{external_user_id}" }
 
     user = User.find_by(external_user_id: external_user_id)
     build_user(user, external_user_id, decoded_token)
@@ -23,19 +22,16 @@ class CurrentUserFactory
   private
 
     def decode_token(token)
-      decoded_token, auth_header = token_verifier.call(token)
-      logger.debug { "Decoded token: #{decoded_token}" }
-      logger.debug { "Token auth header: #{auth_header}" }
+      decoded_token, _auth_header = token_verifier.call(token)
       decoded_token
     end
 
     def build_user(user, external_user_id, decoded_token)
       if user.nil?
-        logger.debug { "No user with sub: #{external_user_id}" }
+        logger.warn { "No user with sub: #{external_user_id}" }
         return current_user.new(User.anon_user)
       end
 
-      logger.debug { "Found user was: #{user}" }
       current_user.new(user).with_permissions(decoded_token['permissions'])
     end
 end
