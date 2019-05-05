@@ -12,6 +12,38 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "anon cannot create a pin" do
+    assert_difference('Pin.count', 0) do
+      post v1_pins_url,
+           params: {
+             data: {
+               name: @pin.name,
+               year: @pin.year,
+               description: @pin.description,
+               tags: @pin.tags
+             }
+           }, as: :json
+      assert_response :unauthorized
+    end
+  end
+
+  test "Tom cannot create a pin" do
+    token = TokenHelper.for_user(users(:tom))
+
+    assert_difference('Pin.count', 0) do
+      post v1_pins_url, headers: { Authorization: "Bearer " + token },
+                        params: {
+                          data: {
+                            name: @pin.name,
+                            year: @pin.year,
+                            description: @pin.description,
+                            tags: @pin.tags
+                          }
+                        }, as: :json
+      assert_response :forbidden
+    end
+  end
+
   test "moderator can create a pin" do
     token = TokenHelper.for_user(users(:bob), %w[create:pin])
 
@@ -25,7 +57,7 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                             tags: @pin.tags
                           }
                         }, as: :json
-      assert_response 201
+      assert_response :created
     end
   end
 
