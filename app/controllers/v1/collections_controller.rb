@@ -45,6 +45,12 @@ module V1
     end
 
     api :POST, '/v1/users/:user_id/collections', 'Create a collection'
+    param :user_id, String
+    param :data, Hash, required: true do
+      param :name, String, required: true
+      param :description, String, required: false
+      param :public, :bool, required: false
+    end
     error :unauthorized, 'Request missing Authorization header'
 
     def create
@@ -61,6 +67,11 @@ module V1
     api :PATCH, '/v1/collections/:id', 'Update a collection'
     api :PUT, '/v1/collections/:id', 'Update a collection'
     param :id, String, allow_nil: false, required: true
+    param :data, Hash, required: true do
+      param :name, String, required: true
+      param :description, String, required: false
+      param :public, :bool, required: false
+    end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
