@@ -7,7 +7,7 @@ module V1
     after_action :verify_authorized
 
     api :GET, '/v1/users/:user_id/collections', "Show a user's collections"
-    param :user_id, String, allow_nil: false
+    param :user_id, String, allow_nil: false, required: true
     param :images, :bool, default: true, required: false, allow_nil: false
     param :page, Hash, required: false do
       param :size, String, default: 10
@@ -24,7 +24,7 @@ module V1
     end
 
     api :GET, '/v1/users/:user_id/collections/summary', "Show a user's collections summary"
-    param :user_id, String, allow_nil: false
+    param :user_id, String, allow_nil: false, required: true
     def summary
       @collections = paginate(CollectionPolicy::Scope.new(
         current_user,
@@ -36,7 +36,7 @@ module V1
     end
 
     api :GET, '/v1/collections/:id', 'Show a collection'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     error :forbidden, 'You are not authorized to perform this action'
 
     def show
@@ -45,7 +45,6 @@ module V1
     end
 
     api :POST, '/v1/users/:user_id/collections', 'Create a collection'
-    param :user_id, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
 
     def create
@@ -61,7 +60,7 @@ module V1
 
     api :PATCH, '/v1/collections/:id', 'Update a collection'
     api :PUT, '/v1/collections/:id', 'Update a collection'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
@@ -76,7 +75,7 @@ module V1
     end
 
     api :DELETE, 'v1/collections/:id', 'Destroy a collection'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 

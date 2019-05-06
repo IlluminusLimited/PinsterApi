@@ -16,12 +16,12 @@ module V1
     end
 
     api :GET, '/v1/images/:id', 'Show an image'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
 
     def show; end
 
     api :POST, '/v1/images', 'Create an image'
-    param :data, Hash do
+    param :data, Hash, required: true do
       param :imageable_type, String, required: true
       param :imageable_id, String, required: true
       param :base_file_name, String, required: true
@@ -44,7 +44,16 @@ module V1
 
     api :PATCH, '/v1/images/:id', 'Update an image'
     api :PUT, '/v1/images/:id', 'Update an image'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
+    param :data, Hash, required: true do
+      param :imageable_type, String, required: false
+      param :imageable_id, String, required: false
+      param :base_file_name, String, required: false
+      param :storage_location_uri, String, required: false
+      param :featured, String, required: false
+      param :name, String, required: false
+      param :description, String, required: false
+    end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
@@ -59,7 +68,7 @@ module V1
     end
 
     api :DELETE, 'v1/images/:id', 'Destroy an image'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 

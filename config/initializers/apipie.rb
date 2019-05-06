@@ -13,12 +13,9 @@ Apipie.configure do |config|
 
   # TODO: Get markdown parser to build this description.
   config.app_info = <<-END_OF_INFO
-  Welcome to the Pinster API Docs!
+  Welcome to the PinsterAPI Docs!
 
   These resources are automatically generated and can sometimes be slightly different than the real thing.
-
-  Things to Note:
-    The IDs represented in the examples are samples. In practice, the IDs used are UUIDs.
   END_OF_INFO
 
   config.swagger_content_type_input = :json

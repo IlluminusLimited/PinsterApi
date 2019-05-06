@@ -16,7 +16,7 @@ module V1
     end
 
     api :GET, '/v1/users/:id', 'Show a user'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
 
     def show
       authorize @user
@@ -44,7 +44,7 @@ module V1
     end
 
     api :DELETE, '/v1/users/:id', 'Destroy a user'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 

@@ -9,7 +9,9 @@ module V1
 
     api :GET, '/v1/pins', 'List pins'
     param :images, :bool, default: true, required: false
-
+    param :page, Hash, required: false do
+      param :size, String, default: 25
+    end
     def index
       @pins = paginate Pin.build_query(params)
 
@@ -17,7 +19,7 @@ module V1
     end
 
     api :GET, '/v1/pins/:id', 'Show a pin'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     param :with_collectable_collections, :bool, default: false, required: false
     param :all_images, :bool, default: false, required: false
 
@@ -34,7 +36,11 @@ module V1
     end
 
     api :POST, '/v1/pins', 'Create a pin'
-
+    param :data, Hash do
+      param :name, String, required: true
+      param :description, String, required: false
+      param :year, Integer, required: false
+    end
     def create
       @pin = Pin.new(pin_params)
       authorize @pin
@@ -48,10 +54,14 @@ module V1
 
     api :PATCH, '/v1/pins/:id', 'Update a pin'
     api :PUT, '/v1/pins/:id', 'Update a pin'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
+    param :data, Hash do
+      param :name, String, required: false
+      param :description, String, required: false
+      param :year, Integer, required: false
+    end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
-
     def update
       authorize @pin
 
@@ -63,7 +73,7 @@ module V1
     end
 
     api :DELETE, 'v1/pins/:id', 'Destroy a pin'
-    param :id, String, allow_nil: false
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
