@@ -6,8 +6,7 @@ module V1
     before_action :set_collectable_collection, only: %i[show update destroy]
     after_action :verify_authorized
 
-    api :GET, '/v1/collections/:collection_id/collectable_collections',
-        "Show a collection's collectable_collections"
+    api :GET, '/v1/collections/:collection_id/collectable_collections', "Show a collection's collectable_collections"
     param :collection_id, String, allow_nil: false, required: true
     # param :images, :bool, default: true, required: false
     # param :page, Hash, required: false do
@@ -30,8 +29,7 @@ module V1
       render :show
     end
 
-    api :POST, '/v1/collections/:collection_id/collectable_collections',
-        'Create a new collectable_collection'
+    api :POST, '/v1/collections/:collection_id/collectable_collections', 'Create a new collectable_collection'
     param :collection_id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
 
@@ -46,10 +44,9 @@ module V1
       end
     end
 
-    api :PATCH, '/v1/collectable_collections/:id',
-        'Update a collectable_collection'
-    api :PUT, '/v1/collectable_collections/:id',
-        'Update a collectable_collection'
+    api :PATCH, '/v1/collectable_collections/:id', 'Update a collectable_collection'
+    api :PUT, '/v1/collectable_collections/:id', 'Update a collectable_collection'
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 

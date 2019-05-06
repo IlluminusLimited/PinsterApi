@@ -23,8 +23,10 @@ module V1
 
     api :PATCH, '/v1/me', 'Update the current user'
     api :PUT, '/v1/me', 'Update the current user'
-    param :display_name, String, desc: 'The name to be shown to other users'
-    param :bio, String, desc: 'A short description of yourself'
+    param :data, Hash, required: true do
+      param :display_name, String, desc: 'The name to be shown to other users', required: false
+      param :bio, String, desc: 'A short description of yourself', required: false
+    end
     error :unauthorized, 'Request missing Authorization header'
     error :unprocessable_entity, 'Unprocessable entity, please check the payload'
     def update

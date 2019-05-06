@@ -17,7 +17,7 @@ module V1
 
     api :GET, '/v1/assortments/:id', 'Show an assortment'
     param :with_collections, :bool, default: false, required: false
-    param :id, String, requred: true
+    param :id, String, allow_nil: false, required: true
 
     def show
       if params[:with_collectable_collections].to_s == 'true'
@@ -31,7 +31,6 @@ module V1
     end
 
     api :POST, '/v1/assortments', 'Create an assortment'
-    param :id, String, requred: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
@@ -48,7 +47,7 @@ module V1
 
     api :PATCH, '/v1/assortments/:id', 'Update an assortment'
     api :PUT, '/v1/assortments/:id', 'Update an assortment'
-    param :id, String, requred: true
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
@@ -63,7 +62,7 @@ module V1
     end
 
     api :DELETE, '/v1/assortments/:id', 'Destroy an assortment'
-    param :id, String, requred: true
+    param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
