@@ -68,7 +68,7 @@ module V1
     api :PUT, '/v1/collections/:id', 'Update a collection'
     param :id, String, allow_nil: false, required: true
     param :data, Hash, required: true do
-      param :name, String, required: true
+      param :name, String, required: false
       param :description, String, required: false
       param :public, :bool, required: false
     end
