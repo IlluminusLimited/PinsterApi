@@ -2,7 +2,7 @@
 
 # https://github.com/Apipie/apipie-rails#documentation
 Apipie.configure do |config|
-  config.app_name = "PinsterBase"
+  config.app_name = "PinsterApi"
   config.api_base_url = ""
   config.doc_base_url = "/docs"
   config.api_controllers_matcher = Rails.root.join("app", "controllers", "[!concerns/]**", "*.rb")
@@ -25,4 +25,5 @@ Apipie.configure do |config|
   config.swagger_json_input_uses_refs = true
   config.swagger_include_warning_tags = true
   config.swagger_suppress_warnings = false
+  config.swagger_api_host = ENV['SWAGGER_HOST']
 end
