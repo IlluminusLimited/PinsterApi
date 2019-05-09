@@ -46,6 +46,32 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "tom can page through their collections" do
+    tom = users(:tom)
+
+    token = TokenHelper.for_user(tom)
+    get v1_user_collections_url(user_id: tom.id, page: { number: 1, size: 1 }),
+        headers: { Authorization: "Bearer " + token },
+        as: :json
+    assert_response :success
+    assert_not response.body.blank?
+    body = JSON.parse(response.body)
+    collections = body['data']
+
+    get body['links']['next'].gsub("http://www.example.com", '').gsub(/\?.*$/, ''), headers: { Authorization: "Bearer " + token },
+                                                                                    as: :json
+
+    assert_response :success
+    assert_not response.body.blank?
+    body = JSON.parse(response.body)
+    puts body
+    collections << body['data']
+
+    tom.collections.pluck(:name).each do |collection_name|
+      assert_match collection_name, response.body
+    end
+  end
+
   test "user can get other userss public collections" do
     tom = users(:tom)
     sally = users(:sally)
