@@ -24,7 +24,7 @@ class Pin < ApplicationRecord
   include Imageable
   extend EagerLoadable
 
-  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description year], using: { tsearch: { dictionary: "english" } }
 
   has_many :collectable_collections, as: :collectable, dependent: :destroy
   has_many :collections, through: :collectable_collections
