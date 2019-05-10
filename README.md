@@ -17,3 +17,12 @@ oa_auth0_callback=http://localhost:3000/oauth/callback?provider=auth0
 oa_auth0_site=auth0_site_url
 auth0_audience=hosted_address
 ```
+
+
+Things to remember for prod push:
+1. run on ec2 instance
+```ruby
+      PgSearch::Multisearch.rebuild(Pin, true)
+      PgSearch::Multisearch.rebuild(Assortment, true)
+```
+1. Set up auth0
