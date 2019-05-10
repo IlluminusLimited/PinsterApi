@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       concerns :api_base
     end
 
+    post 'tools/crypto_codes'
+
     root to: redirect('/docs')
   end
   get 'static/legal'
