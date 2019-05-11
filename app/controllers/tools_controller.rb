@@ -10,7 +10,7 @@ class ToolsController < ApplicationController
   show false
 
   def crypto_codes
-    raw_verifier = SecureRandom.base64(43)
+    raw_verifier = "x" * 32
     code_verifier = Base64.urlsafe_encode64(raw_verifier, padding: false)
     code_challenge = Base64.urlsafe_encode64(Digest::SHA256.hexdigest(code_verifier), padding: false)
 
