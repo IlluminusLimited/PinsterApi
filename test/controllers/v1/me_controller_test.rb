@@ -13,6 +13,9 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     get v1_me_url, headers: { Authorization: "Bearer " + token }
 
     assert_response :forbidden
+    body = JSON.parse(response.body)
+
+    assert_equal "Signature has expired", body['message']
   end
 
   test "should show me" do
