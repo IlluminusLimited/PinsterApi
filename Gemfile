@@ -6,8 +6,8 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
+
 gem 'apipie-rails', '~> 0.5.8'
-gem 'faker', '~> 1.9.3'
 gem 'health_check', '~> 3.0.0'
 gem 'jbuilder', '~> 2.8.0'
 gem 'jbuilder_pagination_plus', '~> 1.0.0', require: 'jbuilder/pagination'
@@ -25,6 +25,7 @@ gem 'rails', '~> 5.2.0'
 group :development, :test do
   gem 'bullet'
   gem 'dotenv-rails'
+  gem 'faker', '~> 1.9.3'
   gem 'guard'
   gem 'guard-brakeman'
   gem 'guard-minitest'
