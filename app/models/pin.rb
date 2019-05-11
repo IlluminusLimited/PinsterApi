@@ -23,6 +23,7 @@ class Pin < ApplicationRecord
   include PgSearch
   include Imageable
   extend EagerLoadable
+  max_paginates_per 200
 
   multisearchable against: %i[name description year], using: { tsearch: { dictionary: "english" } }
 

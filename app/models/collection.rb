@@ -24,7 +24,7 @@
 class Collection < ApplicationRecord
   include Imageable
   extend EagerLoadable
-  max_paginates_per 10
+  max_paginates_per 30
 
   has_many :collectable_collections, dependent: :destroy
 
