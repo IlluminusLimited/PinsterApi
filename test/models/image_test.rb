@@ -37,9 +37,8 @@ class ImageTest < ActiveSupport::TestCase
     assert_equal Image.all.order(featured: :desc).to_sql, Image.all.to_sql
   end
 
-  test 'imageables can get placeholder if no images present' do
-    placeholder_image = Pin.new.images_or_placeholder.first
-    assert_match '300x300', placeholder_image.storage_location_uri
-    assert_equal false, placeholder_image.thumbnailable
+  test 'imageables do not get placeholder if no images present' do
+    placeholder_image = Pin.new.images.first
+    assert_nil placeholder_image
   end
 end

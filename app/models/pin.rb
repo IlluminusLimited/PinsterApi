@@ -21,12 +21,12 @@
 
 class Pin < ApplicationRecord
   include PgSearch
-  include Imageable
   extend EagerLoadable
   max_paginates_per 200
 
   multisearchable against: %i[name description year], using: { tsearch: { dictionary: "english" } }
 
+  has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy
   has_many :collections, through: :collectable_collections
   has_one :pin_assortment, dependent: :destroy
