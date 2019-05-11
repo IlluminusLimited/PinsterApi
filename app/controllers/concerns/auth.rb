@@ -35,16 +35,18 @@ module Auth
 
   def token_error(exception)
     logger.warn { "Token error: #{exception.message}" }
-    render status: :forbidden, json: { "error": "Request missing valid Authorization header.",
+    render status: :forbidden, json: { "error": "Forbidden: Request missing valid Authorization header",
                                        "message": truncate_error_message(exception.message) }
   end
 
   def not_authenticated
-    render status: :unauthorized, json: { "error": "Request missing valid Authorization header." }
+    render status: :unauthorized, json: { "error": "Unauthorized: Request missing valid Authorization header",
+                                          "message": "User is not authenticated" }
   end
 
   def user_not_authorized
-    render status: :forbidden, json: { "error": "You are not authorized to perform this action." }
+    render status: :forbidden, json: { "error": "Forbidden: You are not authorized to perform this action",
+                                       "message": "You are not authorized to perform this action" }
   end
 
   def http_token
