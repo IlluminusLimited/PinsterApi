@@ -13,7 +13,7 @@ class ToolsControllerTest < ActionDispatch::IntegrationTest
     challenge = body['code_challenge']
     verifier = body['code_verifier']
 
-    hashed_verifier = Digest::SHA256.hexdigest(verifier)
+    hashed_verifier = Digest::SHA256.digest(verifier)
     decoded_challenge = Base64.urlsafe_decode64(challenge)
     assert_equal hashed_verifier, decoded_challenge
   end
