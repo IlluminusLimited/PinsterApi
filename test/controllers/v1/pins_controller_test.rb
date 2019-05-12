@@ -61,6 +61,27 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "create a pin returns imageService token" do
+    token = TokenHelper.for_user(users(:bob), %w[create:pin])
+
+    assert_difference('Pin.count') do
+      post v1_pins_url, headers: { Authorization: "Bearer " + token },
+                        params: {
+                          data: {
+                            name: @pin.name,
+                            year: @pin.year,
+                            description: @pin.description,
+                            tags: @pin.tags
+                          }
+                        }, as: :json
+      assert_response :created
+
+      body = JSON.parse(response.body)
+
+      assert body['image_service_token'], "Token should exist"
+    end
+  end
+
   test "should show pin" do
     get v1_pin_url(@pin), as: :json
     assert_response :success

@@ -16,6 +16,11 @@ class ImagePolicyTest < PolicyAssertions::Test
     assert_not_permitted(user, Image, :create?)
   end
 
+  test 'user can create profile pictures' do
+    user = current_user(TokenHelper.for_user(users(:sally)))
+    assert_permit(user, Image.new(imageable: user), :create?)
+  end
+
   test 'users cannot modify images' do
     user = current_user(TokenHelper.for_user(users(:sally)))
     assert_not_permitted(user, images(:texas_dragon_image_one), ANY_INSTANCE_MODIFY_ACTION)

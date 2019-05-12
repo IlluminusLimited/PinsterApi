@@ -21,9 +21,13 @@ module V1
     def show; end
 
     api :POST, '/v1/images', 'Create an image'
+    api :POST, '/v1/:imageable_type/:imageable_id/images', 'Create an image'
+    param :imageable_type, String, required: false
+    param :imageable_id, String, required: false
+
     param :data, Hash, required: true do
-      param :imageable_type, String, required: true
-      param :imageable_id, String, required: true
+      param :imageable_type, String, required: false
+      param :imageable_id, String, required: false
       param :base_file_name, String, required: true
       param :storage_location_uri, String, required: true
       param :featured, String, required: false
@@ -32,6 +36,9 @@ module V1
     end
 
     def create
+      image_params[:imageable_type] ||= params[:imageable_type]
+      image_params[:imageable_id] ||= params[:imageable_id]
+
       @image = Image.new(image_params)
       authorize @image
 
