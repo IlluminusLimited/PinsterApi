@@ -21,6 +21,7 @@ gem 'puma', '~> 3.11'
 gem 'pundit', '~> 2.0.1'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.0'
+gem 'httparty', '~> 0.17.0'
 
 group :development, :test do
   gem 'bullet'
