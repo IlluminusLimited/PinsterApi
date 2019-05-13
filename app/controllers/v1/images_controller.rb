@@ -36,7 +36,7 @@ module V1
     end
 
     def create
-      # if the the token is from image service, return 201 ok.
+      # if the the token is from image service, return 201 created.
       # If the token is from a user, return 202 accepted.
       all_params = image_params.dup
       all_params[:imageable_type] ||= params[:imageable_type]

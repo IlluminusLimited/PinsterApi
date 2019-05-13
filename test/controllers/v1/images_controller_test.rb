@@ -65,8 +65,26 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "Bob can update an image" do
-    token = TokenHelper.for_user(users(:bob), %w[update:image])
+  test "Tom can update his profile picture" do
+    token = TokenHelper.for_user(users(:tom))
+    image = images(:toms_face)
+    patch v1_image_url(image), headers: { Authorization: "Bearer " + token },
+                               params: {
+                                 data: {
+                                   featured: Time.now.in_time_zone,
+                                   name: "Cool image",
+                                   description: "This is a really cool image"
+                                 }
+                               }, as: :json
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_not_nil body['featured']
+    assert_equal "Cool image", body['name']
+    assert_equal "This is a really cool image", body['description']
+  end
+
+  test "Bob cannot update restricted fields on an image" do
+    token = TokenHelper.for_user(users(:bob))
 
     patch v1_image_url(@image), headers: { Authorization: "Bearer " + token },
                                 params: {
@@ -76,7 +94,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
                                     storage_location_uri: @image.storage_location_uri
                                   }
                                 }, as: :json
-    assert_response 200
+    assert_response :forbidden
   end
 
   test "anon cannot destroy an image" do

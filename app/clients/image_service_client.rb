@@ -7,13 +7,21 @@ class ImageServiceClient
   def initialize(opts = {})
     @image_service_url = opts[:image_service_url] ||= ENV['IMAGE_SERVICE_URL']
     @token_generator = opts[:token_generator] ||= Utilities::ImageServiceJwt.new
+    @image_service_post = opts[:image_service_post] ||= ->(payload) { HTTParty.post(image_service_url, payload) }
   end
 
   def upload_image(encoded_image, imageable)
-    metadata = { imageable_id: imageable.id,
-                 imageable_type: imageable.class.to_s }
-    token = token_generator.generate_token(metadata)
-    response = HTTParty.post(image_service_url, body: { data: { image: encoded_image } },
-                                                headers: { Authorization: "Bearer #{token}" })
+    response = @image_service_post.call(prepare_payload(encoded_image, imageable))
   end
+
+  private
+
+    def prepare_payload(encoded_image, imageable)
+      metadata = { imageable_id: imageable.id,
+                   imageable_type: imageable.class.to_s }
+      token = token_generator.generate_token(metadata)
+      { body: { data: { image: encoded_image } }, headers: { Authorization: "Bearer #{token}" } }
+    end
+
+    def handle_response(response); end
 end
