@@ -38,15 +38,13 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
            headers: { Authorization: "Bearer " + token },
            params: {
              data: {
-               base_file_name: @image.base_file_name,
-               storage_location_uri: @image.storage_location_uri,
+               encoded: @image.encoded,
                featured: @image.featured,
                name: @image.name,
-               description: @image.description,
-               thumbnailable: @image.thumbnailable
+               description: @image.description
              }
            }, as: :json
-      assert_response :created
+      assert_response :accepted
     end
   end
 

@@ -36,6 +36,8 @@ module V1
     end
 
     def create
+      # if the the token is from image service, return 201 ok.
+      # If the token is from a user, return 202 accepted.
       all_params = image_params.dup
       all_params[:imageable_type] ||= params[:imageable_type]
       all_params[:imageable_id] ||= params[(all_params[:imageable_type].to_s.downcase + "_id").to_sym]
@@ -54,12 +56,8 @@ module V1
     api :PUT, '/v1/images/:id', 'Update an image'
     param :id, String, allow_nil: false, required: true
     param :data, Hash, required: true do
-      param :imageable_type, String, required: false
-      param :imageable_id, String, required: false
-      param :base_file_name, String, required: false
-      param :storage_location_uri, String, required: false
-      param :featured, String, required: false
       param :name, String, required: false
+      param :featured, String, required: false
       param :description, String, required: false
     end
     error :unauthorized, 'Request missing Authorization header'
@@ -94,7 +92,8 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def image_params
-        params.require(:data).permit(Image.public_attribute_names)
+        # if current_user.can?('create:image')
+        params.require(:data).permit([Image.public_attribute_names, :encoded].flatten)
       end
   end
 end

@@ -28,6 +28,14 @@ class ImagePolicy < ApplicationPolicy
     user.can?('destroy:image') or (user.user? and user.owns?(imageable))
   end
 
+  def permitted_attributes
+    if user.can?('update:image')
+      Image.private_attribute_names
+    else
+      Image.public_attribute_names
+    end
+  end
+
   private
 
     def imageable
