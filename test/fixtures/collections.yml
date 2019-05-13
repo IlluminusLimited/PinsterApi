@@ -42,5 +42,5 @@ toms_secret_collection:
   name: Tom's Super Secret Pins
   public: FALSE
   description: You can't even!
-  collectable_collections_count: 1
+  collectable_collections_count: 2
   images_count: 0
