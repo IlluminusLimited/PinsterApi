@@ -39,7 +39,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'billy', body['display_name']
   end
 
-  test "Duplicate users cannot be created" do
+  test "Duplicate user just returns original" do
+    tom = users(:tom)
     token = TokenHelper.for_user(users(:tom))
 
     post v1_users_url, headers: { Authorization: "Bearer " + token }, params: {
@@ -48,7 +49,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       }
     }, as: :json
 
-    assert_response :unprocessable_entity
+    assert_response :ok
+    assert_equal tom.id, JSON.parse(response.body).fetch('id')
   end
 
   test "Tom can get his user info" do
