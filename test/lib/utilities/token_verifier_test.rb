@@ -13,19 +13,13 @@ class TokenVerifierTest < ActiveSupport::TestCase
     iss = 'bob'
     aud = 'lob'
     payload = { "data" => "howdy", "iss" => iss, "aud" => aud }
-    encoded_token = JWT.encode(payload, key, 'RS256')
 
-    verifier = lambda { |token|
-      JWT.decode(token,
-                 key.public_key,
-                 true,
-                 algorithm: 'RS256',
-                 iss: iss,
-                 verify_iss: true,
-                 aud: aud,
-                 verify_aud: true)
-    }
+    verifier = lambda do |token|
+      JWT.decode(token, key.public_key, true, algorithm: 'RS256',
+                                              iss: iss, verify_iss: true, aud: aud, verify_aud: true)
+    end
+
     token_verifier = Utilities::TokenVerifier.new(verifiers: { iss => verifier })
-    assert_equal([payload, { "alg" => "RS256" }], token_verifier.call(encoded_token))
+    assert_equal([payload, { "alg" => "RS256" }], token_verifier.call(JWT.encode(payload, key, 'RS256')))
   end
 end
