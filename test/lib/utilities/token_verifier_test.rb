@@ -8,6 +8,20 @@ class TokenVerifierTest < ActiveSupport::TestCase
                                                      iss_decoder: proc { "bob" }).call('some token')
   end
 
+  def test_blows_up_when_no_iss_match
+    assert_raises(JWT::InvalidIssuerError) do
+      Utilities::TokenVerifier.new(verifiers: { "bob" => proc { "yay" } },
+                                   iss_decoder: proc { "no match" }).call('some token')
+    end
+  end
+
+  def test_blows_up_when_no_verifiers
+    assert_raises(JWT::InvalidIssuerError) do
+      Utilities::TokenVerifier.new(verifiers: {},
+                                   iss_decoder: proc { "no match" }).call('some token')
+    end
+  end
+
   def test_actually_works
     key = OpenSSL::PKey::RSA.generate(2048)
     iss = 'bob'
