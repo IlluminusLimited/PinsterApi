@@ -21,9 +21,16 @@ class ImagePolicyTest < PolicyAssertions::Test
     assert_permit(user, Image.new(imageable: user), :create?)
   end
 
-  test 'users cannot modify images' do
+  test 'users can modify images they own' do
+    user = current_user(TokenHelper.for_user(users(:sally)))
+    assert_permit(user, images(:sallys_favorite_collection_main_image), ANY_INSTANCE_MODIFY_ACTION)
+  end
+
+  test 'users cannot modify images they dont own' do
     user = current_user(TokenHelper.for_user(users(:sally)))
     assert_not_permitted(user, images(:texas_dragon_image_one), ANY_INSTANCE_MODIFY_ACTION)
+    assert_not_permitted(user, images(:toms_face), ANY_INSTANCE_MODIFY_ACTION)
+    assert_not_permitted(user, images(:toms_keepers_collection_main_image), ANY_INSTANCE_MODIFY_ACTION)
   end
 
   test 'moderators can modify images' do

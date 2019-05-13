@@ -36,10 +36,11 @@ module V1
     end
 
     def create
-      image_params[:imageable_type] ||= params[:imageable_type]
-      image_params[:imageable_id] ||= params[:imageable_id]
+      all_params = image_params.dup
+      all_params[:imageable_type] ||= params[:imageable_type]
+      all_params[:imageable_id] ||= params[(all_params[:imageable_type].to_s.downcase + "_id").to_sym]
 
-      @image = Image.new(image_params)
+      @image = Image.new(all_params)
       authorize @image
 
       if @image.save
