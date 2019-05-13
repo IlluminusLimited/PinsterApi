@@ -6,8 +6,8 @@ module SeedHelper
       def generate
         collection = generate_collection
 
-        assortment_ids = Utilities::SynchronizedArray.new(Assortment.all.pluck(:id), Mutex.new)
-        pin_ids = Utilities::SynchronizedArray.new(Pin.all.pluck(:id), Mutex.new)
+        assortment_ids = SynchronizedArray.new(Assortment.all.pluck(:id), Mutex.new)
+        pin_ids = SynchronizedArray.new(Pin.all.pluck(:id), Mutex.new)
 
         Parallel.map(rand(1..20).times, in_threads: 4) do
           CollectionHelper.generate_collectables(collection, assortment_ids, pin_ids)
