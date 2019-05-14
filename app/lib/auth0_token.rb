@@ -16,11 +16,15 @@ class Auth0Token
     build_user(user, external_user_id, decoded_token)
   end
 
+  def external_user_id
+    decoded_token['sub']
+  end
+
   private
 
     def build_user(user, external_user_id, decoded_token)
       if user.nil?
-        logger.warn { "No user with sub: #{external_user_id}" }
+        Rails.logger.warn { "No user with sub: #{external_user_id}" }
         return @current_user.new(User.anon_user)
       end
 

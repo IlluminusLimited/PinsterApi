@@ -23,7 +23,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "User can be created" do
     sub = 'facebook|12341234'
-    token = TokenHelper.token(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)
+    token = TokenHelper.generate_token(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)
 
     post v1_users_url, headers: { Authorization: "Bearer " + token }, params: {
       data: {

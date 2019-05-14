@@ -25,11 +25,11 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   def current_user(token)
-    CurrentUserFactory.new(token_verifier: TokenHelper.token_verifier).from_token(token)
+    CurrentUserFactory.new(token_factory_resolver: TokenHelper.new.resolver).from_jwt(token)
   end
 
   Auth.current_user_factory_producer = proc do |args = {}|
-    CurrentUserFactory.new(args.merge(token_verifier: TokenHelper.token_verifier))
+    CurrentUserFactory.new(args.merge(token_factory_resolver: TokenHelper.new.resolver))
   end
 
   Auth.exception_message_handler = ->(message) { message }

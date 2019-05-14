@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ImageServiceToken
-  def initialize(decoded_token, opts = {})
+  def initialize(decoded_token, _opts = {})
     @decoded_token = decoded_token
   end
 

@@ -30,7 +30,7 @@ module V1
     error :unprocessable_entity, 'Unprocessable entity, please check the payload'
 
     def create
-      token = http_token
+      token = bearer_token
       return not_authenticated unless token
 
       @user = process_user_create(token)
@@ -73,12 +73,12 @@ module V1
         params.require(:data).permit(:display_name)
       end
 
-      def process_user_create(token)
-        access_token, _access_token_headers = current_user_factory.token_verifier.call(token)
+      def process_user_create(jwt)
+        external_user_id = current_user_factory.token_factory_resolver.call(jwt).external_user_id
 
         display_name = user_creation_params['display_name']
 
-        User.find_or_initialize_by(external_user_id: access_token['sub']) do |user|
+        User.find_or_initialize_by(external_user_id: external_user_id) do |user|
           user.display_name = display_name
         end
       end
