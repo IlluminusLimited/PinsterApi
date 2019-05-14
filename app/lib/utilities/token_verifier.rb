@@ -4,7 +4,7 @@ module Utilities
   class TokenVerifier
     def initialize(opts = {})
       @verifiers = opts[:verifiers] ||= { "#{ENV['AUTH0_SITE']}/" => Utilities::Auth0Jwt,
-                                          (ENV['IMAGE_SERVICE_URL']).to_s => Utilities::ImageServiceJwt }
+                                          (ENV['IMAGE_SERVICE_URL']).to_s => Utilities::ImageServiceJwt.new }
       @iss_decoder = opts[:iss_decoder] ||= ->(token) { JWT.decode(token, false, nil).first['iss'] }
     end
 
