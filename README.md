@@ -8,6 +8,15 @@ The api that brings the bacon home.
 
 
 
+# Deployment
+
+Checklist
+
+1. Generate new `OpenSSL::PKey::RSA.generate(2048)` keys for image service and pinster api.
+1. Set environment variables in elasticbeanstalk configure thing.
+1. Set environment variables in secrets manager for image service's keys
+
+
 # .env setup
 
 ```dotenv

@@ -12,11 +12,11 @@ module Utilities
       @aud = opts[:aud] ||= ENV['IMAGE_SERVICE_URL'] # The AUD of image service tokens is image service's URL
     end
 
-    def generate_token(metadata)
+    def generate_token(metadata, exp: 1.minute.from_now.to_i)
       payload = metadata.merge(iss: iss,
                                aud: aud,
                                nbf: (Time.now.to_i - 1),
-                               exp: 1.minute.from_now.to_i)
+                               exp: exp)
       JWT.encode(payload, @key, 'RS256')
     end
 
@@ -34,7 +34,16 @@ module Utilities
                  nbf_leeway: 10)
     end
 
-    def validate_image_service_token(token)
+    def testing_token
+      metadata = {
+        imageable_id: "74bff7c0-529d-41a4-a1bb-f04fe182929c",
+        imageable_type: "Pin",
+        user_id: "1771dd50-2485-4569-af3a-c3a0849c5e32"
+      }
+      generate_token(metadata, exp: 8.hours.from_now.to_i)
+    end
+
+    def call(token)
       JWT.decode(token,
                  @image_service_public_key,
                  true, # Verify the signature of this token
