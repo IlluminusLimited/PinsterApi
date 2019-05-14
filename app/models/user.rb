@@ -41,6 +41,7 @@ class User < ApplicationRecord
   end
 
   def owns?(resource)
+    return true if resource == self
     return false unless resource.respond_to?(:user_id)
 
     resource.user_id == id

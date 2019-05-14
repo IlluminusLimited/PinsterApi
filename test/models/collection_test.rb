@@ -61,6 +61,14 @@ class CollectionTest < ActiveSupport::TestCase
     assert_equal Collection.order(created_at: :desc).to_sql, Collection.recently_added.all.to_sql
   end
 
+  test 'When a collection is deleted the collectables are not affected' do
+    assert_no_difference("Pin.count") do
+      assert_difference("Image.count", -1) do
+        @toms_keepers_collection.destroy
+      end
+    end
+  end
+
   # test 'a collection inherits images from its items' do
   #   assert_equal images(:wisconsin_unicorn_image).id, @toms_secret_collection.images&.first&.id
   # end
