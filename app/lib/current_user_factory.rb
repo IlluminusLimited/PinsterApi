@@ -5,7 +5,7 @@ class CurrentUserFactory
 
   def initialize(opts = {})
     @logger = opts[:logger] ||= Rails.logger
-    @token_verifier = opts[:token_verifier] ||= TokenVerifier.new
+    @token_verifier = opts[:token_verifier] ||= Utilities::TokenVerifier.new
     @user_finder = opts[:user_finder] ||= ->(external_user_id) { User.find_by(external_user_id: external_user_id) }
     @current_user = opts[:current_user] ||= CurrentUser
   end
