@@ -9,7 +9,7 @@ module Utilities
     def initialize(opts = {})
 
       private_key = Base64.urlsafe_decode64(ENV['PRIVATE_KEY'])
-      image_service_key = Base64.urlsafe_decode64(ENV['IMAGE_SERVICE_PUBLIC_KEY']))
+      image_service_key = Base64.urlsafe_decode64(ENV['IMAGE_SERVICE_PUBLIC_KEY'])
       logger.debug { "Private key: #{private_key.to_s}" }
       logger.debug("Image service public key: #{image_service_key}")
       @key = opts[:key] ||= OpenSSL::PKey::RSA.new(private_key)
