@@ -1,23 +1,5 @@
-exclude_patterns:
-- "app/views/"
-- "bin/"
-- "test/"
-- "tmp/"
-- "vendor/"
-- "public/"
-- "log/"
-- "doc/"
-- "docs/"
-- "coverage/"
-- ".circleci/"
-- ".elasticbeanstalk/"
-- "config/*.yml"
-- "*.sh"
-- "LICENSE"
-- "*.md"
-- ".rubocop.yml"
-- ".ruby-gemset"
-- ".ruby-version"
-- ".ebignore"
-- ".gitignore"
-- "lib/**/*.rake"
+version: "2"
+checks:
+  argument-count:
+    config:
+      threshold: 5
