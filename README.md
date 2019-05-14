@@ -13,6 +13,8 @@ The api that brings the bacon home.
 Checklist
 
 1. Generate new `OpenSSL::PKey::RSA.generate(2048)` keys for image service and pinster api.
+    Use `rails generate_keys` and the `keys.env` file will contain urlsafe base64 encoded keys
+    for use in environment variables.
 1. Set environment variables in elasticbeanstalk configure thing.
 1. Set environment variables in secrets manager for image service's keys
 

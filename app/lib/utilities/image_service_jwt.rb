@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+require 'base64'
+
 module Utilities
   class ImageServiceJwt
     attr_reader :iss, :aud, :key
 
     def initialize(opts = {})
-      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(ENV['PRIVATE_KEY'])
+      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(ENV['PRIVATE_KEY']))
       @image_service_public_key = opts[:image_service_public_key] ||=
-                                    OpenSSL::PKey::RSA.new(ENV['IMAGE_SERVICE_PUBLIC_KEY'])
+                                    OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(ENV['IMAGE_SERVICE_PUBLIC_KEY']))
       @iss = opts[:iss] ||= ENV['JWT_AUD'] # Our JWT_AUD is our own uri, so when we encode tokens it's our ISS
       @aud = opts[:aud] ||= ENV['IMAGE_SERVICE_URL'] # The AUD of image service tokens is image service's URL
     end
