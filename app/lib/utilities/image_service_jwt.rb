@@ -5,9 +5,9 @@ module Utilities
     attr_reader :iss, :aud, :key
 
     def initialize(opts = {})
-      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(ENV['PRIVATE_KEY'].undump)
+      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(ENV['PRIVATE_KEY'])
       @image_service_public_key = opts[:image_service_public_key] ||=
-                                    OpenSSL::PKey::RSA.new(ENV['IMAGE_SERVICE_PUBLIC_KEY'].undump)
+                                    OpenSSL::PKey::RSA.new(ENV['IMAGE_SERVICE_PUBLIC_KEY'])
       @iss = opts[:iss] ||= ENV['JWT_AUD'] # Our JWT_AUD is our own uri, so when we encode tokens it's our ISS
       @aud = opts[:aud] ||= ENV['IMAGE_SERVICE_URL'] # The AUD of image service tokens is image service's URL
     end
