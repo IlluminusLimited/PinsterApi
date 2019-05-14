@@ -7,7 +7,6 @@ module Utilities
     attr_reader :iss, :aud, :key
 
     def initialize(opts = {})
-
       private_key = Base64.urlsafe_decode64(ENV['PRIVATE_KEY'])
       image_service_key = Base64.urlsafe_decode64(ENV['IMAGE_SERVICE_PUBLIC_KEY'])
       logger.debug { "Private key: #{private_key}" }
@@ -42,9 +41,9 @@ module Utilities
 
     def testing_token
       metadata = {
-          imageable_id: "74bff7c0-529d-41a4-a1bb-f04fe182929c",
-          imageable_type: "Pin",
-          user_id: "1771dd50-2485-4569-af3a-c3a0849c5e32"
+        imageable_id: "74bff7c0-529d-41a4-a1bb-f04fe182929c",
+        imageable_type: "Pin",
+        user_id: "1771dd50-2485-4569-af3a-c3a0849c5e32"
       }
       generate_token(metadata, exp: 8.hours.from_now.to_i)
     end
