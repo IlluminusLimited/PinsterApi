@@ -9,6 +9,7 @@ end
 
 gem 'apipie-rails', '~> 0.5.8'
 gem 'health_check', '~> 3.0.0'
+gem 'httparty', '~> 0.17.0'
 gem 'jbuilder', '~> 2.8.0'
 gem 'jbuilder_pagination_plus', '~> 1.0.0', require: 'jbuilder/pagination'
 gem 'jwt', '~> 2.1.0'
@@ -21,7 +22,6 @@ gem 'puma', '~> 3.11'
 gem 'pundit', '~> 2.0.1'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.0'
-gem 'httparty', '~> 0.17.0'
 
 group :development, :test do
   gem 'bullet'
