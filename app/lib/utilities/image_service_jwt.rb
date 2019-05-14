@@ -7,12 +7,10 @@ module Utilities
     attr_reader :iss, :aud, :key
 
     def initialize(opts = {})
-      private_key = Base64.urlsafe_decode64(ENV['PRIVATE_KEY'])
-      image_service_key = Base64.urlsafe_decode64(ENV['IMAGE_SERVICE_PUBLIC_KEY'])
-      Rails.logger.debug { "Private key: #{private_key}" }
-      Rails.logger.debug("Image service public key: #{image_service_key}")
-      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(private_key)
-      @image_service_public_key = opts[:image_service_public_key] ||= OpenSSL::PKey::RSA.new(image_service_key)
+      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(ENV['PRIVATE_KEY']))
+      @image_service_public_key = opts[:image_service_public_key] ||= OpenSSL::PKey::RSA.new(
+        Base64.urlsafe_decode64(ENV['IMAGE_SERVICE_PUBLIC_KEY'])
+      )
       @iss = opts[:iss] ||= ENV['JWT_AUD'] # Our JWT_AUD is our own uri, so when we encode tokens it's our ISS
       @aud = opts[:aud] ||= ENV['IMAGE_SERVICE_URL'] # The AUD of image service tokens is image service's URL
     end
