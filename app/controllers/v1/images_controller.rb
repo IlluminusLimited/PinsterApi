@@ -20,8 +20,9 @@ module V1
 
     def show; end
 
-    api :POST, '/v1/images', 'Create request to upload an image'
-    api :POST, '/v1/:imageable_type/:imageable_id/images', 'Create request to upload an image'
+    api :POST, '/v1/images', 'Create request to upload an image (Or actually create an image if you are ImageService)'
+    api :POST, '/v1/:imageable_type/:imageable_id/images',
+        'Create request to upload an image (Or actually create an image if you are ImageService)'
     param :imageable_type, String, required: false
     param :imageable_id, String, required: false
 
