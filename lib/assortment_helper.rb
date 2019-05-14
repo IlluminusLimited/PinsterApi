@@ -7,7 +7,7 @@ module SeedHelper
         assortment = Assortment.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}".pluralize,
                                         description: Faker::SiliconValley.quote)
 
-        pin_ids = Utilities::SynchronizedArray.new(Pin.all.to_a, Mutex.new)
+        pin_ids = SynchronizedArray.new(Pin.all.to_a, Mutex.new)
 
         Parallel.map(rand(1..6).times, in_threads: 4) do
           assortment.pins << pin_ids.delete_sample!

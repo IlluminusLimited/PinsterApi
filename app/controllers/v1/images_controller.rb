@@ -21,9 +21,13 @@ module V1
     def show; end
 
     api :POST, '/v1/images', 'Create an image'
+    api :POST, '/v1/:imageable_type/:imageable_id/images', 'Create an image'
+    param :imageable_type, String, required: false
+    param :imageable_id, String, required: false
+
     param :data, Hash, required: true do
-      param :imageable_type, String, required: true
-      param :imageable_id, String, required: true
+      param :imageable_type, String, required: false
+      param :imageable_id, String, required: false
       param :base_file_name, String, required: true
       param :storage_location_uri, String, required: true
       param :featured, String, required: false
@@ -32,7 +36,13 @@ module V1
     end
 
     def create
-      @image = Image.new(image_params)
+      # if the the token is from image service, return 201 created.
+      # If the token is from a user, return 202 accepted.
+      all_params = image_params.dup
+      all_params[:imageable_type] ||= params[:imageable_type]
+      all_params[:imageable_id] ||= params[(all_params[:imageable_type].to_s.downcase + "_id").to_sym]
+
+      @image = Image.new(all_params)
       authorize @image
 
       if @image.save
@@ -46,12 +56,8 @@ module V1
     api :PUT, '/v1/images/:id', 'Update an image'
     param :id, String, allow_nil: false, required: true
     param :data, Hash, required: true do
-      param :imageable_type, String, required: false
-      param :imageable_id, String, required: false
-      param :base_file_name, String, required: false
-      param :storage_location_uri, String, required: false
-      param :featured, String, required: false
       param :name, String, required: false
+      param :featured, String, required: false
       param :description, String, required: false
     end
     error :unauthorized, 'Request missing Authorization header'
@@ -86,7 +92,8 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def image_params
-        params.require(:data).permit(Image.public_attribute_names)
+        # if current_user.can?('create:image')
+        params.require(:data).permit([Image.public_attribute_names, :encoded].flatten)
       end
   end
 end

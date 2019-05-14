@@ -17,14 +17,30 @@ class ImagePolicy < ApplicationPolicy
   end
 
   def create?
-    user.can?('create:image')
+    user.can?('create:image') or (user.user? and user.owns?(imageable))
   end
 
   def update?
-    user.can?('update:image')
+    user.can?('update:image') or (user.user? and user.owns?(imageable))
   end
 
   def destroy?
-    user.can?('destroy:image')
+    user.can?('destroy:image') or (user.user? and user.owns?(imageable))
   end
+
+  def permitted_attributes
+    if user.can?('update:image')
+      Image.private_attribute_names + Image.public_attribute_names
+    else
+      Image.public_attribute_names
+    end
+  end
+
+  private
+
+    def imageable
+      return false unless image.respond_to?(:imageable)
+
+      image.imageable
+    end
 end

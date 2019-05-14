@@ -36,6 +36,8 @@ module V1
       @user = process_user_create(token)
       authorize @user
 
+      return render :show, status: :ok, location: v1_user_url(@user) unless @user.new_record?
+
       if @user.save
         render :show, status: :created, location: v1_user_url(@user)
       else
@@ -76,7 +78,9 @@ module V1
 
         display_name = user_creation_params['display_name']
 
-        User.new(display_name: display_name, external_user_id: access_token['sub'])
+        User.find_or_initialize_by(external_user_id: access_token['sub']) do |user|
+          user.display_name = display_name
+        end
       end
 
       # Not supported until more work is done on images and users.

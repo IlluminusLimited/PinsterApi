@@ -2,6 +2,7 @@
 
 task seed_data: :environment do
   require 'seed_helper'
+  require 'synchronized_array'
   include SeedHelper
 
   logger = Logger.new(STDOUT)

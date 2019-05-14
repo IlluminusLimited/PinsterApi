@@ -13,4 +13,9 @@ class CurrentUser < SimpleDelegator
 
     @permissions.include?(action)
   end
+
+  # Needed for rails to do database stuff correctly.
+  def class
+    User
+  end
 end

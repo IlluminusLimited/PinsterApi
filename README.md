@@ -11,8 +11,8 @@ The api that brings the bacon home.
 # .env setup
 
 ```dotenv
-auth0_site=auth0_site_url
-auth0_audience=hosted_address
+AUTH0_SITE=AUTH0_SITE_url
+JWT_AUD=hosted_address
 ```
 
 
@@ -25,8 +25,8 @@ Things to remember for prod push:
 
 1. Set these envs:
     ```dotenv
-    auth0_site=
-    auth0_audience=
+    AUTH0_SITE=
+    JWT_AUD=
     SWAGGER_HOST=
     SEED_USER_ID=
     RDS_DB_NAME=
