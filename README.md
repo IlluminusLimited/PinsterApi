@@ -6,14 +6,13 @@
 
 The api that brings the bacon home.
 
-
 # Flows
 
-## New pin with image
+## New pin
 
 1. In auth0 admin control panel make sure user has `create:pin` permission
 1. Get an access token from auth0. We'll call it our `auth0_token`
-1. `POST` to `/v1/pins` using your `auth0_token` as a `Bearer` token with a body like so:
+1. POST to `/v1/pins` using your `auth0_token` as a `Bearer` token with a body like so:
     ```json
     {
       "data": {
@@ -37,15 +36,46 @@ The api that brings the bacon home.
       "url": "http://www.example.com/v1/pins/3d3987fa-4fb6-4b2d-8980-c1919f5e63ec"
     }
     ```
+1. You're done! You've created a `Pin`! This is the same flow for any other item in the api.
+
+
+## Add image to existing imageable
+
+Almost everything in PinsterApi is imageable so this process can be applied to `Users`, `Pins`, `Assortments`, and
+`Collections`, etc.
+
+1. Do a `GET` (`POST` will have the same data if you're creating a resource) on the resource you'd like to 
+add an image to. The `images_url` will be in the response body:
+    Example response for a `Pin`:
+    ```json
+    {
+      "id": "3d3987fa-4fb6-4b2d-8980-c1919f5e63ec",
+      "name": "Wisconsin Unicorn",
+      "year": 2009,
+      "description": "This unicorn was made up, unless it exists. In that case, it is a very cool unicorn.",
+      "tags": [],
+      "created_at": "2019-05-15T22:59:01.754Z",
+      "updated_at": "2019-05-15T22:59:01.754Z",
+      "images_url": "http://www.example.com/v1/pins/3d3987fa-4fb6-4b2d-8980-c1919f5e63ec/images",
+      "url": "http://www.example.com/v1/pins/3d3987fa-4fb6-4b2d-8980-c1919f5e63ec"
+    }
+    ```
+    1. Note, the `images_url` isn't special, it's just in the response for your convenience. All imageables have a 
+    `/images` route on which you can do `GET` and `POST`.
+    
 1. Parse response for the `images_url`
-1. POST to `images_url` with an empty `body` using your `auth0_token` as a `Bearer` token
+1. `POST` to `images_url` without a `body` using your `auth0_token` as a `Bearer` token.
    Your response will look like this:
    ```json
    {
      "image_service_token": "eyJhbGciOiJSUzI...",
-     "image_service_url": "http://localhost:3000"
+     "image_service_url": "http://images.example.com"
    }
     ```
+    1. Note: These tokens are specific to the imageable and will expire shortly after they are generated 
+    (10 minutes or so). All images uploaded to image service with this token will be attached to the imageable 
+    for which this token was generated.
+    
 1. Parse response for the `image_service_token` and `image_service_url`
 1. POST to `image_service_url` using the `image_service_token` as a `Bearer` token with a body like so:
     ```json
@@ -68,8 +98,10 @@ The api that brings the bacon home.
         }
     }
     ```
-1. Image service will  process your image and if it passes moderation it will `POST` back to the api
-    on your behalf, linking the image to your imageable (pin in this case).
+
+1. Image service will process your image and if it passes moderation it will `POST` back to the api
+    on your behalf, linking the image to your imageable (pin in this case)!
+
 
 # Deployment
 
