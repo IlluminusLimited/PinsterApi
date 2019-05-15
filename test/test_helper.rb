@@ -41,4 +41,5 @@ class ActiveSupport::TestCase
   end
 
   Auth.exception_message_handler = ->(message) { message }
+  ::V1::ImagesController.__token_generator_producer = proc { TokenHelper.image_service_jwt_generator }
 end

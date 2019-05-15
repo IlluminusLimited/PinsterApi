@@ -51,6 +51,7 @@ Style/StructInheritance:
 Style/ClassVars:
   Exclude:
     - app/controllers/concerns/auth.rb
+    - app/controllers/v1/images_controller.rb
 
 Metrics/AbcSize:
   Exclude:

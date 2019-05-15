@@ -44,7 +44,7 @@ module V1
       @image = Image.new(all_params)
       authorize @image
 
-      @image_service_token = Utilities::TokenGenerator.new.generate_jwt(extract_imageable(@image.imageable))
+      @image_service_token = token_generator.generate_jwt(extract_imageable(@image.imageable))
 
       render 'v1/images/accepted_show', status: :accepted
     end
@@ -78,6 +78,10 @@ module V1
     def destroy
       authorize @image
       @image.destroy
+    end
+
+    def self.__token_generator_producer=(token_generator_producer)
+      @@token_generator_producer ||= token_generator_producer
     end
 
     private
@@ -116,6 +120,14 @@ module V1
         return render :show, status: :created, location: v1_image_url(@image) if @image.save
 
         render json: @image.errors, status: :unprocessable_entity
+      end
+
+      def token_generator
+        @@token_generator ||= token_generator_producer.call
+      end
+
+      def token_generator_producer
+        @@token_generator_producer ||= proc { |opts = {}| Utilities::TokenGenerator.new(opts) }
       end
   end
 end
