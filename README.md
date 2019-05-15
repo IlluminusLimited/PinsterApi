@@ -115,8 +115,8 @@ Checklist
 
 1. run on ec2 instance
     ```ruby
-          PgSearch::Multisearch.rebuild(Pin, true)
-          PgSearch::Multisearch.rebuild(Assortment, true)
+    PgSearch::Multisearch.rebuild(Pin, true)
+    PgSearch::Multisearch.rebuild(Assortment, true)
     ```
 
 1. Set these envs:
