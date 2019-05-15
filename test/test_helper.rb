@@ -24,8 +24,8 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
-  def current_user(token)
-    CurrentUserFactory.new(token_factory_resolver: TokenHelper.new.resolver).from_jwt(token)
+  def current_user(jwt)
+    CurrentUserFactory.new(token_factory_resolver: TokenHelper.new.resolver).from_jwt(jwt)
   end
 
   Auth.current_user_factory_producer = proc do |args = {}|
