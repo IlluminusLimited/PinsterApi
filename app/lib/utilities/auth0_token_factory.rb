@@ -10,7 +10,7 @@ module Utilities
     end
 
     def call(jwt)
-      decoded, _header = @jwt_decoder.call(jwt)
+      decoded = @jwt_decoder.call(jwt).first
       Auth0Token.new(decoded)
     end
   end
@@ -18,6 +18,7 @@ module Utilities
   module Auth0TokenDecoder
     def self.call(_jwt)
       @jwks_hash ||= jwks_hash
+      # Returns an array of decoded_body, header. We don't care about the token header so we'll just get .first
       JWT.decode(token, nil,
                  true, # Verify the signature of this token
                  algorithm: 'RS256',

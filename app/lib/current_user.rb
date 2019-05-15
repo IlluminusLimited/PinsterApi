@@ -14,11 +14,6 @@ class CurrentUser < SimpleDelegator
     @permissions.include?(action)
   end
 
-  # Used to differentiate users from services using JWTs to talk to our api
-  def service?
-    false
-  end
-
   # Needed for rails to do database stuff correctly.
   def class
     User

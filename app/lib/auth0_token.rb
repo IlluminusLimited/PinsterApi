@@ -10,8 +10,6 @@ class Auth0Token
   end
 
   def to_current_user
-    external_user_id = decoded_token['sub']
-
     user = @user_finder.call(external_user_id)
     build_user(user, external_user_id, decoded_token)
   end

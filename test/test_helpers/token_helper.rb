@@ -13,11 +13,11 @@ class TokenHelper
                                         })
   end
 
-  def self.for_user(user, permissions = [], exp = (Time.now.in_time_zone + 20.minutes).to_i)
-    generate_token(user.external_user_id, permissions, exp)
+  def self.for_user(user, permissions = [], exp = 1.minute.from_now.to_i)
+    generate_jwt(user.external_user_id, permissions, exp)
   end
 
-  def self.generate_token(sub, permissions = [], exp = 1.minute.from_now.to_i)
+  def self.generate_jwt(sub, permissions = [], exp = 1.minute.from_now.to_i)
     payload = {
       "iss": ISS,
       "sub": sub,
