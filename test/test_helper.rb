@@ -9,8 +9,10 @@ Minitest::Ci.report_dir = File.expand_path('../tmp/test-results', __dir__)
 
 SimpleCov.coverage_dir(File.expand_path('../tmp/coverage/backend', __dir__))
 
-SimpleCov.start 'rails'
-
+SimpleCov.start 'rails' do
+  add_group('rails', 'app')
+  add_filter %r{^/test/}
+end
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'policy_assertions'
