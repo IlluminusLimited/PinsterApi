@@ -131,15 +131,17 @@ Things to remember for prod push:
 
 1. Set these envs:
     ```dotenv
-    AUTH0_SITE=
-    JWT_AUD=
     SWAGGER_HOST=
-    SEED_USER_ID=
     RDS_DB_NAME=
     RDS_HOSTNAME=
     RDS_PASSWORD=
     RDS_PORT=
     RDS_USERNAME=
     SECRET_KEY_BASE=
+    AUTH0_SITE=
+    JWT_AUD=
+    IMAGE_SERVICE_URL=
+    PRIVATE_KEY=
+    IMAGE_SERVICE_PUBLIC_KEY=
     ```
 1. Set up auth0
