@@ -19,10 +19,15 @@
 #
 
 class CollectableCollection < ApplicationRecord
+  max_paginates_per 100
+
   belongs_to :collectable, polymorphic: true
   belongs_to :collection, counter_cache: true
 
   validates :collection_id, uniqueness: { scope: %i[collectable_type collectable_id] }
+
+  scope :recently_added, -> { order(created_at: :desc) }
+  scope :recently_updated, -> { order(updated_at: :desc) }
 
   def self.public_attribute_names
     %i[collectable_type collectable_id collection_id count]
