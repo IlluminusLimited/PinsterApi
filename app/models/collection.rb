@@ -23,7 +23,7 @@
 
 class Collection < ApplicationRecord
   extend EagerLoadable
-  max_paginates_per 30
+  max_paginates_per 100
 
   has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, dependent: :destroy
@@ -57,7 +57,7 @@ class Collection < ApplicationRecord
 
   def self.build_query(params)
     if params[:images].nil? || params[:images].to_s == 'true'
-      with_images.with_counts.recently_added
+      with_images.recently_added
     else
       default_result.recently_added
     end

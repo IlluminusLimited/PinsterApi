@@ -52,7 +52,7 @@ class CollectionPolicy < ApplicationPolicy
     end
 
     def resolve
-      if current_user.can?('show:collections') || current_user.id == collection_user_id
+      if current_user.can?('show:collections') or current_user.id == collection_user_id
         return scope.where(user_id: collection_user_id)
       end
 

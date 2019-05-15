@@ -10,7 +10,7 @@ module V1
     param :user_id, String, allow_nil: false, required: true
     param :images, :bool, default: true, required: false, allow_nil: false
     param :page, Hash, required: false do
-      param :size, String, default: 12
+      param :size, String, default: 25
     end
 
     def index
