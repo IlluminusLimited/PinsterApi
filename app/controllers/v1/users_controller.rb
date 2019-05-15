@@ -25,7 +25,6 @@ module V1
 
     api :POST, '/v1/users', 'Create a user'
     param :display_name, String, allow_nil: false
-    param :avatar_uri, String, allow_nil: true
     error :unauthorized, 'Request missing Authorization header'
     error :unprocessable_entity, 'Unprocessable entity, please check the payload'
 
@@ -81,19 +80,6 @@ module V1
         User.find_or_initialize_by(external_user_id: external_user_id) do |user|
           user.display_name = display_name
         end
-      end
-
-      # Not supported until more work is done on images and users.
-      def save_avatar
-        # avatar_uri = user_creation_params['avatar_uri']
-        #
-        # if avatar_uri
-        #   Image.create(base_file_name: avatar_uri,
-        #                storage_location_uri: avatar_uri,
-        #                thumbnailable: false,
-        #                imageable: @user)
-        # end
-        # nil
       end
   end
 end

@@ -13,8 +13,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "Anon cannot create user" do
     post v1_users_url, params: {
       data: {
-        display_name: 'billy',
-        avatar_uri: Faker::Placeholdit.image("300x300", 'jpeg')
+        display_name: 'billy'
       }
     }, as: :json
 
@@ -28,8 +27,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post v1_users_url, headers: { Authorization: "Bearer " + token }, params: {
       data: {
         display_name: 'billy'
-        # Not supported until more work is done with user profiles.
-        # avatar_uri: Faker::Placeholdit.image("300x300", 'jpeg')
       }
     }, as: :json
 
