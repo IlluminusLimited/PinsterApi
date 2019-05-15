@@ -91,11 +91,11 @@ add an image to. The `images_url` will be in the response body:
     Your response will look like this but you don't have to parse this:
     ```json
     {
-        "bucket": "image-service-upload-dev.pinster.io",
-        "key": "raw/d01834089090031b1c7d098882cfb41b",
-        "message": {
-            "ETag": "\"d01834089090031b1c7d098882cfb41b\""
-        }
+      "bucket": "image-service-upload-dev.pinster.io",
+      "key": "raw/d01834089090031b1c7d098882cfb41b",
+      "message": {
+          "ETag": "\"d01834089090031b1c7d098882cfb41b\""
+      }
     }
     ```
 
