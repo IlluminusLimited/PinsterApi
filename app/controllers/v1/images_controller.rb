@@ -44,7 +44,7 @@ module V1
       @image = Image.new(all_params)
       authorize @image
 
-      @image_service_token = token_generator.generate_jwt(extract_imageable(@image.imageable))
+      @image_service_token = token_generator.generate_jwt(extract_imageable(all_params))
       @image_service_url = token_generator.aud
 
       render 'v1/images/accepted_show', status: :accepted
@@ -109,8 +109,8 @@ module V1
         params.require(:data).permit(Image.all_attribute_names)
       end
 
-      def extract_imageable(imageable)
-        { imageable_type: imageable.class.to_s, imageable_id: imageable.id, user_id: current_user.id }
+      def extract_imageable(params)
+        { imageable_type: params[:imageable_type], imageable_id: params[:imageable_id], user_id: current_user.id }
       end
 
       def image_service_create
