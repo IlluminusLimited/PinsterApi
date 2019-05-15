@@ -94,7 +94,7 @@ add an image to. The `images_url` will be in the response body:
       "bucket": "image-service-upload-dev.pinster.io",
       "key": "raw/d01834089090031b1c7d098882cfb41b",
       "message": {
-          "ETag": "\"d01834089090031b1c7d098882cfb41b\""
+        "ETag": "\"d01834089090031b1c7d098882cfb41b\""
       }
     }
     ```
