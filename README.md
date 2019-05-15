@@ -23,9 +23,29 @@ The api that brings the bacon home.
       }
     }
     ```
-
+    Your response will look like:
+    ```json
+    {
+      "id": "3d3987fa-4fb6-4b2d-8980-c1919f5e63ec",
+      "name": "Wisconsin Unicorn",
+      "year": 2009,
+      "description": "This unicorn was made up, unless it exists. In that case, it is a very cool unicorn.",
+      "tags": [],
+      "created_at": "2019-05-15T22:59:01.754Z",
+      "updated_at": "2019-05-15T22:59:01.754Z",
+      "images_url": "http://www.example.com/v1/pins/3d3987fa-4fb6-4b2d-8980-c1919f5e63ec/images",
+      "url": "http://www.example.com/v1/pins/3d3987fa-4fb6-4b2d-8980-c1919f5e63ec"
+    }
+    ```
 1. Parse response for the `images_url`
 1. POST to `images_url` with an empty `body` using your `auth0_token` as a `Bearer` token
+   Your response will look like this:
+   ```json
+   {
+     "image_service_token": "eyJhbGciOiJSUzI...",
+     "image_service_url": "http://localhost:3000"
+   }
+    ```
 1. Parse response for the `image_service_token` and `image_service_url`
 1. POST to `image_service_url` using the `image_service_token` as a `Bearer` token with a body like so:
     ```json
@@ -36,6 +56,16 @@ The api that brings the bacon home.
         "description": "Optional description",
         "featured": "Optional ISO8601 format"
       }
+    }
+    ```
+    Your response will look like this but you don't have to parse this:
+    ```json
+    {
+        "bucket": "image-service-upload-dev.pinster.io",
+        "key": "raw/d01834089090031b1c7d098882cfb41b",
+        "message": {
+            "ETag": "\"d01834089090031b1c7d098882cfb41b\""
+        }
     }
     ```
 1. Image service will  process your image and if it passes moderation it will `POST` back to the api
