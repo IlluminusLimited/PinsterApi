@@ -16,10 +16,10 @@ module Utilities
   end
 
   module Auth0TokenDecoder
-    def self.call(_jwt)
+    def self.call(jwt)
       @jwks_hash ||= jwks_hash
       # Returns an array of decoded_body, header. We don't care about the token header so we'll just get .first
-      JWT.decode(token, nil,
+      JWT.decode(jwt, nil,
                  true, # Verify the signature of this token
                  algorithm: 'RS256',
                  iss: ENV['AUTH0_SITE'] + '/',
