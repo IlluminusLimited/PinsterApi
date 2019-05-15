@@ -7,6 +7,40 @@
 The api that brings the bacon home.
 
 
+# Flows
+
+## New Pin
+
+1. In auth0 admin control panel make sure user has `create:pin` permission
+1. Get auth0 token
+1. `POST` to `/v1/pins` with a body like so:
+    ```json
+    {
+      "data": {
+        "name": "Wisconsin Unicorn",
+        "year": 2009,
+        "description": "This unicorn was made up, unless it exists. In that case, it is a very cool unicorn.",
+      }
+    }
+    ```
+
+1. Parse response for the `images_url`
+1. POST to `images_url` with an empty `body` 
+1. Parse response for the `image_service_token` and `image_service_url`
+1. POST to `image_service_url` using the `image_service_token` as a `Bearer` token with a body like so:
+    ```json
+    {
+      "data": {
+        "image": "base64 encoded image",
+        "name": "Optional name of image",
+        "description": "Optional description",
+        "featured": "Optional ISO8601 format"
+      }
+    }
+    ```
+1. Image service will  process your image and if it passes moderation it will `POST` back to the api 
+    on your behalf, linking the image to your imageable (pin in this case).
+
 
 # Deployment
 
