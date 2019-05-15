@@ -29,7 +29,15 @@ class CollectableCollection < ApplicationRecord
   scope :recently_added, -> { order(created_at: :desc) }
   scope :recently_updated, -> { order(updated_at: :desc) }
 
+  def self.all_attribute_names
+    private_attribute_names + public_attribute_names
+  end
+
+  def self.private_attribute_names
+    %i[collectable_type collectable_id collection_id]
+  end
+
   def self.public_attribute_names
-    %i[collectable_type collectable_id collection_id count]
+    %i[count]
   end
 end

@@ -34,11 +34,9 @@ class CollectionPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.can?('update:collection')
-      [:name, :description, :public, :user_id,
-       collectable_collections_attributes: CollectableCollection.public_attribute_names]
+      Collection.all_attribute_names
     else
-      [:name, :description,
-       collectable_collections_attributes: CollectableCollection.public_attribute_names]
+      Collection.public_attribute_names
     end
   end
 

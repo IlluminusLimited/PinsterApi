@@ -30,8 +30,6 @@ class Collection < ApplicationRecord
 
   belongs_to :user
 
-  accepts_nested_attributes_for :collectable_collections
-
   validates :name, presence: true
   validates :public, inclusion: { in: [true, false] }
 
@@ -49,6 +47,18 @@ class Collection < ApplicationRecord
 
   def to_s
     "Collection: '#{id}:#{name}'"
+  end
+
+  def self.all_attribute_names
+    private_attribute_names + public_attribute_names
+  end
+
+  def self.private_attribute_names
+    %i[public user_id]
+  end
+
+  def self.public_attribute_names
+    %i[name description]
   end
 
   def self.default_result

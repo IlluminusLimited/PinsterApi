@@ -28,4 +28,16 @@ class CollectableCollectionPolicy < ApplicationPolicy
   def destroy?
     user.can?('destroy:collectable_collection') or user.owns?(collectable_collection.collection)
   end
+
+  def permitted_attributes_for_update
+    if user.can?('update:collectable_collection')
+      CollectableCollection.all_attribute_names
+    else
+      CollectableCollection.public_attribute_names
+    end
+  end
+
+  def permitted_attributes_for_create
+    CollectableCollection.all_attribute_names
+  end
 end

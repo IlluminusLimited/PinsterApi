@@ -22,9 +22,9 @@ require 'test_helper'
 
 class CollectableCollectionTest < ActiveSupport::TestCase
   setup do
-    @one = collectable_collections(:one)
-    @two = collectable_collections(:two)
-    @three = collectable_collections(:three)
+    @one = collectable_collections(:sallys_favorite_dragon_collectables)
+    @two = collectable_collections(:toms_keeper_2009_assortments)
+    @three = collectable_collections(:toms_secret_unicorn_collectables)
   end
 
   test 'fixtures are valid' do

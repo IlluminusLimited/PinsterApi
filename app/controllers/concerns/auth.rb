@@ -14,6 +14,16 @@ module Auth
     after_action :verify_authorized
   end
 
+  def permitted_attributes(record, action = action_name)
+    policy = policy(record)
+    method_name = if policy.respond_to?("permitted_attributes_for_#{action}")
+                    "permitted_attributes_for_#{action}"
+                  else
+                    "permitted_attributes"
+                  end
+    params.require(:data).permit(*policy.public_send(method_name))
+  end
+
   def require_login
     not_authenticated unless logged_in?
   end
