@@ -12,7 +12,7 @@ The api that brings the bacon home.
 ## New pin with image
 
 1. In auth0 admin control panel make sure user has `create:pin` permission
-1. Get auth0 token
+1. Get an access token from auth0. We'll call it our `auth0_token`
 1. `POST` to `/v1/pins` using your `auth0_token` as a `Bearer` token with a body like so:
     ```json
     {
