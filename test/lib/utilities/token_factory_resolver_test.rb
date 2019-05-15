@@ -2,23 +2,23 @@
 
 require 'test_helper'
 
-class TokenVerifierTest < ActiveSupport::TestCase
+class TokenFactoryResolverTest < ActiveSupport::TestCase
   def test_can_look_up_verifier
-    assert_equal "yay", Utilities::TokenVerifier.new(verifiers: { "bob" => proc { "yay" } },
-                                                     iss_decoder: proc { "bob" }).call('some token')
+    assert_equal "yay", Utilities::TokenFactoryResolver.new(decoders: { "bob" => proc { "yay" } },
+                                                            iss_decoder: proc { "bob" }).call('some token')
   end
 
   def test_blows_up_when_no_iss_match
     assert_raises(JWT::InvalidIssuerError) do
-      Utilities::TokenVerifier.new(verifiers: { "bob" => proc { "yay" } },
-                                   iss_decoder: proc { "no match" }).call('some token')
+      Utilities::TokenFactoryResolver.new(decoders: { "bob" => proc { "yay" } },
+                                          iss_decoder: proc { "no match" }).call('some token')
     end
   end
 
   def test_blows_up_when_no_verifiers
     assert_raises(JWT::InvalidIssuerError) do
-      Utilities::TokenVerifier.new(verifiers: {},
-                                   iss_decoder: proc { "no match" }).call('some token')
+      Utilities::TokenFactoryResolver.new(decoders: {},
+                                          iss_decoder: proc { "no match" }).call('some token')
     end
   end
 
@@ -33,7 +33,7 @@ class TokenVerifierTest < ActiveSupport::TestCase
                                               iss: iss, verify_iss: true, aud: aud, verify_aud: true)
     end
 
-    token_verifier = Utilities::TokenVerifier.new(verifiers: { iss => verifier })
+    token_verifier = Utilities::TokenFactoryResolver.new(decoders: { iss => verifier })
     assert_equal([payload, { "alg" => "RS256" }], token_verifier.call(JWT.encode(payload, key, 'RS256')))
   end
 end

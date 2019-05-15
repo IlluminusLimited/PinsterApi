@@ -4,9 +4,21 @@ require 'uri'
 require 'net/http'
 
 module Utilities
-  module Auth0Jwt
-    def self.call(token)
+  class Auth0TokenFactory
+    def initialize(opts = {})
+      @jwt_decoder = opts[:jwt_decoder] ||= Auth0TokenDecoder
+    end
+
+    def call(jwt)
+      decoded = @jwt_decoder.call(jwt).first
+      Auth0Token.new(decoded)
+    end
+  end
+
+  module Auth0TokenDecoder
+    def self.call(_jwt)
       @jwks_hash ||= jwks_hash
+      # Returns an array of decoded_body, header. We don't care about the token header so we'll just get .first
       JWT.decode(token, nil,
                  true, # Verify the signature of this token
                  algorithm: 'RS256',

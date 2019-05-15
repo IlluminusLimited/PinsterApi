@@ -25,7 +25,7 @@ module Auth
   def current_user
     return @current_user if defined?(@current_user)
 
-    @current_user = current_user_factory.from_token(http_token)
+    @current_user = current_user_factory.from_jwt(bearer_token)
   end
 
   # Not used yet until user profile pictures are supported
@@ -49,7 +49,7 @@ module Auth
                                        "message": "You are not authorized to perform this action" }
   end
 
-  def http_token
+  def bearer_token
     request.headers['Authorization'].slice(7..-1) if request.headers['Authorization'].present?
   end
 

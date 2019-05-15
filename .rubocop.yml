@@ -51,6 +51,7 @@ Style/StructInheritance:
 Style/ClassVars:
   Exclude:
     - app/controllers/concerns/auth.rb
+    - app/controllers/v1/images_controller.rb
 
 Metrics/AbcSize:
   Exclude:
@@ -79,6 +80,7 @@ Metrics/ClassLength:
     - test/controllers/v1/pins_controller_test.rb
     - test/controllers/v1/assortments_controller_test.rb
     - test/controllers/v1/collections_controller_test.rb
+    - test/controllers/v1/images_controller_test.rb
 
 Rails:
   Enabled: true

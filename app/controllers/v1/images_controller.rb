@@ -20,16 +20,16 @@ module V1
 
     def show; end
 
-    api :POST, '/v1/images', 'Create request to upload an image'
+    api :POST, '/v1/images', 'Create request to upload an image (Or actually create an image if you are ImageService)'
     api :POST, '/v1/:imageable_type/:imageable_id/images', 'Create request to upload an image'
     param :imageable_type, String, required: false
     param :imageable_id, String, required: false
 
-    param :data, Hash, required: true do
+    param :data, Hash, required: false do
       param :imageable_type, String, required: false
       param :imageable_id, String, required: false
-      param :base_file_name, String, required: true
-      param :storage_location_uri, String, required: true
+      param :base_file_name, String, required: false, desc: 'Image service use only'
+      param :storage_location_uri, String, required: false, desc: 'Image service use only'
       param :featured, String, required: false
       param :name, String, required: false
       param :description, String, required: false
@@ -38,18 +38,16 @@ module V1
     def create
       # if the the token is from image service, return 201 created.
       # If the token is from a user, return 202 accepted.
-      all_params = image_params.dup
-      all_params[:imageable_type] ||= params[:imageable_type]
-      all_params[:imageable_id] ||= params[(all_params[:imageable_type].to_s.downcase + "_id").to_sym]
+      return image_service_create if current_user.service?
 
+      all_params = add_imageable_from_params(image_params)
       @image = Image.new(all_params)
       authorize @image
 
-      if @image.save
-        render :show, status: :created, location: v1_image_url(@image)
-      else
-        render json: @image.errors, status: :unprocessable_entity
-      end
+      @image_service_token = token_generator.generate_jwt(extract_imageable(@image.imageable))
+      @image_service_url = token_generator.aud
+
+      render 'v1/images/accepted_show', status: :accepted
     end
 
     api :PATCH, '/v1/images/:id', 'Update an image'
@@ -83,6 +81,10 @@ module V1
       @image.destroy
     end
 
+    def self.__token_generator_producer=(token_generator_producer)
+      @@token_generator_producer ||= token_generator_producer
+    end
+
     private
 
       # Use callbacks to share common setup or constraints between actions.
@@ -90,10 +92,43 @@ module V1
         @image = Image.find(params[:id])
       end
 
+      # Used to figure out what the imageable type is since rails names the id after the imageable type
+      def add_imageable_from_params(base_params)
+        all_params = base_params.dup
+        all_params[:imageable_type] ||= params[:imageable_type]
+        all_params[:imageable_id] ||= params[(all_params[:imageable_type].to_s.downcase + "_id").to_sym]
+        all_params
+      end
+
       # Only allow a trusted parameter "white list" through.
       def image_params
-        # if current_user.can?('create:image')
-        params.require(:data).permit([Image.public_attribute_names, :encoded].flatten)
+        params.fetch(:data, {}).permit(Image.public_attribute_names)
+      end
+
+      def restricted_image_params
+        params.require(:data).permit(Image.all_attribute_names)
+      end
+
+      def extract_imageable(imageable)
+        { imageable_type: imageable.class.to_s, imageable_id: imageable.id, user_id: current_user.id }
+      end
+
+      def image_service_create
+        all_params = add_imageable_from_params(restricted_image_params)
+        @image = Image.new(all_params)
+        authorize @image
+
+        return render :show, status: :created, location: v1_image_url(@image) if @image.save
+
+        render json: @image.errors, status: :unprocessable_entity
+      end
+
+      def token_generator
+        @@token_generator ||= token_generator_producer.call
+      end
+
+      def token_generator_producer
+        @@token_generator_producer ||= proc { |opts = {}| Utilities::TokenGenerator.new(opts) }
       end
   end
 end

@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/PinsterTeam/PinsterApi.svg?style=shield)](https://circleci.com/gh/PinsterTeam/PinsterApi)
-[![Maintainability](https://api.codeclimate.com/v1/badges/3451509b9dbfecfd7a22/maintainability)](https://codeclimate.com/github/PinsterTeam/PinsterApi/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/3451509b9dbfecfd7a22/test_coverage)](https://codeclimate.com/github/PinsterTeam/PinsterApi/test_coverage)
+[![CircleCI](https://circleci.com/gh/IlluminusLimited/PinsterApi.svg?style=shield)](https://circleci.com/gh/IlluminusLimited/PinsterApi)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3451509b9dbfecfd7a22/maintainability)](https://codeclimate.com/github/IlluminusLimited/PinsterApi/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3451509b9dbfecfd7a22/test_coverage)](https://codeclimate.com/github/IlluminusLimited/PinsterApi/test_coverage)
 
 # PinsterApi
 
