@@ -14,6 +14,11 @@ class CurrentUser < SimpleDelegator
     @permissions.include?(action)
   end
 
+  # Used to discern between services and actual users
+  def service?
+    false
+  end
+
   # Needed for rails to do database stuff correctly.
   def class
     User

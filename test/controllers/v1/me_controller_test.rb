@@ -64,7 +64,7 @@ class MeControllerTest < ActionDispatch::IntegrationTest
 
   test "Unknown user is not authorized" do
     sub = 'facebook|12341234'
-    token = TokenHelper.token(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)
+    token = TokenHelper.generate_jwt(sub, [], (Time.now.in_time_zone + 20.minutes).to_i)
 
     get v1_me_url, headers: { Authorization: "Bearer " + token }, as: :json
 
