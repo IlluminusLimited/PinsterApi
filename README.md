@@ -18,7 +18,7 @@ The api that brings the bacon home.
       "data": {
         "name": "Wisconsin Unicorn",
         "year": 2009,
-        "description": "This unicorn was made up, unless it exists. In that case, it is a very cool unicorn.",
+        "description": "This unicorn was made up, unless it exists. It is a very cool unicorn."
       }
     }
     ```
@@ -28,7 +28,7 @@ The api that brings the bacon home.
       "id": "3d3987fa-4fb6-4b2d-8980-c1919f5e63ec",
       "name": "Wisconsin Unicorn",
       "year": 2009,
-      "description": "This unicorn was made up, unless it exists. In that case, it is a very cool unicorn.",
+      "description": "This unicorn was made up, unless it exists. It is a very cool unicorn.",
       "tags": [],
       "created_at": "2019-05-15T22:59:01.754Z",
       "updated_at": "2019-05-15T22:59:01.754Z",
