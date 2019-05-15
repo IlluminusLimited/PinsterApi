@@ -83,15 +83,5 @@ module V1
       def set_collection
         @collection = Collection.includes(collectable_collections: [:collectable]).find(params[:collection_id])
       end
-
-    # # Never trust parameters from the scary internet, only allow the white list through.
-    # def collectable_collection_params
-    #   collectable_collection = @collectable_collection || CollectableCollection.new
-    #   params.require(:data).permit(policy(collectable_collection).permitted_attributes)
-    # end
-
-    #   When a user creates a collectable_collection they can set the collection_id
-    # as long as they own that collection.
-    # Once the CC is created they can no longer change the collection_id or collectable itself.
   end
 end
