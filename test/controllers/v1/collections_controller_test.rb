@@ -74,7 +74,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "user can get other userss public collections" do
+  test "user can get other users public collections" do
     tom = users(:tom)
     sally = users(:sally)
 
@@ -93,7 +93,7 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
   test "should show collection" do
     get v1_collection_url(@collection), as: :json
     assert_response :success
-    assert_match @collection.collectable_count.to_s, response.body
+    assert_match @collection.id, response.body
   end
 
   test "Tom can create a collection" do

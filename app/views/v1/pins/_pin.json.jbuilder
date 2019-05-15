@@ -11,4 +11,5 @@ if @images.present?
 elsif pin.association(:images).loaded?
   json.images pin.images, partial: 'v1/images/image', as: :image
 end
+json.images_url v1_pin_images_url(pin, format: :json)
 json.url v1_pin_url(pin, format: :json)

@@ -10,7 +10,7 @@ module V1
     param :user_id, String, allow_nil: false, required: true
     param :images, :bool, default: true, required: false, allow_nil: false
     param :page, Hash, required: false do
-      param :size, String, default: 12
+      param :size, String, default: 25
     end
 
     def index
@@ -25,6 +25,7 @@ module V1
 
     api :GET, '/v1/users/:user_id/collections/summary', "Show a user's collections summary"
     param :user_id, String, allow_nil: false, required: true
+
     def summary
       @collections = paginate(CollectionPolicy::Scope.new(
         current_user,
@@ -54,7 +55,7 @@ module V1
     error :unauthorized, 'Request missing Authorization header'
 
     def create
-      @collection = Collection.new(collection_params)
+      @collection = Collection.new(permitted_attributes(Collection.new))
       authorize @collection
 
       if @collection.save
@@ -78,7 +79,7 @@ module V1
     def update
       authorize @collection
 
-      if @collection.update(collection_params)
+      if @collection.update(permitted_attributes(@collection))
         render :show, status: :ok, location: v1_collection_url(@collection)
       else
         render json: @collection.errors, status: :unprocessable_entity
@@ -104,9 +105,8 @@ module V1
       end
 
       # Only allow a trusted parameter "white list" through.
-      def collection_params
-        collection = @collection || Collection.new
-        params.require(:data).permit(policy(collection).permitted_attributes).merge(user_id: current_user.id)
+      def permitted_attributes(record)
+        super(record).merge(user_id: current_user.id)
       end
   end
 end

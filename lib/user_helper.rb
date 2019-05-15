@@ -5,7 +5,7 @@ module SeedHelper
     class << self
       def generate
         User.create!(display_name: Faker::Name.name,
-                     bio: Faker::HitchhikersGuideToTheGalaxy.marvin_quote,
+                     bio: Faker::Movies::HitchhikersGuideToTheGalaxy.marvin_quote,
                      external_user_id: Faker::Number.number(24))
       end
 
