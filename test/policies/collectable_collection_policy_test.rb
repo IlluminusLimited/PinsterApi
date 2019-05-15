@@ -57,15 +57,6 @@ class CollectableCollectionPolicyTest < PolicyAssertions::Test
                                     CollectableCollection.public_attribute_names, :update)
   end
 
-  test 'admin can change the collection_id' do
-    user = current_user(TokenHelper.for_user(users(:andrew), %w[update:collection]))
-    collection = collections(:sallys_favorite_collection)
-    collection.user_id = users(:tom).id
-    assert_strong_parameters(user, collection, collection.attributes.to_h,
-                             [:name, :description, :public, :user_id,
-                              collectable_collections_attributes: CollectableCollection.public_attribute_names])
-  end
-
   test 'admins can perform any action' do
     user = current_user(TokenHelper.for_user(users(:bob), %w[index:collectable_collections
                                                              show:collectable_collection
