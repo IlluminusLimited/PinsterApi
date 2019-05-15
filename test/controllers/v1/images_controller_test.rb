@@ -59,17 +59,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference('Image.count') do
       post v1_collection_images_url(collection),
-           headers: { Authorization: "Bearer " + token },
-           params: {
-             data: {
-               name: "Cool image",
-               description: "This is a really cool image"
-             }
-           }, as: :json
+           headers: { Authorization: "Bearer " + token }, as: :json
       assert_response :accepted
       body = JSON.parse(response.body)
-      assert_equal "Cool image", body['name']
-      assert_equal "This is a really cool image", body['description']
       assert body['image_service_token']
     end
   end
