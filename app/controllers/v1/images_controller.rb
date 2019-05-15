@@ -25,7 +25,7 @@ module V1
     param :imageable_type, String, required: false
     param :imageable_id, String, required: false
 
-    param :data, Hash, required: true do
+    param :data, Hash, required: false do
       param :imageable_type, String, required: false
       param :imageable_id, String, required: false
       param :base_file_name, String, required: false, desc: 'Image service use only'
@@ -101,7 +101,7 @@ module V1
 
       # Only allow a trusted parameter "white list" through.
       def image_params
-        params.require(:data).permit(Image.public_attribute_names)
+        params.fetch(:data, {}).permit(Image.public_attribute_names)
       end
 
       def restricted_image_params
