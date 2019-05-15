@@ -42,7 +42,8 @@ class CollectableCollectionPolicyTest < PolicyAssertions::Test
   end
 
   test 'admins can perform any action' do
-    user = current_user(TokenHelper.for_user(users(:bob), %w[show:collectable_collection
+    user = current_user(TokenHelper.for_user(users(:bob), %w[index:collectable_collections
+                                                             show:collectable_collection
                                                              create:collectable_collection
                                                              update:collectable_collection
                                                              destroy:collectable_collection]))
