@@ -19,6 +19,11 @@ class ImageServiceToken
     true
   end
 
+  # Used to discern between services and actual users
+  def service?
+    true
+  end
+
   def can?(_arg)
     false
   end

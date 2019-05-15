@@ -53,23 +53,26 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  # test "An image on a collection can be created" do
-  #   token = TokenHelper.for_user(users(:tom))
-  #   collection = collections(:toms_keepers_collection)
-  #
-  #   assert_difference('Image.count', +1) do
-  #     post v1_collection_images_url(collection),
-  #          headers: { Authorization: "Bearer " + token },
-  #          params: {
-  #            data: {
-  #              featured: @image.featured,
-  #              name: @image.name,
-  #              description: @image.description
-  #            }
-  #          }, as: :json
-  #     assert_response :accepted
-  #   end
-  # end
+  test "Users can get an image_service_token" do
+    token = TokenHelper.for_user(users(:tom))
+    collection = collections(:toms_keepers_collection)
+
+    assert_no_difference('Image.count') do
+      post v1_collection_images_url(collection),
+           headers: { Authorization: "Bearer " + token },
+           params: {
+             data: {
+               name: "Cool image",
+               description: "This is a really cool image"
+             }
+           }, as: :json
+      assert_response :accepted
+      body = JSON.parse(response.body)
+      assert_equal "Cool image", body['name']
+      assert_equal "This is a really cool image", body['description']
+      assert body['image_service_token']
+    end
+  end
 
   test "should show imageables images" do
     get polymorphic_url([:v1, @image.imageable, :images]), as: :json
