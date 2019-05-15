@@ -113,16 +113,6 @@ Checklist
 1. Set environment variables in elasticbeanstalk configure thing.
 1. Set environment variables in secrets manager for image service's keys
 
-
-# .env setup
-
-```dotenv
-AUTH0_SITE=AUTH0_SITE_url
-JWT_AUD=hosted_address
-```
-
-
-Things to remember for prod push:
 1. run on ec2 instance
     ```ruby
           PgSearch::Multisearch.rebuild(Pin, true)
