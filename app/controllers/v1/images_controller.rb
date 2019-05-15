@@ -30,7 +30,7 @@ module V1
       param :imageable_id, String, required: false
       param :base_file_name, String, required: false, desc: 'Image service use only'
       param :storage_location_uri, String, required: false, desc: 'Image service use only'
-      param :featured, String, required: false
+      param :featured, String, required: false, desc: "ISO8601 format"
       param :name, String, required: false
       param :description, String, required: false
     end
@@ -55,7 +55,7 @@ module V1
     param :id, String, allow_nil: false, required: true
     param :data, Hash, required: true do
       param :name, String, required: false
-      param :featured, String, required: false
+      param :featured, String, required: false, desc: "ISO8601 format"
       param :description, String, required: false
     end
     error :unauthorized, 'Request missing Authorization header'
