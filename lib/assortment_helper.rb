@@ -5,7 +5,7 @@ module SeedHelper
     class << self
       def generate
         assortment = Assortment.create!(name: "#{Faker::Address.country_code_long} #{Faker::Food.dish}".pluralize,
-                                        description: Faker::SiliconValley.quote)
+                                        description: Faker::TvShows::SiliconValley.quote)
 
         pin_ids = SynchronizedArray.new(Pin.all.to_a, Mutex.new)
 
