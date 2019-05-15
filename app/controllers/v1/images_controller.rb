@@ -94,7 +94,7 @@ module V1
       # Only allow a trusted parameter "white list" through.
       def image_params
         # if current_user.can?('create:image')
-        params.require(:data).permit([Image.public_attribute_names, :encoded].flatten)
+        params.require(:data).permit(Image.all_attribute_names)
       end
   end
 end

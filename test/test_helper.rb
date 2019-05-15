@@ -24,12 +24,17 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
+  def incoming_image_service_jwt(imageable)
+    metadata = { "imageable_id" => imageable.id, "imageable_type" => imageable.class.to_s }
+    TokenHelper.image_service_jwt_generator.generate_jwt(metadata)
+  end
+
   def current_user(jwt)
-    CurrentUserFactory.new(token_factory_resolver: TokenHelper.new.resolver).from_jwt(jwt)
+    CurrentUserFactory.new(token_factory_resolver: TokenHelper.resolver).from_jwt(jwt)
   end
 
   Auth.current_user_factory_producer = proc do |args = {}|
-    CurrentUserFactory.new(args.merge(token_factory_resolver: TokenHelper.new.resolver))
+    CurrentUserFactory.new(args.merge(token_factory_resolver: TokenHelper.resolver))
   end
 
   Auth.exception_message_handler = ->(message) { message }

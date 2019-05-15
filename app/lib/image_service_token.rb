@@ -19,6 +19,10 @@ class ImageServiceToken
     true
   end
 
+  def can?(_arg)
+    false
+  end
+
   def owns?(resource)
     return false unless resource.respond_to?(:id)
 

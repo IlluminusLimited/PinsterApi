@@ -30,6 +30,10 @@ class Image < ApplicationRecord
 
   default_scope { order(featured: :desc) }
 
+  def self.all_attribute_names
+    [private_attribute_names, public_attribute_names].flatten
+  end
+
   def self.private_attribute_names
     %i[imageable_id imageable_type base_file_name storage_location_uri thumbnailable]
   end
