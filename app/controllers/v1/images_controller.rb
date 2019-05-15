@@ -45,6 +45,7 @@ module V1
       authorize @image
 
       @image_service_token = token_generator.generate_jwt(extract_imageable(@image.imageable))
+      @image_service_url = token_generator.aud
 
       render 'v1/images/accepted_show', status: :accepted
     end

@@ -63,6 +63,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_response :accepted
       body = JSON.parse(response.body)
       assert body['image_service_token']
+      assert body['image_service_url']
     end
   end
 
