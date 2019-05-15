@@ -64,9 +64,6 @@ Metrics/LineLength:
     - config/**/*
     - lib/tasks/**/*
 
-Metrics/ClassLength:
-  Exclude:
-    - test/controllers/v1/images_controller_test.rb
 Metrics/MethodLength:
   Exclude:
     - db/migrate/*
@@ -82,6 +79,7 @@ Metrics/ClassLength:
     - test/controllers/v1/pins_controller_test.rb
     - test/controllers/v1/assortments_controller_test.rb
     - test/controllers/v1/collections_controller_test.rb
+    - test/controllers/v1/images_controller_test.rb
 
 Rails:
   Enabled: true
