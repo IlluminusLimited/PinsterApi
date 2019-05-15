@@ -13,6 +13,7 @@ SimpleCov.start 'rails' do
   add_group('rails', 'app')
   add_filter %r{^/test/}
 end
+
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'policy_assertions'

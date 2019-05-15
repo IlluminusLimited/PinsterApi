@@ -8,7 +8,7 @@ module Utilities
     attr_reader :key, :iss, :aud
 
     def initialize(opts = {})
-      @key = opts[:key] ||= OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(ENV['PRIVATE_KEY']))
+      @key = opts[:key] ||= set_key
       @iss = opts[:iss] ||= ENV['JWT_AUD'] # Our JWT_AUD is our own uri, we are ISSUING tokens for the AUD to consume
       @aud = opts[:aud] ||= ENV['IMAGE_SERVICE_URL'] # The AUD of procuded image service tokens is image service's URL
     end
@@ -46,5 +46,14 @@ module Utilities
       }
       generate_jwt(metadata, exp: 8.hours.from_now.to_i)
     end
+
+    private
+
+      def set_key
+        raw_key = ENV['PRIVATE_KEY']
+        raise "No PRIVATE_KEY set but default constructor was called!" unless raw_key
+
+        OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(raw_key))
+      end
   end
 end
