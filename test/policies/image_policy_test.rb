@@ -33,6 +33,12 @@ class ImagePolicyTest < PolicyAssertions::Test
     assert_not_permitted(user, images(:toms_keepers_collection_main_image), ANY_INSTANCE_MODIFY_ACTION)
   end
 
+  test 'users cannot modify restricted properties' do
+    user = current_user(TokenHelper.for_user(users(:sally)))
+    image = images(:sallys_favorite_collection_main_image)
+    assert_strong_parameters(user, image, image.attributes.to_h, Image.public_attribute_names)
+  end
+
   test 'moderators can modify images' do
     user = current_user(TokenHelper.for_user(users(:bob), %w[update:image destroy:image]))
     assert_permit(user, Image, ANY_INSTANCE_MODIFY_ACTION)
