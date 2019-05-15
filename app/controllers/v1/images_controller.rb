@@ -38,15 +38,7 @@ module V1
     def create
       # if the the token is from image service, return 201 created.
       # If the token is from a user, return 202 accepted.
-      if current_user.service?
-        all_params = add_imageable_from_params(restricted_image_params)
-        @image = Image.new(all_params)
-        authorize @image
-
-        return render :show, status: :created, location: v1_image_url(@image) if @image.save
-
-        return render json: @image.errors, status: :unprocessable_entity
-      end
+      return image_service_create if current_user.service?
 
       all_params = add_imageable_from_params(image_params)
       @image = Image.new(all_params)
@@ -95,6 +87,7 @@ module V1
         @image = Image.find(params[:id])
       end
 
+      # Used to figure out what the imageable type is since rails names the id after the imageable type
       def add_imageable_from_params(base_params)
         all_params = base_params.dup
         all_params[:imageable_type] ||= params[:imageable_type]
@@ -113,6 +106,16 @@ module V1
 
       def extract_imageable(imageable)
         { imageable_type: imageable.class.to_s, imageable_id: imageable.id, user_id: current_user.id }
+      end
+
+      def image_service_create
+        all_params = add_imageable_from_params(restricted_image_params)
+        @image = Image.new(all_params)
+        authorize @image
+
+        return render :show, status: :created, location: v1_image_url(@image) if @image.save
+
+        render json: @image.errors, status: :unprocessable_entity
       end
   end
 end
