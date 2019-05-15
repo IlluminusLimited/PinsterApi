@@ -16,6 +16,7 @@ module V1
 
     api :GET, '/v1/me', 'Show the current user'
     error :unauthorized, 'Request missing Authorization header'
+
     def show
       authorize @user
       render :show
@@ -29,6 +30,7 @@ module V1
     end
     error :unauthorized, 'Request missing Authorization header'
     error :unprocessable_entity, 'Unprocessable entity, please check the payload'
+
     def update
       authorize @user
 

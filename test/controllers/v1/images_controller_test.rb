@@ -116,18 +116,19 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
   end
 
-  test "Bob cannot update restricted fields on an image" do
-    token = TokenHelper.for_user(users(:bob))
-
-    patch v1_image_url(@image), headers: { Authorization: "Bearer " + token },
-                                params: {
-                                  data: {
-                                    imageable: @image.imageable,
-                                    base_file_name: @image.base_file_name,
-                                    storage_location_uri: @image.storage_location_uri
-                                  }
-                                }, as: :json
-    assert_response :forbidden
+  test "Tom cannot update restricted fields on an image" do
+    token = TokenHelper.for_user(users(:tom))
+    image = images(:toms_face)
+    patch v1_image_url(image), headers: { Authorization: "Bearer " + token },
+                               params: {
+                                 data: {
+                                   imageable: nil,
+                                   base_file_name: 'asdf',
+                                   storage_location_uri: nil
+                                 }
+                               }, as: :json
+    assert_response :ok
+    assert_not_equal 'asdf', Image.find(image.id).base_file_name
   end
 
   test "anon cannot destroy an image" do

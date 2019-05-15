@@ -30,7 +30,7 @@ class ImagePolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.can?('update:image')
-      Image.private_attribute_names + Image.public_attribute_names
+      Image.all_attribute_names
     else
       Image.public_attribute_names
     end
