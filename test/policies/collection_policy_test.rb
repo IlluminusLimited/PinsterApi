@@ -52,8 +52,7 @@ class CollectionPolicyTest < PolicyAssertions::Test
     user = current_user(TokenHelper.for_user(users(:andrew), %w[update:collection]))
     collection = collections(:sallys_favorite_collection)
     collection.user_id = users(:tom).id
-    assert_strong_parameters(user, collection, collection.attributes.to_h,
-                             %i[name description public user_id])
+    assert_strong_parameters(user, collection, collection.attributes.to_h, Collection.all_attribute_names)
   end
 
   test 'admins can perform any action' do
