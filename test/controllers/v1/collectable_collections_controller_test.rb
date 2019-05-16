@@ -63,6 +63,21 @@ class CollectableCollectionsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "conflict when collectable_collection already exists" do
+    token = TokenHelper.for_user(users(:sally))
+
+    assert_no_difference('CollectableCollection.count') do
+      post v1_collection_collectable_collections_url(collections(:sallys_favorite_collection)),
+           headers: { Authorization: "Bearer " + token },
+           params: { data: { collectable_type: 'Pin',
+                             collectable_id: pins(:texas_dragon).id } },
+           as: :json
+
+      assert_response :unprocessable_entity
+      assert_match "collection_id", response.body
+    end
+  end
+
   test "should show collectable_collection" do
     token = TokenHelper.for_user(users(:tom))
 
