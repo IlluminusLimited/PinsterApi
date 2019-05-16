@@ -10,7 +10,7 @@ module V1
       param :size, String, default: 25
     end
     def index
-      @search = paginate PgSearch.multisearch(params[:query]).includes(:searchable)
+      @search = paginate PgSearch.multisearch(params[:query]).includes(searchable: :images)
     end
   end
 end

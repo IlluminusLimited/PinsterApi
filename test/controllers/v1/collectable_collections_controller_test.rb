@@ -3,9 +3,6 @@
 require 'test_helper'
 
 class CollectableCollectionsControllerTest < ActionDispatch::IntegrationTest
-  Bullet.add_whitelist type: :unused_eager_loading, class_name: "Collection", association: :collectable_collections
-  Bullet.add_whitelist type: :unused_eager_loading, class_name: "CollectableCollection", association: :collectable
-
   setup do
     @collectable_collection = collectable_collections(:toms_keeper_2009_assortments)
   end

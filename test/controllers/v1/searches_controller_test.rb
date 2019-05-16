@@ -12,6 +12,7 @@ module V1
 
       assert_match('Wisconsin Unicorn', response.body)
       assert_match('url', response.body)
+      assert_match '2009', response.body
     end
 
     test 'searches can search by year results' do
