@@ -68,21 +68,23 @@ class CollectableCollectionPolicyTest < PolicyAssertions::Test
     assert_permit(user, collectable_collections(:toms_secret_unicorn_collectables), ANY_ACTION)
   end
 
-  def assert_strong_action_parameters(user, record, params_hash, allowed_params, action)
-    policy = find_policy!(user, record)
+  private
 
-    param_key = find_param_key(record)
+    def assert_strong_action_parameters(user, record, params_hash, allowed_params, action)
+      policy = find_policy!(user, record)
 
-    params = ActionController::Parameters.new(param_key => params_hash)
-    method_name = ("permitted_attributes_for_#{action}" if policy.respond_to?("permitted_attributes_for_#{action}"))
-    raise "Cannot assert action for missing policy method: 'permitted_attributes_for_#{action}'" unless method_name
+      param_key = find_param_key(record)
 
-    strong_params = params.require(param_key).permit(*policy.public_send(method_name)).keys
+      params = ActionController::Parameters.new(param_key => params_hash)
+      method_name = ("permitted_attributes_for_#{action}" if policy.respond_to?("permitted_attributes_for_#{action}"))
+      raise "Cannot assert action for missing policy method: 'permitted_attributes_for_#{action}'" unless method_name
 
-    strong_params.each do |param|
-      assert_includes allowed_params, param.to_sym,
-                      "User #{user} should not be permitted to "\
+      strong_params = params.require(param_key).permit(*policy.public_send(method_name)).keys
+
+      strong_params.each do |param|
+        assert_includes allowed_params, param.to_sym,
+                        "User #{user} should not be permitted to "\
                         "update parameter [#{param}]"
+      end
     end
-  end
 end

@@ -57,7 +57,6 @@ class CollectableCollectionsControllerTest < ActionDispatch::IntegrationTest
            headers: { Authorization: "Bearer " + token },
            params: { data: { collectable_type: 'Pin',
                              collectable_id: pins(:texas_dragon).id,
-                             collection_id: collections(:toms_keepers_collection).id,
                              count: 4 } },
            as: :json
       assert_response :created

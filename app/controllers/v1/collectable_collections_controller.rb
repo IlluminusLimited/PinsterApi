@@ -36,7 +36,8 @@ module V1
     error :unauthorized, 'Request missing Authorization header'
 
     def create
-      @collectable_collection = CollectableCollection.new(permitted_attributes(CollectableCollection.new))
+      @collectable_collection = CollectableCollection.new({ collection_id: params[:collection_id] }
+                                                              .merge(permitted_attributes(CollectableCollection.new)))
       authorize @collectable_collection
 
       if @collectable_collection.save

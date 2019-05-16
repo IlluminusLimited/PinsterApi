@@ -34,7 +34,7 @@ class CollectableCollection < ApplicationRecord
   end
 
   def self.private_attribute_names
-    %i[collectable_type collectable_id collection_id]
+    %i[collectable_type collectable_id]
   end
 
   def self.public_attribute_names
