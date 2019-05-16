@@ -126,6 +126,10 @@ class CollectableCollectionsControllerTest < ActionDispatch::IntegrationTest
              headers: { Authorization: "Bearer " + token },
              as: :json
       assert_response :no_content
+      delete v1_collectable_collection_url(@collectable_collection),
+             headers: { Authorization: "Bearer " + token },
+             as: :json
+      assert_response :no_content
     end
   end
 end

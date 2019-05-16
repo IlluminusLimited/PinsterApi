@@ -97,6 +97,9 @@ module V1
       collection = Collection.find(params[:id])
       authorize collection
       collection.destroy
+    rescue ActiveRecord::RecordNotFound
+      skip_authorization
+      nil
     end
 
     private

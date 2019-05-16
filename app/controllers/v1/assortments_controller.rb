@@ -72,6 +72,9 @@ module V1
       authorize @assortment
 
       @assortment.destroy
+    rescue ActiveRecord::RecordNotFound
+      skip_authorization
+      nil
     end
 
     private

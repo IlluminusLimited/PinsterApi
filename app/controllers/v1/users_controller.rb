@@ -54,6 +54,9 @@ module V1
 
       authorize @user
       @user.destroy
+    rescue ActiveRecord::RecordNotFound
+      skip_authorization
+      nil
     end
 
     private

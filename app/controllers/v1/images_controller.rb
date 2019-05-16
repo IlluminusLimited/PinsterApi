@@ -83,6 +83,9 @@ module V1
     def destroy
       authorize @image
       @image.destroy
+    rescue ActiveRecord::RecordNotFound
+      skip_authorization
+      nil
     end
 
     def self.__token_generator_producer=(token_generator_producer)

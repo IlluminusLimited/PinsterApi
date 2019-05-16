@@ -80,6 +80,9 @@ module V1
       collectable_collection = CollectableCollection.find(params[:id])
       authorize collectable_collection
       collectable_collection.destroy
+    rescue ActiveRecord::RecordNotFound
+      skip_authorization
+      nil
     end
 
     private

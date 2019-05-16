@@ -86,6 +86,9 @@ module V1
     def destroy
       authorize @pin
       @pin.destroy
+    rescue ActiveRecord::RecordNotFound
+      skip_authorization
+      nil
     end
 
     private
