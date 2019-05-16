@@ -27,7 +27,7 @@ module V1
       if params[:with_collectable_collections].to_s == 'true'
         @collectable_collections = CollectableCollection.where(collectable: @pin)
                                                         .joins(:collection)
-                                                        .where('collections.user_id = ?', current_user.id)
+                                                        .where('collections.user_id = ?', current_user.id) || []
       elsif params[:all_images]
         @images = @pin.all_images if params[:all_images]
       end

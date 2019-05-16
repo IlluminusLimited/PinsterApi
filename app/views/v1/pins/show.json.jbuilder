@@ -2,7 +2,7 @@
 
 json.partial! "v1/pins/pin", pin: @pin
 
-if @collectable_collections.present?
+if @collectable_collections
   json.collectable_collections do
     json.array! @collectable_collections,
                 partial: 'v1/collectable_collections/collectable_collection',
