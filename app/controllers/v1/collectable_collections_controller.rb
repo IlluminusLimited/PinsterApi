@@ -9,13 +9,19 @@ module V1
 
     api :GET, '/v1/collections/:collection_id/collectable_collections', "Show a collection's collectable_collections"
     param :collection_id, String, allow_nil: false, required: true
+    param :no_collectables, String, allow_nil: false, required: false, desc: 'Does not load collectables'
     param :page, Hash, required: false do
       param :size, String, default: 25
     end
 
     def index
       authorize @collection, :show?
-      @collectable_collections = paginate(@collection.collectable_collections)
+      @collectable_collections = if params[:no_collectables]
+                                   paginate(@collection.collectable_collections)
+                                 else
+                                   paginate(@collection.collectable_collections.with_collectables)
+                                 end
+
       authorize @collectable_collections
       render :index
     end
@@ -84,7 +90,7 @@ module V1
       end
 
       def set_collection
-        @collection = Collection.includes(collectable_collections: [:collectable]).find(params[:collection_id])
+        @collection = Collection.find(params[:collection_id])
       end
   end
 end

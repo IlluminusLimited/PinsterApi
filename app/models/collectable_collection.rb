@@ -28,6 +28,7 @@ class CollectableCollection < ApplicationRecord
 
   scope :recently_added, -> { order(created_at: :desc) }
   scope :recently_updated, -> { order(updated_at: :desc) }
+  scope :with_collectables, -> { includes(collectable: :images) }
 
   def self.all_attribute_names
     private_attribute_names + public_attribute_names

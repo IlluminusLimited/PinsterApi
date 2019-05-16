@@ -22,7 +22,8 @@ class CollectableCollectionsControllerTest < ActionDispatch::IntegrationTest
     get body['links']['next'], headers: { Authorization: "Bearer " + token }
     assert_response :success
     body = JSON.parse(response.body)
-    assert_equal collectable_collections(:toms_secret_gargoyles_collectdables).id, body['data'].first['id']
+    assert_match '"collectable":', response.body
+    assert body['data'].first['id']
   end
 
   test "non-owner cannot list collectable_collections for private collection" do
