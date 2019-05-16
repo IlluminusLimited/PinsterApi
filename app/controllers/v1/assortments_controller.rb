@@ -33,6 +33,7 @@ module V1
     api :POST, '/v1/assortments', 'Create an assortment'
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def create
       @assortment = Assortment.new(assortment_params)
@@ -50,6 +51,7 @@ module V1
     param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def update
       authorize @assortment

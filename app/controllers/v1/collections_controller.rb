@@ -53,6 +53,7 @@ module V1
       param :public, :bool, required: false
     end
     error :unauthorized, 'Request missing Authorization header'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def create
       @collection = Collection.new(permitted_attributes(Collection.new))
@@ -75,6 +76,7 @@ module V1
     end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def update
       authorize @collection

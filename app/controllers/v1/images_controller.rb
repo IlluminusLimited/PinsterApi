@@ -34,6 +34,9 @@ module V1
       param :name, String, required: false
       param :description, String, required: false
     end
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def create
       # if the the token is from image service, return 201 created.
@@ -60,6 +63,7 @@ module V1
     end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def update
       authorize @image

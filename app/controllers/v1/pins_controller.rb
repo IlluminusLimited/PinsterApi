@@ -41,6 +41,10 @@ module V1
       param :description, String, required: false
       param :year, Integer, required: false
     end
+    error :unauthorized, 'Request missing Authorization header'
+    error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
+
     def create
       @pin = Pin.new(pin_params)
       authorize @pin
@@ -62,6 +66,8 @@ module V1
     end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
+
     def update
       authorize @pin
 

@@ -26,7 +26,7 @@ module V1
     api :POST, '/v1/users', 'Create a user'
     param :display_name, String, allow_nil: false
     error :unauthorized, 'Request missing Authorization header'
-    error :unprocessable_entity, 'Unprocessable entity, please check the payload'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def create
       token = bearer_token

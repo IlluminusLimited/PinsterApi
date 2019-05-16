@@ -34,6 +34,7 @@ module V1
     param :collection_id, String, allow_nil: false, required: true
     error :forbidden, 'You are not authorized to perform this action'
     error :unauthorized, 'Request missing Authorization header'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def create
       @collectable_collection = CollectableCollection.new({ collection_id: params[:collection_id] }
@@ -52,6 +53,7 @@ module V1
     param :id, String, allow_nil: false, required: true
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def update
       authorize @collectable_collection

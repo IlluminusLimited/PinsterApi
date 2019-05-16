@@ -29,7 +29,7 @@ module V1
       param :bio, String, desc: 'A short description of yourself', required: false
     end
     error :unauthorized, 'Request missing Authorization header'
-    error :unprocessable_entity, 'Unprocessable entity, please check the payload'
+    error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def update
       authorize @user
