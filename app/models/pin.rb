@@ -15,23 +15,24 @@
 #
 # Indexes
 #
-#  index_pins_on_created_at    (created_at)
-#  index_pins_on_images_count  (images_count)
+#  index_pins_on_images_count         (images_count)
+#  index_pins_on_year_and_created_at  (year,created_at)
 #
 
 class Pin < ApplicationRecord
   include PgSearch
-  include Imageable
   extend EagerLoadable
+  max_paginates_per 200
 
-  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description year], using: { tsearch: { dictionary: "english" } }
 
+  has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy
   has_many :collections, through: :collectable_collections
   has_one :pin_assortment, dependent: :destroy
   has_one :assortment, through: :pin_assortment
 
-  scope :recently_added, -> { order(created_at: :desc) }
+  scope :recently_added, -> { order(year: :desc, created_at: :desc) }
   scope :with_images, -> { includes(:images) }
   scope :with_counts, lambda {
     select <<~SQL

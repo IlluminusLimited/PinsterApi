@@ -22,6 +22,8 @@ coverage/
 
 .env
 
+keys.env
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
@@ -29,3 +31,4 @@ coverage/
 
 *.JPG
 *.jpg
+docs*.html

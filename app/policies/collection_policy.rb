@@ -17,7 +17,7 @@ class CollectionPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? or collection.public? or user.owns?(collection)
+    user.can?('show:collection') or collection.public? or user.owns?(collection)
   end
 
   def create?
@@ -25,20 +25,18 @@ class CollectionPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? or user.owns?(collection)
+    user.can?('update:collection') or user.owns?(collection)
   end
 
   def destroy?
-    user.admin? or user.owns?(collection)
+    user.can?('destroy:collection') or user.owns?(collection)
   end
 
   def permitted_attributes
-    if user.admin?
-      [:name, :description, :public, :user_id,
-       collectable_collections_attributes: CollectableCollection.public_attribute_names]
+    if user.can?('update:collection')
+      Collection.all_attribute_names
     else
-      [:name, :description,
-       collectable_collections_attributes: CollectableCollection.public_attribute_names]
+      Collection.public_attribute_names
     end
   end
 
@@ -52,7 +50,10 @@ class CollectionPolicy < ApplicationPolicy
     end
 
     def resolve
-      return scope.where(user_id: collection_user_id) if current_user.admin? || current_user.id == collection_user_id
+      if current_user.can?('show:collections') or current_user.id == collection_user_id
+        return scope.where(user_id: collection_user_id)
+      end
+
       scope.where(user_id: collection_user_id, public: true)
     end
   end

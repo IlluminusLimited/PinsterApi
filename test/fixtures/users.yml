@@ -2,52 +2,47 @@
 #
 # Table name: users
 #
-#  id           :uuid             not null, primary key
-#  bio          :text
-#  display_name :string
-#  email        :string           not null
-#  images_count :integer          default(0), not null
-#  role         :integer          default(3), not null
-#  verified     :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id               :uuid             not null, primary key
+#  bio              :text
+#  display_name     :string
+#  images_count     :integer          default(0), not null
+#  verified         :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  external_user_id :text             not null
 #
 # Indexes
 #
-#  index_users_on_email         (email) UNIQUE
-#  index_users_on_images_count  (images_count)
+#  index_users_on_external_user_id  (external_user_id) UNIQUE
+#  index_users_on_images_count      (images_count)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 sally:
-  email: sally.pins@mailinator.com
+  external_user_id: twitter|0987
   display_name: SallyPins
   bio: I like pins.
   verified: null
-  role: 3
   images_count: 0
 
 tom:
-  email: tom.likes.pins@mailinator.com
+  external_user_id: google|abcd
   display_name: tom
   bio: Colorful clockwork dragons are the best.
   verified: null
-  role: 3
-  images_count: 0
+  images_count: 1
 
 bob:
-  email: bob@bob.com
+  external_user_id: instagram|5678
   display_name: BoBinator
   bio: Bobbing for apples, oh and I'm da moderator.
   verified: null
-  role: 2
   images_count: 0
 
 andrew:
-  email: andrew@andrew.com
+  external_user_id: facebook|1234
   display_name: Andrew_is_best
   bio: I'm the admin and I don't give a fig.
   verified: null
-  role: 1
   images_count: 0

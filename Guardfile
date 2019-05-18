@@ -24,7 +24,7 @@ guard :rubocop, cli: %w[-D -S -a] do
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
-guard :minitest, spring: 'bin/rails test', all_after_pass: true do
+guard :minitest, spring: 'bin/rake test', all_after_pass: true do
   watch(%r{^app/(.+)\.rb$}) { |m| ["test/#{m[1]}", "test/#{m[1]}_test.rb"] }
   watch(%r{^app/controllers/(admin|application)_controller\.rb$}) { 'test/controllers' }
   watch(%r{^app/controllers/(.+)_controller\.rb$}) { |m| "test/integration/#{m[1]}_test.rb" }

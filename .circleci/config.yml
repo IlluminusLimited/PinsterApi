@@ -6,17 +6,17 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: pinster/ruby:2.4.4-jessie-node
+    - image: pinster/ruby:2.6.2-stretch-node
       environment:
-             RAILS_ENV: test
-             DATABASE_HOST: 127.0.0.1
-             DATABASE_USERNAME: pinsterapi
-             DATABASE_PASSWORD:
+        RAILS_ENV: test
+        DATABASE_HOST: 127.0.0.1
+        DATABASE_USERNAME: pinsterapi
+        DATABASE_PASSWORD:
 
-    - image: circleci/postgres:10.4-alpine-ram
+    - image: circleci/postgres:11.2-alpine-ram
       environment:
-             POSTGRES_USER: pinsterapi
-             POSTGRES_DB: PinsterApi_test
+        POSTGRES_USER: pinsterapi
+        POSTGRES_DB: PinsterApi_test
 
 jobs:
   build:
@@ -136,7 +136,7 @@ jobs:
           command: git add .
       - run:
           name: Deploy
-          command: eb deploy PinsterApi-1 --staged
+          command: eb deploy PinsterApi-2 --staged
 
   deploy-prod:
     working_directory: ~/repo
@@ -150,7 +150,7 @@ jobs:
           command: git add .
       - run:
           name: Deploy
-          command: eb deploy PinsterApi-prod --staged
+          command: eb deploy PinsterApi-A --staged
 
 workflows:
   version: 2

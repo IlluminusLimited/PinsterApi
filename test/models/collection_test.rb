@@ -38,18 +38,16 @@ class CollectionTest < ActiveSupport::TestCase
 
   test 'a collection can contain both pins and assortments of pins' do
     collection = Collection.create!(name: 'Amazing collection',
-                                    user: User.create!(email: 'bob@bob.bob', display_name: 'bob'),
-                                    collectable_collections_attributes: [
-                                      { collectable: Pin.create!(name: 'thing', year: 1998) },
-                                      { collectable:
-                                            Assortment.create!(name: 'amazing pin set',
-                                                               pin_assortments_attributes: [
-                                                                 {
-                                                                   pin: Pin.create!(name: 'thing', year: 1998)
-                                                                 }
-                                                               ]) }
-                                    ])
+                                    user: User.create!(external_user_id: 'bblah|asdf', display_name: 'bob'))
+
+    assortment = Assortment.create!(name: 'amazing pin set',
+                                    pin_assortments_attributes: [{ pin: Pin.create!(name: 'thing', year: 1998) }])
+    collection.collectable_collections << [
+      CollectableCollection.new(collectable: Pin.create!(name: 'thing', year: 1998)),
+      CollectableCollection.new(collectable: assortment)
+    ]
     assert collection.valid?
+    assert_equal 2, collection.collectable_collections_count
   end
 
   test 'a collection can return total number of items' do
@@ -59,6 +57,14 @@ class CollectionTest < ActiveSupport::TestCase
 
   test 'collections are sorted by created at :desc' do
     assert_equal Collection.order(created_at: :desc).to_sql, Collection.recently_added.all.to_sql
+  end
+
+  test 'When a collection is deleted the collectables are not affected' do
+    assert_no_difference("Pin.count") do
+      assert_difference("Image.count", -1) do
+        @toms_keepers_collection.destroy
+      end
+    end
   end
 
   # test 'a collection inherits images from its items' do

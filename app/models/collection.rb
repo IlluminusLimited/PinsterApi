@@ -22,15 +22,13 @@
 #
 
 class Collection < ApplicationRecord
-  include Imageable
   extend EagerLoadable
-  max_paginates_per 10
+  max_paginates_per 100
 
+  has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, dependent: :destroy
 
   belongs_to :user
-
-  accepts_nested_attributes_for :collectable_collections
 
   validates :name, presence: true
   validates :public, inclusion: { in: [true, false] }
@@ -51,13 +49,25 @@ class Collection < ApplicationRecord
     "Collection: '#{id}:#{name}'"
   end
 
+  def self.all_attribute_names
+    private_attribute_names + public_attribute_names
+  end
+
+  def self.private_attribute_names
+    %i[public user_id]
+  end
+
+  def self.public_attribute_names
+    %i[name description]
+  end
+
   def self.default_result
     includes(:pins).recently_added
   end
 
   def self.build_query(params)
     if params[:images].nil? || params[:images].to_s == 'true'
-      with_images.with_counts.recently_added
+      with_images.recently_added
     else
       default_result.recently_added
     end

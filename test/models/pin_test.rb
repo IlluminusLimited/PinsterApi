@@ -15,8 +15,8 @@
 #
 # Indexes
 #
-#  index_pins_on_created_at    (created_at)
-#  index_pins_on_images_count  (images_count)
+#  index_pins_on_images_count         (images_count)
+#  index_pins_on_year_and_created_at  (year,created_at)
 #
 
 require 'test_helper'
@@ -29,6 +29,6 @@ class PinTest < ActiveSupport::TestCase
   end
 
   test 'pins are sorted by created at :desc' do
-    assert_equal Pin.order(created_at: :desc).to_sql, Pin.recently_added.all.to_sql
+    assert_equal Pin.order(year: :desc, created_at: :desc).to_sql, Pin.recently_added.all.to_sql
   end
 end
