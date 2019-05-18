@@ -48,6 +48,20 @@ class MeControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'sample bio thing', body['bio']
   end
 
+  test "apipie errors are rescued" do
+    token = TokenHelper.for_user(users(:tom))
+
+    patch v1_me_url, params: {
+      data: {
+        display_name: 'new name',
+        bio: nil
+      }
+    }, headers: { Authorization: "Bearer " + token }, as: :json
+
+    assert_response :unprocessable_entity
+    assert_match 'Must be a String', response.body
+  end
+
   test "user cannot change external_user_id" do
     tom = users(:tom)
     token = TokenHelper.for_user(tom)
