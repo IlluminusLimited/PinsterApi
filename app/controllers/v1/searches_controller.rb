@@ -7,8 +7,9 @@ module V1
     api :GET, '/v1/search', "Show search results for query"
     param :query, String, allow_nil: false
     param :page, Hash, required: false do
-      param :size, String, default: 25
+      param :size, String, default: 60
     end
+
     def index
       @search = paginate PgSearch.multisearch(params[:query]).includes(searchable: :images)
     end
