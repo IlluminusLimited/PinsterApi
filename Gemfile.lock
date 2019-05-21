@@ -278,7 +278,7 @@ DEPENDENCIES
   jbuilder_pagination_plus (~> 1.0.0)
   jwt (~> 2.1.0)
   kaminari (~> 1.1.1)
-  lograge
+  lograge (~> 0.11.1)
   maruku (~> 0.7.3)
   minitest-ci
   minitest-reporters

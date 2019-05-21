@@ -14,7 +14,7 @@ gem 'jbuilder', '~> 2.8.0'
 gem 'jbuilder_pagination_plus', '~> 1.0.0', require: 'jbuilder/pagination'
 gem 'jwt', '~> 2.1.0'
 gem 'kaminari', '~> 1.1.1'
-gem "lograge"
+gem 'lograge', '~> 0.11.1'
 gem 'maruku', '~> 0.7.3'
 gem 'oj', '~> 3.7.12'
 gem 'pg', '>= 0.18', '< 2.0'
