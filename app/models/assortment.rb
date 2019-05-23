@@ -59,6 +59,6 @@ class Assortment < ApplicationRecord
   end
 
   def self.default_result
-    includes(:pins)
+    includes(:pins).published
   end
 end

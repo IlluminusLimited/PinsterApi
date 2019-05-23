@@ -51,7 +51,7 @@ class PinPolicy < ApplicationPolicy
     def resolve
       return scope if current_user.can?('publish:pin')
 
-      scope.where(published: false)
+      scope.published
     end
   end
 end

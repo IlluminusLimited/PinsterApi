@@ -95,3 +95,7 @@ Rails/NotNullColumn:
 Rails/FilePath:
   Exclude:
     - config/initializers/apipie.rb
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - db/migrate/20190523022015_add_published.rb

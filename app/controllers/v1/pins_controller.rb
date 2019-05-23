@@ -7,6 +7,7 @@ module V1
     before_action :set_pin_with_images, only: %i[show]
     before_action :set_paper_trail_whodunnit, only: %i[create update]
     after_action :verify_authorized, except: %i[index show]
+    after_action :verify_policy_scoped, except: [:create]
 
     api :GET, '/v1/pins', 'List pins'
     param :images, :bool, default: true, required: false
@@ -15,7 +16,7 @@ module V1
     end
 
     def index
-      @pins = paginate Pin.build_query(params)
+      @pins = paginate policy_scope(Pin).build_query(params)
 
       render :index
     end
@@ -96,16 +97,11 @@ module V1
     private
 
       def set_pin
-        @pin = Pin.find(params[:id])
+        @pin = policy_scope(Pin).find(params[:id])
       end
 
       def set_pin_with_images
-        @pin = Pin.build_query(params).find(params[:id])
-      end
-
-      # Only allow a trusted parameter "white list" through.
-      def permitted_attributes(record)
-        super(record)
+        @pin = policy_scope(Pin).build_query(params).find(params[:id])
       end
   end
 end
