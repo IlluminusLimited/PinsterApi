@@ -27,4 +27,31 @@ class PinPolicy < ApplicationPolicy
   def destroy?
     user.can?('destroy:pin')
   end
+
+  def publish?
+    user.can?('publish:pin')
+  end
+
+  def permitted_attributes
+    attributes = Pin.public_attribute_names
+
+    attributes + Pin.restricted_attribute_names if user.can?('publish:pin')
+
+    attributes
+  end
+
+  class Scope < Scope
+    attr_reader :current_user, :scope
+
+    def initialize(current_user, scope)
+      @current_user = current_user
+      @scope = scope
+    end
+
+    def resolve
+      return scope if current_user.can?('publish:pin')
+
+      scope.where(published: false)
+    end
+  end
 end

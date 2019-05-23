@@ -32,4 +32,10 @@ class PinTest < ActiveSupport::TestCase
   test 'pins are sorted by created at :desc' do
     assert_equal Pin.order(year: :desc, created_at: :desc).to_sql, Pin.recently_added.all.to_sql
   end
+
+  test 'published pins only contain published pins' do
+    assert_difference('Pin.published.count', +1) do
+      Pin.create!(name: 'pin', published: true)
+    end
+  end
 end

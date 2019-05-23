@@ -26,22 +26,33 @@ texas_dragon:
   description: A pin that has been around since the dawn of time.
   tags:
     - color: blue
+  published: true
   images_count: 1
 
 massachusetts_crab:
   name: Massachusetts Crab
   year: 1999
   description: The crab is a mainstay of MA teams, always a classic.
+  published: true
   images_count: 1
 
 wisconsin_unicorn:
   name: Wisconsin Unicorn
   year: 2009
   description: This unicorn was made up, unless it exists. In that case, it is a very cool unicorn.
+  published: true
   images_count: 1
 
 wisconsin_gargoyle:
   name: Wisconsin Gargoyle
   year: 2009
   description: This gargoyle was also made up.
+  published: true
+  images_count: 0
+
+ohio_cow:
+  name: OHDI Cow
+  year: 2017
+  description: This is a user submitted pin
+  published: false
   images_count: 0

@@ -7,9 +7,11 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     @pin = pins(:wisconsin_unicorn)
   end
 
-  test "should get index" do
+  test "index does not contain unpublished" do
     get v1_pins_url, as: :json
     assert_response :success
+    id = pins(:ohio_cow).id
+    assert_no_match id, response.body
   end
 
   test "anon cannot create a pin" do
@@ -61,27 +63,6 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  # test "create a pin returns imageService token" do
-  #   token = TokenHelper.for_user(users(:bob), %w[create:pin])
-  #
-  #   assert_difference('Pin.count') do
-  #     post v1_pins_url, headers: { Authorization: "Bearer " + token },
-  #                       params: {
-  #                         data: {
-  #                           name: @pin.name,
-  #                           year: @pin.year,
-  #                           description: @pin.description,
-  #                           tags: @pin.tags
-  #                         }
-  #                       }, as: :json
-  #     assert_response :created
-  #
-  #     body = JSON.parse(response.body)
-  #
-  #     assert body['image_service_token'], "Token should exist"
-  #   end
-  # end
-
   test "should show pin" do
     get v1_pin_url(@pin), as: :json
     assert_response :success
@@ -100,7 +81,7 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
                                 tags: @pin.tags
                               }
                             }, as: :json
-    assert_response 200
+    assert_response :ok
   end
 
   test "moderator can destroy a pin" do
@@ -108,7 +89,23 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference('Pin.count', -1) do
       delete v1_pin_url(@pin), headers: { Authorization: "Bearer " + token }, as: :json
-      assert_response 204
+      assert_response :no_content
+    end
+  end
+
+  test "moderator can publish a pin" do
+    token = TokenHelper.for_user(users(:bob), %w[update:pin publish:pin])
+    pin = Pin.create!(name: 'bob')
+
+    assert_difference('Pin.published.count', +1) do
+      patch v1_pin_url(pin), headers: { Authorization: "Bearer " + token },
+                             params: {
+                               data: {
+                                 published: true
+                               }
+                             },
+                             as: :json
+      assert_response :ok
     end
   end
 

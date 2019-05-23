@@ -13,6 +13,7 @@ module V1
     param :page, Hash, required: false do
       param :size, String, default: 25
     end
+
     def index
       @pins = paginate Pin.build_query(params)
 
@@ -47,7 +48,7 @@ module V1
     error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def create
-      @pin = Pin.new(pin_params)
+      @pin = Pin.new(permitted_attributes(Pin.new))
       authorize @pin
 
       if @pin.save
@@ -72,7 +73,7 @@ module V1
     def update
       authorize @pin
 
-      if @pin.update(pin_params)
+      if @pin.update(permitted_attributes(@pin))
         render :show, status: :ok, location: v1_pin_url(@pin)
       else
         render json: @pin.errors, status: :unprocessable_entity
@@ -103,8 +104,8 @@ module V1
       end
 
       # Only allow a trusted parameter "white list" through.
-      def pin_params
-        params.require(:data).permit(:name, :year, :description, :tags)
+      def permitted_attributes(record)
+        super(record)
       end
   end
 end

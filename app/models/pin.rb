@@ -34,6 +34,7 @@ class Pin < ApplicationRecord
   has_one :pin_assortment, dependent: :destroy
   has_one :assortment, through: :pin_assortment
 
+  scope :published, -> { where(published: true) }
   scope :recently_added, -> { order(year: :desc, created_at: :desc) }
   scope :with_images, -> { includes(:images) }
   scope :with_counts, lambda {
@@ -61,6 +62,18 @@ class Pin < ApplicationRecord
         inner join pin_assortments on pin_assortments.assortment_id = assortments.id
       where pin_id ='#{id}';
     SQL
+  end
+
+  def self.all_attribute_names
+    public_attribute_names + restricted_attribute_names
+  end
+
+  def self.restricted_attribute_names
+    %i[published]
+  end
+
+  def self.public_attribute_names
+    %i[name description year]
   end
 
   def self.default_result
