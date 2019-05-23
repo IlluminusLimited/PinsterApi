@@ -35,23 +35,24 @@ class PinPolicy < ApplicationPolicy
   def permitted_attributes
     attributes = Pin.public_attribute_names
 
-    attributes + Pin.restricted_attribute_names if user.can?('publish:pin')
+    attributes += Pin.restricted_attribute_names if user.can?('publish:pin')
 
     attributes
   end
 
   class Scope < Scope
-    attr_reader :current_user, :scope
+    attr_reader :current_user, :with_unpublished, :scope
 
-    def initialize(current_user, scope)
+    def initialize(current_user, with_unpublished, scope)
       @current_user = current_user
+      @with_unpublished = with_unpublished
       @scope = scope
     end
 
     def resolve
-      return scope if current_user.can?('publish:pin')
+      return scope if current_user.can?('publish:pin') && with_unpublished
 
-      scope.published
+      scope.with_published
     end
   end
 end

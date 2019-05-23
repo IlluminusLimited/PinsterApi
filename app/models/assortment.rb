@@ -35,7 +35,7 @@ class Assortment < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
 
-  scope :published, -> { where(published: true) }
+  scope :with_published, -> { where(published: true) }
   scope :recently_added, -> { order(created_at: :desc) }
   scope :with_images, lambda {
                         includes(:images)
@@ -59,6 +59,6 @@ class Assortment < ApplicationRecord
   end
 
   def self.default_result
-    includes(:pins).published
+    includes(:pins)
   end
 end

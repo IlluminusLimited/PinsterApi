@@ -96,17 +96,26 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
   test "moderator can publish a pin" do
     token = TokenHelper.for_user(users(:bob), %w[update:pin publish:pin])
     pin = Pin.create!(name: 'bob')
-    puts pin
-    assert_difference('Pin.published.count', +1) do
-      patch v1_pin_url(pin), headers: { Authorization: "Bearer " + token },
-                             params: {
-                               data: {
-                                 published: true
-                               }
-                             },
-                             as: :json
+
+    assert_difference('Pin.with_published.count', +1) do
+      patch v1_pin_url(pin, with_unpublished: true), headers: { Authorization: "Bearer " + token },
+                                                     params: {
+                                                       data: {
+                                                         published: true
+                                                       }
+                                                     },
+                                                     as: :json
       assert_response :ok
     end
+  end
+
+  test 'unpublished pin cannot be shown without permissions' do
+    token = TokenHelper.for_user(users(:bob))
+    get v1_pin_url(pins(:ohio_cow)),
+        headers: { Authorization: "Bearer " + token },
+        as: :json
+
+    assert_response :not_found
   end
 
   test "should show pin with all images" do

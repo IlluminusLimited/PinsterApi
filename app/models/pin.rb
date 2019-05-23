@@ -34,7 +34,7 @@ class Pin < ApplicationRecord
   has_one :pin_assortment, dependent: :destroy
   has_one :assortment, through: :pin_assortment
 
-  scope :published, -> { where(published: true) }
+  scope :with_published, -> { where(published: true) }
   scope :recently_added, -> { order(year: :desc, created_at: :desc) }
   scope :with_images, -> { includes(:images) }
   scope :with_counts, lambda {

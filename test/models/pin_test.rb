@@ -34,7 +34,7 @@ class PinTest < ActiveSupport::TestCase
   end
 
   test 'published pins only contain published pins' do
-    assert_difference('Pin.published.count', +1) do
+    assert_difference('Pin.with_published.count', +1) do
       Pin.create!(name: 'pin', published: true)
     end
   end
