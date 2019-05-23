@@ -13,12 +13,6 @@ module V1
 
     def index
       @search = paginate PgSearch.multisearch(params[:query]).includes(searchable: :images)
-
-      # @search = paginate(SearchPolicy::Scope.new(
-      #     current_user,
-      #     params[:with_unpublished],
-      #     PgSearch.multisearch(params[:query]).includes(searchable: :images)
-      # ).resolve)
     end
   end
 end
