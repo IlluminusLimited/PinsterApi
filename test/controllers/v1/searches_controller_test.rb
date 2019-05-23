@@ -30,7 +30,7 @@ module V1
       PgSearch::Multisearch.rebuild(Pin, true)
       PgSearch::Multisearch.rebuild(Assortment, true)
 
-      get v1_search_url(query: 'ohio'), as: :json
+      get v1_search_url(query: 'ohio', published: 'all'), as: :json
       assert_response :success
       pin = pins(:ohio_cow)
       assert_no_match(pin.id, response.body)
