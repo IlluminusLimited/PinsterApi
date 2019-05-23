@@ -5,7 +5,6 @@ module V1
     before_action :require_login, except: %i[show index]
     before_action :set_paper_trail_whodunnit, only: %i[create update]
     after_action :verify_authorized, except: %i[index show]
-    # after_action :verify_policy_scoped, except: %i[create destroy]
 
     api :GET, '/v1/pins', 'List pins'
     param :images, :bool, default: true, required: false
