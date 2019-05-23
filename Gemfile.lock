@@ -167,6 +167,9 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     oj (3.7.12)
+    paper_trail (10.3.0)
+      activerecord (>= 4.2, < 6.1)
+      request_store (~> 1.1)
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
@@ -284,6 +287,7 @@ DEPENDENCIES
   minitest-reporters
   newrelic_rpm
   oj (~> 3.7.12)
+  paper_trail (~> 10.3.0)
   pg (>= 0.18, < 2.0)
   pg_search (~> 2.1.2)
   policy-assertions (~> 0.2.0)
