@@ -14,6 +14,32 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match id, response.body
   end
 
+  test "index can list all published and unpublished" do
+    token = TokenHelper.for_user(users(:tom), %w[publish:pin])
+
+    get v1_pins_url(published: 'all'),
+        headers: { Authorization: "Bearer " + token },
+        as: :json
+    assert_response :success
+    id = pins(:ohio_cow).id
+    assert_match id, response.body
+    id = pins(:texas_dragon).id
+    assert_match id, response.body
+  end
+
+  test "index can list just unpublished" do
+    token = TokenHelper.for_user(users(:tom), %w[publish:pin])
+
+    get v1_pins_url(published: 'false'),
+        headers: { Authorization: "Bearer " + token },
+        as: :json
+    assert_response :success
+    id = pins(:ohio_cow).id
+    assert_match id, response.body
+    id = pins(:texas_dragon).id
+    assert_no_match id, response.body
+  end
+
   test "anon cannot create a pin" do
     assert_difference('Pin.count', 0) do
       post v1_pins_url,
