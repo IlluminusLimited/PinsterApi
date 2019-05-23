@@ -41,17 +41,25 @@ class PinPolicy < ApplicationPolicy
   end
 
   class Scope < Scope
-    attr_reader :current_user, :with_unpublished, :scope
+    attr_reader :current_user, :published, :scope
 
-    def initialize(current_user, with_unpublished, scope)
+    def initialize(current_user, published, scope)
       @current_user = current_user
-      @with_unpublished = with_unpublished
+      @published = published
       @scope = scope
     end
 
     def resolve
-      return scope if current_user.can?('publish:pin') && with_unpublished
-
+      if current_user.can?('publish:pin')
+        case published.to_s
+        when 'all'
+          return scope
+        when 'false'
+          return scope.where(published: false)
+        else
+          return scope.with_published
+        end
+      end
       scope.with_published
     end
   end

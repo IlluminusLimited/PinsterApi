@@ -23,7 +23,9 @@ class Assortment < ApplicationRecord
   include PgSearch
   extend EagerLoadable
 
-  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description],
+                  using: { tsearch: { dictionary: "english" } },
+                  if: :published?
 
   has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy

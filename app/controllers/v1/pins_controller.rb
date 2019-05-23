@@ -9,7 +9,7 @@ module V1
 
     api :GET, '/v1/pins', 'List pins'
     param :images, :bool, default: true, required: false
-    param :with_unpublished, :bool, default: false, required: false, desc: "Token must have publish:pin"
+    param :published, %w[true false all], default: true, required: false, desc: "Token must have publish:pin"
     param :page, Hash, required: false do
       param :size, String, default: 25
     end
@@ -17,7 +17,7 @@ module V1
     def index
       @pins = paginate(PinPolicy::Scope.new(
         current_user,
-        params[:with_unpublished],
+        params[:published],
         Pin.build_query(params)
       ).resolve)
 
@@ -28,11 +28,11 @@ module V1
     param :id, String, allow_nil: false, required: true
     param :with_collectable_collections, :bool, default: false, required: false
     param :all_images, :bool, default: false, required: false
-    param :with_unpublished, :bool, default: false, required: false, desc: "Token must have publish:pin"
+    param :published, %w[true false all], default: true, required: false, desc: "Token must have publish:pin"
 
     def show
       @pin = PinPolicy::Scope.new(current_user,
-                                  params[:with_unpublished],
+                                  params[:published],
                                   Pin.build_query(params))
                              .resolve
                              .find(params[:id])
@@ -74,7 +74,6 @@ module V1
     api :PATCH, '/v1/pins/:id', 'Update a pin'
     api :PUT, '/v1/pins/:id', 'Update a pin'
     param :id, String, allow_nil: false, required: true
-    param :with_unpublished, :bool, default: false, required: false, desc: "Token must have publish:pin"
     param :data, Hash do
       param :name, String, required: false
       param :description, String, required: false
@@ -85,7 +84,7 @@ module V1
     error :unprocessable_entity, 'Validation error. Check the body for more info.'
 
     def update
-      @pin = PinPolicy::Scope.new(current_user, params[:with_unpublished], Pin)
+      @pin = PinPolicy::Scope.new(current_user, 'all', Pin)
                              .resolve
                              .find(params[:id])
       authorize @pin
@@ -102,12 +101,12 @@ module V1
 
     api :DELETE, 'v1/pins/:id', 'Destroy a pin'
     param :id, String, allow_nil: false, required: true
-    param :with_unpublished, :bool, default: false, required: false, desc: "Token must have publish:pin"
+    param :published, %w[true false all], default: true, required: false, desc: "Token must have publish:pin"
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
 
     def destroy
-      @pin = PinPolicy::Scope.new(current_user, params[:with_unpublished], Pin)
+      @pin = PinPolicy::Scope.new(current_user, params[:published], Pin)
                              .resolve
                              .find(params[:id])
       authorize @pin

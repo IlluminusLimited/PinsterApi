@@ -98,13 +98,13 @@ class PinsControllerTest < ActionDispatch::IntegrationTest
     pin = Pin.create!(name: 'bob')
 
     assert_difference('Pin.with_published.count', +1) do
-      patch v1_pin_url(pin, with_unpublished: true), headers: { Authorization: "Bearer " + token },
-                                                     params: {
-                                                       data: {
-                                                         published: true
-                                                       }
-                                                     },
-                                                     as: :json
+      patch v1_pin_url(pin), headers: { Authorization: "Bearer " + token },
+                             params: {
+                               data: {
+                                 published: true
+                               }
+                             },
+                             as: :json
       assert_response :ok
     end
   end

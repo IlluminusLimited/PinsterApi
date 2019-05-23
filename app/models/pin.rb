@@ -26,7 +26,9 @@ class Pin < ApplicationRecord
   max_paginates_per 200
   has_paper_trail
 
-  multisearchable against: %i[name description year], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description year],
+                  using: { tsearch: { dictionary: "english" } },
+                  if: :published?
 
   has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy
