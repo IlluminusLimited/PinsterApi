@@ -8,6 +8,7 @@
 #  description  :text
 #  images_count :integer          default(0), not null
 #  name         :string           not null
+#  published    :boolean          default(FALSE), not null
 #  tags         :jsonb            not null
 #  year         :integer
 #  created_at   :datetime         not null
@@ -23,8 +24,11 @@ class Pin < ApplicationRecord
   include PgSearch
   extend EagerLoadable
   max_paginates_per 200
+  has_paper_trail
 
-  multisearchable against: %i[name description year], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description year],
+                  using: { tsearch: { dictionary: "english" } },
+                  if: :published?
 
   has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy
@@ -32,6 +36,7 @@ class Pin < ApplicationRecord
   has_one :pin_assortment, dependent: :destroy
   has_one :assortment, through: :pin_assortment
 
+  scope :with_published, -> { where(published: true) }
   scope :recently_added, -> { order(year: :desc, created_at: :desc) }
   scope :with_images, -> { includes(:images) }
   scope :with_counts, lambda {
@@ -59,6 +64,18 @@ class Pin < ApplicationRecord
         inner join pin_assortments on pin_assortments.assortment_id = assortments.id
       where pin_id ='#{id}';
     SQL
+  end
+
+  def self.all_attribute_names
+    public_attribute_names + restricted_attribute_names
+  end
+
+  def self.restricted_attribute_names
+    %i[published]
+  end
+
+  def self.public_attribute_names
+    %i[name description year]
   end
 
   def self.default_result

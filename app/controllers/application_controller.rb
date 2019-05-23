@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::API
   include Auth
   include Pagination
+
   rescue_from Apipie::Error, with: :apipie_error
 
   def apipie_error(error)
