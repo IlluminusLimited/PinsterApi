@@ -8,6 +8,7 @@
 #  description  :text
 #  images_count :integer          default(0), not null
 #  name         :string
+#  published    :boolean          default(FALSE), not null
 #  tags         :jsonb            not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

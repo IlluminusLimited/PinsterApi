@@ -78,7 +78,8 @@ CREATE TABLE public.assortments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tags jsonb DEFAULT '[]'::jsonb NOT NULL,
-    images_count integer DEFAULT 0 NOT NULL
+    images_count integer DEFAULT 0 NOT NULL,
+    published boolean DEFAULT false NOT NULL
 );
 
 
@@ -172,7 +173,8 @@ CREATE TABLE public.pins (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     tags jsonb DEFAULT '[]'::jsonb NOT NULL,
-    images_count integer DEFAULT 0 NOT NULL
+    images_count integer DEFAULT 0 NOT NULL,
+    published boolean DEFAULT false NOT NULL
 );
 
 
@@ -475,6 +477,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190501020226'),
 ('20190505170435'),
 ('20190523015608'),
-('20190523015609');
+('20190523015609'),
+('20190523022015');
 
 
