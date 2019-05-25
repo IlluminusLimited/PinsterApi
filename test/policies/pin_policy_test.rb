@@ -3,7 +3,10 @@
 require 'test_helper'
 
 class PinPolicyTest < PolicyAssertions::Test
-  include PolicyTestHelper
+  ANY_ACTION = %i[index? show? create? update? destroy? publish?].freeze
+  ANY_VIEW_ACTION = %i[index? show?].freeze
+  ANY_INSTANCE_ACTION = %i[show? update? destroy? publish?].freeze
+  ANY_INSTANCE_MODIFY_ACTION = %i[update? destroy? publish?].freeze
 
   test 'anon user cannot create or modify pins' do
     user = CurrentUser.new(User.anon_user)
@@ -22,13 +25,13 @@ class PinPolicyTest < PolicyAssertions::Test
   end
 
   test 'moderators can modify pins' do
-    user = current_user(TokenHelper.for_user(users(:bob), %w[update:pin destroy:pin]))
+    user = current_user(TokenHelper.for_user(users(:bob), %w[create:pin update:pin destroy:pin publish:pin]))
     assert_permit(user, Pin, ANY_INSTANCE_MODIFY_ACTION)
     assert_permit(user, pins(:texas_dragon), ANY_INSTANCE_MODIFY_ACTION)
   end
 
   test 'admins can perform any action' do
-    user = current_user(TokenHelper.for_user(users(:bob), %w[create:pin update:pin destroy:pin]))
+    user = current_user(TokenHelper.for_user(users(:bob), %w[create:pin update:pin destroy:pin publish:pin]))
     assert_permit(user, Pin, ANY_ACTION)
     assert_permit(user, pins(:texas_dragon), ANY_ACTION)
   end

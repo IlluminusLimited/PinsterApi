@@ -8,6 +8,7 @@
 #  description  :text
 #  images_count :integer          default(0), not null
 #  name         :string
+#  published    :boolean          default(FALSE), not null
 #  tags         :jsonb            not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -22,7 +23,9 @@ class Assortment < ApplicationRecord
   include PgSearch
   extend EagerLoadable
 
-  multisearchable against: %i[name description], using: { tsearch: { dictionary: "english" } }
+  multisearchable against: %i[name description],
+                  using: { tsearch: { dictionary: "english" } },
+                  if: :published?
 
   has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy
@@ -34,6 +37,7 @@ class Assortment < ApplicationRecord
   accepts_nested_attributes_for :collectable_collections
   accepts_nested_attributes_for :pin_assortments
 
+  scope :with_published, -> { where(published: true) }
   scope :recently_added, -> { order(created_at: :desc) }
   scope :with_images, lambda {
                         includes(:images)

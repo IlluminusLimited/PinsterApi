@@ -6,6 +6,7 @@ module V1
 
     api :GET, '/v1/search', "Show search results for query"
     param :query, String, allow_nil: false
+    param :with_unpublished, :bool, default: false, required: false, desc: "Token must have publish:pin"
     param :page, Hash, required: false do
       param :size, String, default: 60
     end

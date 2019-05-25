@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! pin, :id, :name, :year, :description, :tags, :created_at, :updated_at
+json.extract! pin, :id, :name, :year, :description, :tags, :published, :created_at, :updated_at
 
 if pin.association(:assortment).loaded? && pin.assortment.present?
   json.assortment_url v1_assortment_url(pin.assortment, format: :json)
