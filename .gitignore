@@ -20,7 +20,7 @@ docs/
 
 coverage/
 
-.env
+*.env
 
 keys.env
 
