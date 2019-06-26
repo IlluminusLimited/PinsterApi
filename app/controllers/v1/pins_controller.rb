@@ -53,7 +53,7 @@ module V1
     param :data, Hash do
       param :name, String, required: true
       param :description, String, required: false
-      param :year, Integer, required: false
+      param :year, String, required: false
     end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
@@ -76,7 +76,7 @@ module V1
     param :data, Hash do
       param :name, String, required: false
       param :description, String, required: false
-      param :year, Integer, required: false
+      param :year, String, required: false
     end
     error :unauthorized, 'Request missing Authorization header'
     error :forbidden, 'You are not authorized to perform this action'
