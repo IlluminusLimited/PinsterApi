@@ -51,7 +51,7 @@ class PinTest < ActiveSupport::TestCase
                  "Two pins should be present since 200 matches only 2009 fixtures"
   end
 
-  def test_pin_search_can_use_partial_years
+  def test_pin_search_can_use_whole_years
     results = Pin.simple_search('2017')
     assert_equal 1, results.size,
                  "One pin should be present since 2017 matches only ohio_cow"
