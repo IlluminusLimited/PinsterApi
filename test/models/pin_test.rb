@@ -38,4 +38,34 @@ class PinTest < ActiveSupport::TestCase
       Pin.create!(name: 'pin', published: true)
     end
   end
+
+  def test_pin_search_can_use_partial_words
+    results = Pin.simple_search('time')
+    assert_equal 2, results.size,
+                 "Two pins should be present since this query doesn't use published restrictions"
+  end
+
+  def test_pin_search_can_use_partial_years
+    results = Pin.simple_search('200')
+    assert_equal 2, results.size,
+                 "Two pins should be present since 200 matches only 2009 fixtures"
+  end
+
+  def test_pin_search_can_use_whole_years
+    results = Pin.simple_search('2017')
+    assert_equal 1, results.size,
+                 "One pin should be present since 2017 matches only ohio_cow"
+  end
+
+  def test_pin_search_can_use_whole_words
+    results = Pin.simple_search('timeless')
+    assert_equal 1, results.size, "Only one unpublished pin should be returned"
+  end
+
+  def test_pin_search_ranks_results
+    results = Pin.simple_search('dawn of time')
+    assert_equal 2, results.size, "Time should match two pins"
+    assert_equal pins(:texas_dragon).id, results.first.id,
+                 "Texas dragon should be first since 'dawn of time' is a direct match"
+  end
 end
