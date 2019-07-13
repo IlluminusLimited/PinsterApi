@@ -21,10 +21,26 @@
 #
 
 class Pin < ApplicationRecord
-  include PgSearch
+  include PgSearch::Model
   extend EagerLoadable
   max_paginates_per 200
   has_paper_trail
+
+  pg_search_scope :simple_search,
+                  against: %i[name description year],
+                  using: {
+                    tsearch: {
+                      dictionary: "english",
+                      prefix: true,
+                      any_word: true
+                    },
+                    trigram: {
+                      only: %i[name description],
+                      word_similarity: true
+                    }
+                  },
+                  ranked_by: ":trigram",
+                  order_within_rank: "pins.updated_at DESC"
 
   multisearchable against: %i[name description year],
                   using: { tsearch: { dictionary: "english" } },

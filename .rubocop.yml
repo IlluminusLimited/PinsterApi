@@ -1,4 +1,6 @@
-require: rubocop-performance
+require:
+  - rubocop-performance
+  - rubocop-rails
 
 AllCops:
   Exclude:
@@ -17,7 +19,7 @@ Layout/ExtraSpacing:
     - db/migrate/**/*
 
 Layout/IndentationConsistency:
-  EnforcedStyle: rails
+  EnforcedStyle: indented_internal_methods
   Exclude:
     - config/routes.rb
 
