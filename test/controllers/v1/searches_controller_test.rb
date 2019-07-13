@@ -36,6 +36,21 @@ module V1
       assert_no_match(pin.id, response.body)
     end
 
+    def test_pin_search_can_use_partial_words_all_published
+      token = TokenHelper.for_user(users(:tom), %w[publish:pin])
+
+      get v1_search_pins_url(query: 'time',
+                             published: 'all'),
+          headers: { Authorization: "Bearer " + token },
+          as: :json
+
+      assert_response :success
+      results = JSON.parse(response.body)['data']
+
+      assert_equal 2, results.size,
+                   "Two pin should be present since this query returns all published"
+    end
+
     def test_pin_search_can_use_partial_words
       get v1_search_pins_url(query: 'time'), as: :json
       assert_response :success
