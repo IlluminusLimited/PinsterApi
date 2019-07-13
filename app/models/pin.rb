@@ -42,20 +42,9 @@ class Pin < ApplicationRecord
                   ranked_by: ":trigram",
                   order_within_rank: "pins.updated_at DESC"
 
-  multisearchable(against: %i[name description year],
-                  using: {
-                    tsearch: {
-                      dictionary: "english",
-                      prefix: true,
-                      any_word: true
-                    },
-                    trigram: {
-                      only: %i[name description],
-                      word_similarity: true
-                    }
-                  },
-                  ranked_by: ":trigram",
-                  if: :published?)
+  multisearchable against: %i[name description year],
+                  using: { tsearch: { dictionary: "english" } },
+                  if: :published?
 
   has_many :images, as: :imageable, dependent: :destroy
   has_many :collectable_collections, as: :collectable, dependent: :destroy
